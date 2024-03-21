@@ -44,7 +44,7 @@ def exec_cmd(cmd, local=True):
         retcode = int("".join(lines))
 
     if retcode != 0:
-        raise Exception(f"Error executing command {cmd}", retcode)
+        raise Exception(f"Error executing command {cmd}\n{result}", retcode)
 
     logging.debug("exec_cmd finished")
     return (result, retcode)
@@ -277,14 +277,17 @@ def parse_config():
 
     config_file = args.config
     if config_file is None:
-        config_file = os.path.abspath(__file__) + "\\windows.ini"
+        config_file = os.path.abspath(__file__) + "\\template-master.ini"
 
     config = configparser.ConfigParser()
     config.read(config_file)
 
-    workspace = config["WORKSPACE"]["path"]
+    workspace = config.get(section="WORKSPACE", option="path", fallback=os.getcwd())
     local_image_path = config["IMAGE"]["local_path"]
     remote_image_path = config["IMAGE"]["remote_path"]
+    config.get
+
+    os.chdir(workspace)
 
 
 def parse_options():
@@ -361,20 +364,25 @@ def read_test():
 def parse_dtb():
     """extract dtb and translate it to dts to get device parameters"""
     global dts_tree
+    dts_pattern = f"{workspace}\\*.dts"
+    dtb_pattern = f"{workspace}\\*.dtb"
 
-    existing_dts = glob.glob("*.dts")
-    for file in existing_dts:
+    dts_files = glob.glob(dts_pattern)
+    for file in dts_files:
         os.remove(file)
 
-    existing_dtb = glob.glob("*.dtb")
-    for file in existing_dtb:
+    dtb_files = glob.glob(dtb_pattern)
+    for file in dtb_files:
         os.remove(file)
 
     # assume only one dtb file
-    exec_cmd(f"extract-dtb {local_image_path}\\boot.img -o {workspace}\\")
-    dtb_file = workspace + "\\" + glob.glob(f"*.dtb")[0]
-    exec_cmd(f"pydtc unpack {dtb_file}")
-    dts_file = workspace + "\\" + glob.glob(f"*.dts")[0]
+    try:
+        exec_cmd(f"extract-dtb {local_image_path}\\boot.img -o {workspace}\\")
+        dtb_file = glob.glob(dtb_pattern)[0]
+        exec_cmd(f"pydtc unpack {dtb_file}")
+        dts_file = glob.glob(dts_pattern)[0]
+    except Exception as e:
+        exit_with_msg(str(e.args[0]), e.args[1])
 
     dts_tree = Devicetree.parseFile(dts_file)
 
@@ -382,7 +390,7 @@ def parse_dtb():
 def main():
     initialize()
 
-    if args.local_images is None:
+    if not args.local_images:
         create_sessions()
         build()
         trans_images()

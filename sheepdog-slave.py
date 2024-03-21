@@ -152,12 +152,13 @@ def parse_config():
 
     config_file = args.config
     if config_file is None:
-        config_file = os.path.abspath(__file__) + "/linux.ini"
+        config_file = os.path.abspath(__file__) + "/template-slave.ini"
 
     config = configparser.ConfigParser()
     config.read(config_file)
 
-    workspace = config["WORKSPACE"]["path"]
+    workspace = config.get(section="WORKSPACE", option="path", fallback=os.getcwd())
+    os.chdir(workspace)
 
 
 def log_init():
