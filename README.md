@@ -18,7 +18,7 @@
 * Also get it from '\\qrdshare\qrdshare\yijieyang'
 
 # Deployment
-* Place sheepdog-master.py and windows.ini in a path of the host. It is recommended to place these two files to a local path of the host instead of a network filesystem for faster execution.
+* Place sheepdog-master.py and template-master.ini in a path of the host. It is recommended to place these two files to a local path of the host instead of a network filesystem for faster execution.
 
 # Configuration
 * Revise items of the two config files according to your situation.
