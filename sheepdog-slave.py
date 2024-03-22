@@ -41,7 +41,7 @@ def sync_code():
     remote_branch = config["REPO"]["branch"]
     repo_name = config["REPO"]["name"]
     local_repo_path = args.local
-    tag = config['REPO']['tag']
+    tag = config["REPO"]["tag"]
 
     if local_repo_path != None:
         repo = git.Repo(local_repo_path)
@@ -72,7 +72,8 @@ def sync_code():
         repo.head.reference = branch
 
     exec_shell_cmd(f"git fetch --tags {repo_name}")
-    exec_shell_cmd(f'git checkout {tag}')
+    if len(tag)!=0:
+        exec_shell_cmd(f'git checkout {tag}')
 
     logging.info("sync_code finished")
 

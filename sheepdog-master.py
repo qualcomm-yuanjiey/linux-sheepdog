@@ -163,7 +163,7 @@ def idle_test() -> bool:
         'echo "" > /sys/kernel/tracing/trace',
         'echo "power:cpu_idle" > /sys/kernel/tracing/set_event',
         "echo 1 > /sys/kernel/tracing/tracing_on",
-        'cat /sys/kernel/tracing/trace | grep -q "state=0"',
+        'grep -q "state=0" /sys/kernel/tracing/trace',
     ]
     for cmd in cmds[0:-1]:
         output = exec_cmd(cmd, local=False)
@@ -189,13 +189,13 @@ def uart_test() -> bool:
 
 
 def pinctl_test() -> bool:
-    cmd = "cat /sys/kernel/debug/pinctrl/pinctrl-maps"
-    output = exec_cmd(cmd, local=False)
-    if "Pinctrl maps:" in output[0]:
-        return True
-    else:
+    cmd = 'grep -q "Pinctrl maps:" /sys/kernel/debug/pinctrl/pinctrl-maps'
+    try:
+        output = exec_cmd(cmd, local=False)
+    except Exception as e:
         return False
 
+    return True
 
 def smp_test() -> bool:
     cmd = "cat /sys/devices/system/cpu/online"
@@ -244,8 +244,7 @@ def run_test_cases():
 def open_serial():
     global serial_port
 
-    # serial_port = serial.Serial(dev.com_port, baudrate=dev.baudrate)
-    serial_port = serial.Serial("COM8", baudrate=115200)
+    serial_port = serial.Serial(dev.com_port, baudrate=dev.baudrate)
     serial_port.timeout = 2
     serial_port.write_timeout = 2
     serial_port.inter_byte_timeout = 2
