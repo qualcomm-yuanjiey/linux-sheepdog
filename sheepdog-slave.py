@@ -72,8 +72,8 @@ def sync_code():
         repo.head.reference = branch
 
     exec_shell_cmd(f"git fetch --tags {repo_name}")
-    if len(tag)!=0:
-        exec_shell_cmd(f'git checkout {tag}')
+    if len(tag) != 0:
+        exec_shell_cmd(f"git checkout {tag}")
 
     logging.info("sync_code finished")
 
@@ -156,7 +156,7 @@ def parse_config():
 
     config_file = args.config
     if config_file is None:
-        config_file = os.path.abspath(__file__) + "/template-slave.ini"
+        config_file = os.path.dirname(__file__) + "/template-slave.ini"
 
     config = configparser.ConfigParser()
     config.read(config_file)
@@ -203,4 +203,10 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except:
+        print(
+            "Please refer to https://github.qualcomm.com/yijiyang/linux-sheepdog/blob/main/README.md for instructions"
+        )
+        raise

@@ -197,6 +197,7 @@ def pinctl_test() -> bool:
 
     return True
 
+
 def smp_test() -> bool:
     cmd = "cat /sys/devices/system/cpu/online"
 
@@ -405,4 +406,10 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except:
+        print(
+            "Please refer to https://github.qualcomm.com/yijiyang/linux-sheepdog/blob/main/README.md for instructions"
+        )
+        raise
