@@ -277,7 +277,7 @@ def parse_config():
 
     config_file = args.config
     if config_file is None:
-        config_file = os.path.abspath(__file__) + "\\template-master.ini"
+        config_file = os.path.dirname(__file__) + "\\template-master.ini"
 
     config = configparser.ConfigParser()
     config.read(config_file)
