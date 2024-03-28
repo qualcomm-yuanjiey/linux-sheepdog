@@ -152,7 +152,7 @@ def precheck():
 
 
 def parse_config():
-    global config, workspace
+    global config
 
     config_file = args.config
     if config_file is None:
@@ -160,9 +160,6 @@ def parse_config():
 
     config = configparser.ConfigParser()
     config.read(config_file)
-
-    workspace = config.get(section="WORKSPACE", option="path", fallback=os.getcwd())
-    os.chdir(workspace)
 
 
 def log_init():
@@ -188,7 +185,13 @@ def parse_options():
     args = parser.parse_args()
 
 
+def env_init():
+    global workspace
+    workspace = os.getcwd()
+
+
 def initialize():
+    env_init()
     parse_options()
     parse_config()
     log_init()

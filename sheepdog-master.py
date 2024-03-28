@@ -273,7 +273,7 @@ def create_sessions():
 
 
 def parse_config():
-    global config, workspace, local_image_path, remote_image_path
+    global config, local_image_path, remote_image_path
 
     config_file = args.config
     if config_file is None:
@@ -282,12 +282,8 @@ def parse_config():
     config = configparser.ConfigParser()
     config.read(config_file)
 
-    workspace = config.get(section="WORKSPACE", option="path", fallback=os.getcwd())
     local_image_path = config["IMAGE"]["local_path"]
     remote_image_path = config["IMAGE"]["remote_path"]
-    config.get
-
-    os.chdir(workspace)
 
 
 def parse_options():
@@ -299,12 +295,17 @@ def parse_options():
     args = parser.parse_args()
 
 
+def env_init():
+    global workspace
+    workspace = os.getcwd()
+
+
 def initialize():
+    env_init()
     parse_options()
-
     parse_config()
-
     log_init()
+    logging.info("initialize finished")
 
 
 def build():
