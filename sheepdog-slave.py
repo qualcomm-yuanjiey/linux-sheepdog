@@ -33,9 +33,10 @@ def exec_shell_cmd(cmd):
     return result
 
 
-def sync_code():
-    logging.info("sync_code begin")
-    repo_exist = False
+def sync_kernel():
+    logging.info("sync kernel code begin")
+
+    global compile_path
     tracking = False
     repo_url = config["REPO"]["url"]
     remote_branch = config["REPO"]["branch"]
@@ -44,11 +45,13 @@ def sync_code():
     tag = config["REPO"]["tag"]
 
     if local_repo_path != None:
-        repo = git.Repo(local_repo_path)
-        os.chdir(local_repo_path)
+        repo = git.Repo(path=local_repo_path)
     else:
-        repo = git.Repo.clone_from(repo_url, workspace)
-        os.chdir(f"{workspace}/{repo_name}")
+        local_repo_path = f"{workspace}/{repo_name}"
+        repo = git.Repo.clone_from(repo_url, local_repo_path)
+
+    compile_path = repo.working_dir
+    os.chdir(repo.working_dir)
 
     if not any(remote.url == repo_url for remote in repo.remotes):
         remote = repo.create_remote(repo_name, repo_url)
@@ -75,7 +78,39 @@ def sync_code():
     if len(tag) != 0:
         exec_shell_cmd(f"git checkout {tag}")
 
-    logging.info("sync_code finished")
+    os.chdir(workspace)
+    logging.info("sync kernel code finished")
+
+
+def sync_mkbootimg():
+    logging.info("sync mkbootimg begin")
+
+    global mkbootimg
+    mkbootimg_url = (
+        "ssh://review-android.quicinc.com:29418/kernel_platform/system/tools/mkbootimg"
+    )
+    target_branch = "KERNEL.PLATFORM.4.0"
+    repo_name = "mkbootimg"
+
+    mkbootimg = config.get("TOOLS", "mkbootimg", fallback=None)
+    if mkbootimg != None and len(mkbootimg) != 0:
+        return
+
+    repo = git.Repo.clone_from(url=mkbootimg_url, to_path=f"{workspace}/{repo_name}")
+    os.chdir(repo.working_dir)
+    local_branch = repo.create_head(target_branch)
+    local_branch.set_tracking_branch(repo.refs[f"origin/{target_branch}"])
+    repo.head.reference = local_branch
+
+    mkbootimg = f"{workspace}/{repo_name}/mkbootimg.py"
+
+    os.chdir(workspace)
+    logging.info("sync mkbootimg finished")
+
+
+def sync_code():
+    sync_mkbootimg()
+    sync_kernel()
 
 
 def compile():
@@ -92,17 +127,15 @@ def compile():
     vendor = dev_info["vendor"]
 
     toolchain_prefix = tools["toolchain_prefix"]
-    mkbootimg = tools["mkbootimg"]
 
-    cwd = os.getcwd()
-    ramdisk = f"{cwd}/ramdisk.gz"
+    ramdisk = f"{compile_path}/ramdisk.gz"
     make_options = f"-j{cpu_num} ARCH={arch} CROSS_COMPILE={toolchain_prefix}"
 
     options_kernel = kernel_options["kernel"].split()
     options_module = kernel_options["module"].split()
     options_close = kernel_options["close"].split()
 
-    defconfig = f"{cwd}/arch/{arch}/configs/defconfig"
+    defconfig = f"{compile_path}/arch/{arch}/configs/defconfig"
     image = f"arch/{arch}/boot/Image.gz"
     dtb = f"arch/{arch}/boot/dts/{vendor}/{dev_name}.dtb"
     bootimg = f"{workspace}/boot.img"
@@ -114,6 +147,8 @@ def compile():
             f.write(f"\n{option}=m")
         for option in options_close:
             f.write(f"\n{option}=n")
+
+    os.chdir(compile_path)
 
     try:
         exec_shell_cmd(f"make {make_options} defconfig")
@@ -146,9 +181,6 @@ def precheck():
 
     if not toolchain_exist:
         exit_with_msg(f"compiler {toolchain_prefix}* not exist", 1)
-
-    if not os.access(mkbootimg, os.X_OK):
-        exit_with_msg(f"{mkbootimg} not exist or not executable", 1)
 
 
 def parse_config():
