@@ -169,18 +169,12 @@ def compile():
 
 
 def precheck():
-    toolchain_exist = False
     toolchain_prefix = config["TOOLS"]["toolchain_prefix"]
-    mkbootimg = config["TOOLS"]["mkbootimg"]
-    exec_paths = ["/bin", "/sbin", "/usr/local/bin", "/usr/local/sbin"]
 
-    for path in exec_paths:
-        if len(glob.glob(f"{path}/{toolchain_prefix}*", recursive=True)) != 0:
-            toolchain_exist = True
-            break
-
-    if not toolchain_exist:
-        exit_with_msg(f"compiler {toolchain_prefix}* not exist", 1)
+    try:
+        exec_shell_cmd(f"{toolchain_prefix}gcc --version")
+    except:
+        exit_with_msg(f"compiler {toolchain_prefix}gcc may not exist, please check", 1)
 
 
 def parse_config():
