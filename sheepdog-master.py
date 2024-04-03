@@ -6,6 +6,7 @@ import serial.tools.list_ports
 import configparser, argparse
 import logging.config
 from pydevicetree import Devicetree
+from pathlib import Path
 
 
 def exit_with_msg(msg, code=0):
@@ -51,7 +52,8 @@ def exec_cmd(cmd, local=True):
 
 
 def log_init():
-    log_file = config.get("LOG", "file", fallback=f"{workspace}/test.log")
+    log_file = config.get("LOG", "file", fallback=f".\\linux-sheepdog-master.log")
+    log_file = os.path.normpath(log_file)
     log_level = config["LOG"]["level"]
 
     logging.basicConfig(
@@ -273,7 +275,7 @@ def create_sessions():
 
 
 def parse_config():
-    global config, local_image_path, remote_image_path
+    global config, local_image_path, remote_image_path, remote_workspace
 
     config_file = args.config
     if config_file is None:
@@ -282,8 +284,12 @@ def parse_config():
     config = configparser.ConfigParser()
     config.read(config_file)
 
-    local_image_path = config["IMAGE"]["local_path"]
-    remote_image_path = config["IMAGE"]["remote_path"]
+    local_image_path = os.path.normpath(f"{workspace}\\{config["IMAGE"]["local_path"]}")
+
+    remote_workspace = config["REMOTE"]["workspace"]
+    # attention! It is a unix style path
+    remote_image_path = os.path.normpath(f"{remote_workspace}/{config["IMAGE"]["remote_path"]}")
+    remote_image_path = Path(remote_image_path).as_posix()
 
 
 def parse_options():
@@ -310,15 +316,23 @@ def initialize():
 
 def build():
     remote_config = config["REMOTE"]
-    test_file = remote_config["test_file"]
-    config_file = remote_config["config_file"]
-    local_repo = remote_config["local_repo"]
+
+    test_file = os.path.normpath(f"{remote_workspace}/{remote_config["test_file"]}")
+    config_file = os.path.normpath(f"{remote_workspace}/{remote_config["config_file"]}")
+    local_repo = os.path.normpath(f"{remote_workspace}/{remote_config["local_repo"]}")
+
+    # attention! They're unix style paths.
+    test_file = Path(test_file).as_posix()
+    config_file = Path(config_file).as_posix()
+    local_repo = Path(local_repo).as_posix()
 
     cmdline = test_file
     if len(config_file) != 0:
         cmdline = cmdline + " --config " + config_file
     if len(local_repo) != 0:
         cmdline = cmdline + " --local " + local_repo
+
+    cmdline = f"cd {remote_workspace} && {cmdline}"
 
     stdin, stdout, stderr = ssh.exec_command(command=cmdline)
     stdout.channel.recv_exit_status()

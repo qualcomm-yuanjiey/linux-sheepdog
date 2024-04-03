@@ -40,13 +40,16 @@
 
 # Configuration
 * Revise items of the two config files according to your scenario.
+* All paths are relative to user's working directory.
+* Be aware of the **different path formats** in Windows and Linux.
 
-## The host side
+## The master side
 * addr: the IP address of your compilation environment.
-* test_file & config_file: the absolute name of sheepdog-slave.py and template-slave.ini in * your compilation environment.
-* local_repo: the absolute path to an existing local repo in compilation environment if exist. It would save much time of syncing code.
-* remote_path: the absolute path of compiled images in compilation environment.
-* local_path: the absolute path of the host to which these compiled images are going to be * copied.
+* test_file & config_file: the name of sheepdog-slave.py and template-slave.ini in your compilation environment.
+* local_repo: the path to an existing local repo in compilation environment if exist. It would save much time of syncing code.
+* remote_path: the path of compiled images in compilation environment.
+* local_path: the path of the host to which these compiled images are going to be copied.
+* workspace: the path where you want the remote command to be executed in compilation environment.
 * names: images' names. If there're more than one image, each name can be separated with space.
 * com_port: get it from device manager.
 * serial_num: get it from either adb or fastboot
@@ -55,11 +58,11 @@
     fastboot devices -l
   ```
 
-## The compilation side
+## The slave side
 * url: the URL of the target repository going to be test
 * cmdline: the kernel command line for this test
 * toolchain_prefix: the prefix of cross compiling tools. It's same with CROSS_COMPILE option * when compiling kernel using 'make'.
-* mkbootimg: the absolute path of tool 'mkbootimg'.
+* mkbootimg: the path of tool 'mkbootimg'.
 * kernel: Kconfig options that should be compiled into kernel during this test.
 * module: Kconfig options that should be compiled as module during this test.
 * close: Kconfig options that shouldn't be compiled during this test.
@@ -72,7 +75,7 @@
   ```bash
     <path>\sheepdog-master.py [--config <config file>]
   ```
-* --config: specify config file's absolute path of the master side. If this option not provided, it would search the path of the script.
+* --config: specify config file's path of the master side. If this option not provided, it would search the path of the script.
 * --local-images: skip syncing and compilation of slave side. Verify existing images in 'local_path' of 'IMAGE' section directly.
 
 # Split Execution
