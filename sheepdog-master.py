@@ -288,7 +288,7 @@ def parse_config():
 
     remote_workspace = config["REMOTE"]["workspace"]
     # attention! It is a unix style path
-    remote_image_path = os.path.abspath(f"{remote_workspace}/{config["IMAGE"]["remote_path"]}")
+    remote_image_path = os.path.normpath(f"{remote_workspace}/{config["IMAGE"]["remote_path"]}")
     remote_image_path = Path(remote_image_path).as_posix()
 
 
@@ -317,9 +317,9 @@ def initialize():
 def build():
     remote_config = config["REMOTE"]
 
-    test_file = os.path.abspath(f"{remote_workspace}/{remote_config["test_file"]}")
-    config_file = os.path.abspath(f"{remote_workspace}/{remote_config["config_file"]}")
-    local_repo = os.path.abspath(f"{remote_workspace}/{remote_config["local_repo"]}")
+    test_file = os.path.normpath(f"{remote_workspace}/{remote_config["test_file"]}")
+    config_file = os.path.normpath(f"{remote_workspace}/{remote_config["config_file"]}")
+    local_repo = os.path.normpath(f"{remote_workspace}/{remote_config["local_repo"]}")
 
     # attention! They're unix style paths.
     test_file = Path(test_file).as_posix()
