@@ -57,11 +57,10 @@ def log_init():
     log_level = config["LOG"]["level"]
 
     logging.basicConfig(
-        encoding="utf-8",
         level=log_level,
         format="%(asctime)s %(levelname)-8s %(message)s",
         handlers=[
-            logging.FileHandler(filename=log_file, mode="a+"),
+            logging.FileHandler(filename=log_file, mode="a"),
             logging.StreamHandler(),
         ],
     )
