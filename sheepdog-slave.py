@@ -206,7 +206,7 @@ def log_init():
         level=log_level,
         format="%(asctime)s %(levelname)-8s %(message)s",
         handlers=[
-            logging.FileHandler(filename=log_file, mode="w"),
+            logging.FileHandler(filename=log_file, mode="a+"),
             logging.StreamHandler(),
         ],
     )
