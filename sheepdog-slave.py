@@ -46,7 +46,7 @@ def sync_kernel():
     remote_exist = False
 
     if local_repo_path != None:
-        local_repo_path = os.path.normpath(local_repo_path)
+        local_repo_path = os.path.abspath(local_repo_path)
         repo = git.Repo(path=local_repo_path)
     else:
         local_repo_path = f"{workspace}/{repo_name}"
@@ -100,7 +100,7 @@ def sync_mkbootimg():
     target_branch = "KERNEL.PLATFORM.4.0"
     repo_name = "mkbootimg"
 
-    mkbootimg = os.path.normpath(config.get("TOOLS", "mkbootimg", fallback=None))
+    mkbootimg = os.path.abspath(config.get("TOOLS", "mkbootimg", fallback=None))
     if mkbootimg != None and len(mkbootimg) != 0:
         return
 
@@ -192,14 +192,14 @@ def parse_config():
     if config_file is None:
         config_file = os.path.dirname(__file__) + "/template-slave.ini"
 
-    config_file = os.path.normpath(config_file)
+    config_file = os.path.abspath(config_file)
     config = configparser.ConfigParser()
     config.read(config_file)
 
 
 def log_init():
     log_file = config.get("LOG", "file", fallback=f"./linux-sheepdog-slave.log")
-    log_file = os.path.normpath(log_file)
+    log_file = os.path.abspath(log_file)
     log_level = config["LOG"]["level"]
 
     logging.basicConfig(
