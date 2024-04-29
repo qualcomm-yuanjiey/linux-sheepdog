@@ -1,10 +1,10 @@
 import serial, os, sys, logging, time, glob
-import TACDev
-import paramiko, getpass
+import paramiko, getpass, TACDev
 import subprocess, datetime, threading
 import serial.tools.list_ports
 import configparser, argparse
-import logging.config
+import logging.config, fs
+from winmagic import magic
 from pydevicetree import Devicetree
 from pathlib import Path
 
@@ -111,12 +111,16 @@ class test_device:
         assert self.__dev is not None
 
     def flash(self) -> bool:
-        try:
-            for image in config["IMAGE"]["names"].split():
-                cmdline = f"fastboot -s {self.serial_num} flash boot {local_image_path}\\boot.img"
+        images = config["IMAGE"]["names"].split()
+        
+        for image in images:
+            name_body = image.split('.')[0]
+            cmdline = f"fastboot -s {self.serial_num} flash {name_body} {local_image_path}\\{image}"
+            try:
                 exec_cmd(cmdline)
-        except Exception as e:
-            exit_with_msg(str(e.args[0]), e.args[1])
+                logging.info(cmdline)
+            except Exception as e:
+                exit_with_msg(str(e.args[0]), e.args[1])
 
         logging.info("Flash succeed")
         return True
@@ -355,12 +359,11 @@ def cleanup():
 
 
 def trans_images():
-    image_conf = config["IMAGE"]
-    names = image_conf["names"].split()
+    images = config["IMAGE"]["names"].split()
 
-    for name in names:
-        remote_file = f"{remote_image_path}/{name}"
-        local_file = f"{local_image_path}\\{name}"
+    for image in images:
+        remote_file = f"{remote_image_path}/{image}"
+        local_file = f"{local_image_path}\\{image}"
         sftp.get(remotepath=remote_file, localpath=local_file)
 
 
@@ -379,12 +382,33 @@ def read_test():
         serial_str = serial_port.readline().decode()
         print(serial_str)
 
+def extract_efibin(image_path):
+    logging.info('Extract dts from efibin')
 
-def parse_dtb():
+    vfat_fs = fs.open_fs(f'fat://{Path(image_path).as_posix()}')
+    dest_path = '/DTB' # vfat default uppercase
+
+    for dtb_file in vfat_fs.listdir(dest_path):
+        dtb_data = vfat_fs.readbytes(f'{dest_path}/{dtb_file}')
+        with open(f'{workspace}\\{dtb_file}', 'xb') as f:
+            f.write(dtb_data)
+
+
+def extract_bootimg(image_path):
+    logging.info('Extract dts from boot image')
+
+    try:
+        exec_cmd(f"extract-dtb {image_path} -o {workspace}\\")
+    except Exception as e:
+        exit_with_msg(str(e.args[0]), e.args[1])
+
+
+def parse_dts():
     """extract dtb and translate it to dts to get device parameters"""
     global dts_tree
     dts_pattern = f"{workspace}\\*.dts"
     dtb_pattern = f"{workspace}\\*.dtb"
+    images = config["IMAGE"]["names"].split()
 
     dts_files = glob.glob(dts_pattern)
     for file in dts_files:
@@ -394,17 +418,22 @@ def parse_dtb():
     for file in dtb_files:
         os.remove(file)
 
-    # assume only one dtb file
-    try:
-        exec_cmd(f"extract-dtb {local_image_path}\\boot.img -o {workspace}\\")
-        dtb_file = glob.glob(dtb_pattern)[0]
-        exec_cmd(f"pydtc unpack {dtb_file}")
-        dts_file = glob.glob(dts_pattern)[0]
-    except Exception as e:
-        exit_with_msg(str(e.args[0]), e.args[1])
+    for image in images:
+        image_path = f'{workspace}\\{image}'
+        magic_obj = magic.Magic()
+        if 'FAT' in magic_obj.from_file(image_path):
+            extract_efibin(image_path)
+        else:
+            extract_bootimg(image_path)
 
-    dts_tree = Devicetree.parseFile(dts_file)
+    for dtb_file in glob.glob(dtb_pattern):
+        try:
+            exec_cmd(f"pydtc unpack {dtb_file}")
+        except Exception as e:
+            exit_with_msg(str(e.args[0]), e.args[1])
 
+    for dts_file in glob.glob(dts_pattern):
+        dts_tree = Devicetree.parseFile(dts_file)
 
 def main():
     initialize()
@@ -414,7 +443,7 @@ def main():
         build()
         trans_images()
 
-    parse_dtb()
+    parse_dts()
     flash_images()
     open_serial()
     wait_bootup()

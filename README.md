@@ -17,7 +17,7 @@
   ``` 
   Modules for the host:
   ```bash
-    pyserial, TACDev, paramiko, pydevicetree
+    pyserial, TACDev, paramiko, pydevicetree, python-magic, pyfatfs, extract-dtb
   ``` 
 
 ## Steps for installing TACDev
