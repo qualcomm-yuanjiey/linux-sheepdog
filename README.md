@@ -45,6 +45,7 @@
 
 ## The master side
 * addr: the IP address of your compilation environment.
+* username: the username for login into the compilation environment.
 * test_file & config_file: the name of sheepdog-slave.py and template-slave.ini in your compilation environment.
 * local_repo: the path to an existing local repo in compilation environment if exist. It would save much time of syncing code.
 * remote_path: the path of compiled images in compilation environment.

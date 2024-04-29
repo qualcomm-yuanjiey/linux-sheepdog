@@ -265,10 +265,15 @@ def create_sessions():
 
     ssh = paramiko.SSHClient()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    name = input("username:\n")
-    passwd = getpass.getpass()
+
     addr = config["REMOTE"]["addr"]
-    ssh.connect(hostname=addr, username=name, password=passwd)
+    username = config["REMOTE"]["username"]
+
+    try:
+        ssh.connect(hostname=addr, username=username)
+    except:
+        passwd = getpass.getpass()
+        ssh.connect(hostname=addr, username=username, password=passwd)
 
     sftp = ssh.open_sftp()
 
