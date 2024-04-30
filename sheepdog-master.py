@@ -292,7 +292,7 @@ def parse_config():
     config = configparser.ConfigParser()
     config.read(config_file)
 
-    local_image_path = os.path.abspath(f"{workspace}\\{config["IMAGE"]["local_path"]}")
+    local_image_path = os.path.abspath(f'{workspace}\\{config["IMAGE"]["local_path"]}')
 
     remote_workspace = config["REMOTE"]["workspace"]
     # attention! It is a unix style path
