@@ -3,7 +3,7 @@ import paramiko, getpass, TACDev
 import subprocess, datetime, threading
 import serial.tools.list_ports
 import configparser, argparse
-import logging.config, fs
+import logging.config, fs, platform
 from winmagic import magic
 from pydevicetree import Devicetree
 from pathlib import Path
@@ -12,6 +12,24 @@ from pathlib import Path
 def exit_with_msg(msg, code=0):
     logging.error(msg)
     exit(code)
+
+
+def sheepdog_abspath(path, base, style=""):
+    """
+    Judge if input path is a relative path. If so, convert it into a
+    absolute path based on 'base'
+    """
+    if os.path.isabs(path):
+        return path
+
+    path = os.path.join(base, path)
+    path = os.path.normpath(path)
+
+    if len(style) != 0 and style != os_type:
+        if style == "Linux":
+            path = Path(path).as_posix()
+
+    return path
 
 
 def exec_cmd(cmd, local=True):
@@ -53,7 +71,7 @@ def exec_cmd(cmd, local=True):
 
 def log_init():
     log_file = config.get("LOG", "file", fallback=f".\\linux-sheepdog-master.log")
-    log_file = os.path.abspath(log_file)
+    log_file = sheepdog_abspath(log_file, workspace)
     log_level = config["LOG"]["level"]
 
     logging.basicConfig(
@@ -112,9 +130,9 @@ class test_device:
 
     def flash(self) -> bool:
         images = config["IMAGE"]["names"].split()
-        
+
         for image in images:
-            name_body = image.split('.')[0]
+            name_body = image.split(".")[0]
             cmdline = f"fastboot -s {self.serial_num} flash {name_body} {local_image_path}\\{image}"
             try:
                 exec_cmd(cmdline)
@@ -292,12 +310,13 @@ def parse_config():
     config = configparser.ConfigParser()
     config.read(config_file)
 
-    local_image_path = os.path.abspath(f'{workspace}\\{config["IMAGE"]["local_path"]}')
+    local_image_path = sheepdog_abspath(config["IMAGE"]["local_path"], workspace)
 
     remote_workspace = config["REMOTE"]["workspace"]
     # attention! It is a unix style path
-    remote_image_path = os.path.normpath(f"{remote_workspace}/{config["IMAGE"]["remote_path"]}")
-    remote_image_path = Path(remote_image_path).as_posix()
+    remote_image_path = sheepdog_abspath(
+        config["IMAGE"]["remote_path"], remote_workspace, style="Linux"
+    )
 
 
 def parse_options():
@@ -310,8 +329,13 @@ def parse_options():
 
 
 def env_init():
-    global workspace
+    global workspace, os_type
     workspace = os.getcwd()
+
+    if "Linux" in platform.platform():
+        os_type = "Linux"
+    elif "Windows" in platform.platform():
+        os_type = "Windows"
 
 
 def initialize():
@@ -325,18 +349,24 @@ def initialize():
 def build():
     remote_config = config["REMOTE"]
 
-    test_file = os.path.normpath(f"{remote_workspace}/{remote_config["test_file"]}")
-    config_file = os.path.normpath(f"{remote_workspace}/{remote_config["config_file"]}")
-    local_repo = os.path.normpath(f"{remote_workspace}/{remote_config["local_repo"]}")
+    slave_script = sheepdog_abspath(
+        remote_config["slave_script"], remote_workspace, style="Linux"
+    )
+    slave_config = sheepdog_abspath(
+        remote_config["slave_config"], remote_workspace, style="Linux"
+    )
+    local_repo = sheepdog_abspath(
+        remote_config["local_repo"], remote_workspace, style="Linux"
+    )
 
     # attention! They're unix style paths.
-    test_file = Path(test_file).as_posix()
-    config_file = Path(config_file).as_posix()
+    slave_script = Path(slave_script).as_posix()
+    slave_config = Path(slave_config).as_posix()
     local_repo = Path(local_repo).as_posix()
 
-    cmdline = test_file
-    if len(config_file) != 0:
-        cmdline = cmdline + " --config " + config_file
+    cmdline = slave_script
+    if len(slave_config) != 0:
+        cmdline = cmdline + " --config " + slave_config
     if len(local_repo) != 0:
         cmdline = cmdline + " --local " + local_repo
 
@@ -382,20 +412,21 @@ def read_test():
         serial_str = serial_port.readline().decode()
         print(serial_str)
 
-def extract_efibin(image_path):
-    logging.info('Extract dts from efibin')
 
-    vfat_fs = fs.open_fs(f'fat://{Path(image_path).as_posix()}')
-    dest_path = '/DTB' # vfat default uppercase
+def extract_efibin(image_path):
+    logging.info("Extract dts from efibin")
+
+    vfat_fs = fs.open_fs(f"fat://{Path(image_path).as_posix()}")
+    dest_path = "/DTB"  # vfat default uppercase
 
     for dtb_file in vfat_fs.listdir(dest_path):
-        dtb_data = vfat_fs.readbytes(f'{dest_path}/{dtb_file}')
-        with open(f'{workspace}\\{dtb_file}', 'xb') as f:
+        dtb_data = vfat_fs.readbytes(f"{dest_path}/{dtb_file}")
+        with open(f"{workspace}\\{dtb_file}", "xb") as f:
             f.write(dtb_data)
 
 
 def extract_bootimg(image_path):
-    logging.info('Extract dts from boot image')
+    logging.info("Extract dts from boot image")
 
     try:
         exec_cmd(f"extract-dtb {image_path} -o {workspace}\\")
@@ -419,9 +450,9 @@ def parse_dts():
         os.remove(file)
 
     for image in images:
-        image_path = f'{workspace}\\{image}'
+        image_path = f"{workspace}\\{image}"
         magic_obj = magic.Magic()
-        if 'FAT' in magic_obj.from_file(image_path):
+        if "FAT" in magic_obj.from_file(image_path):
             extract_efibin(image_path)
         else:
             extract_bootimg(image_path)
@@ -434,6 +465,7 @@ def parse_dts():
 
     for dts_file in glob.glob(dts_pattern):
         dts_tree = Devicetree.parseFile(dts_file)
+
 
 def main():
     initialize()

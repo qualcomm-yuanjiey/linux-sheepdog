@@ -211,6 +211,7 @@ def build_efi_bin(kernel_components):
 
     efi_bin = workspace + "/efi.bin"
     python_path = esdk_lib_path + "/python3.10/site-packages"
+    python_exec = esdk_bin_path + "/python3-native/python3.10"
 
     efi_dir = workspace + "/efi_dir"
     gen_efi_boot = f"{tool_path}/build/generate_efi_boot.sh"
@@ -241,7 +242,7 @@ def build_efi_bin(kernel_components):
     logging.info(f'PYTHONPATH={os.environ["PYTHONPATH"]}')
     logging.info(f'PATH={os.environ["PATH"]}')
 
-    uki_cmd = f"python {ukify} build"
+    uki_cmd = f"{python_exec} {ukify} build"
     uki_cmd += " --initrd=" + kernel_components["ramdisk"]
     uki_cmd += " --linux=" + kernel_components["kernel_image"]
     uki_cmd += " --efi-arch=aa64"
