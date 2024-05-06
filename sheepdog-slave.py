@@ -84,7 +84,8 @@ def sync_kernel():
     else:
         repo.head.reference = branch
 
-    exec_shell_cmd(f"git fetch --tags {repo_name}")
+    repo.git.fetch(remote, "--tags")
+    remote.pull(rebase=True)
     if len(tag) != 0:
         exec_shell_cmd(f"git checkout {tag}")
 
