@@ -21,7 +21,7 @@
   ``` 
   Modules for the host:
   ```bash
-    pyserial, TACDev, paramiko, pydevicetree, python-magic-win64, pyfatfs, extract-dtb, fs
+    pyserial, TACDev, paramiko, pydevicetree, python-magic-win64, pyfatfs, extract-dtb, fs, pydtc
   ``` 
 
 ## Steps for installing TACDev
@@ -52,7 +52,7 @@
 * addr: the IP address or  hostname of your compilation environment.
 * username: the username for login into the compilation environment.
 * slave_script & slave_config: the name of sheepdog-slave.py and template-slave.ini in your compilation environment.
-* local_repo: the path of an existing local repo (usually upstream kernel) in compilation environment if it has been downloaded before. Using this option would save much time on syncing code.
+* local_repo: the path of an existing local repo (usually upstream kernel) in compilation environment if it has been downloaded before. Using this option would save much time on syncing code. **But unstaged changes in that repo will be discarded!**
 * remote_path: a path of the slave side where artifacts (the images) of sheepdog-slave stored.
 * local_path: the path of the host to which these artifacts (the images) are going to be copied.
 * workspace: the path where you want the remote command to be executed in compilation environment.

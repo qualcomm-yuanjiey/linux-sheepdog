@@ -68,6 +68,9 @@ def sync_kernel():
     else:
         repo_name = remote.name
 
+    # remove unstaged files which would block checkout
+    repo.git.reset("--hard")
+
     # find if there's a local branch which is tracking remote repo
     for branch in repo.branches:
         if (
