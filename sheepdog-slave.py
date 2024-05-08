@@ -88,9 +88,11 @@ def sync_kernel():
     remote.pull(rebase=True)
     if len(tag) != 0:
         exec_shell_cmd(f"git checkout {tag}")
+    else:
+        tag = repo.git.describe(tags=True, abbrev=0)
 
     os.chdir(workspace)
-    logging.info("sync kernel code finished")
+    logging.info(f"sync kernel code finished, current tag: {tag}")
 
 
 def sync_mkbootimg():
@@ -383,6 +385,7 @@ def main():
     precheck()
     sync_code()
     compile()
+    logging.info("slave success!\n\n")
 
 
 if __name__ == "__main__":
