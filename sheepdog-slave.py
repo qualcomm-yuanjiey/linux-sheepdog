@@ -81,11 +81,9 @@ def sync_kernel():
             break
 
     if not tracking:
-        local_branch = repo.create_head(f"{repo_name}-{remote_branch}")
-        local_branch.set_tracking_branch(remote.refs[remote_branch])
-        repo.head.reference = local_branch
-    else:
-        repo.head.reference = branch
+        branch = repo.create_head(f"{repo_name}-{remote_branch}")
+        branch.set_tracking_branch(remote.refs[remote_branch])
+    branch.checkout()
 
     repo.git.fetch(remote, "--tags")
     remote.pull(rebase=True)
