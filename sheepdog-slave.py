@@ -133,6 +133,7 @@ def build_boot_image(kernel_components):
     logging.info("build boot image")
 
     cmd = mkbootimg
+    cmd += " --header_version 2"
     cmd += " --kernel " + kernel_components["kernel_image"]
     cmd += " --dtb " + kernel_components["dtb"][0]
     cmd += " --cmdline " + '"' + kernel_components["cmdline"] + '"'
@@ -280,7 +281,9 @@ def compile():
 
     toolchain_prefix = tools["toolchain_prefix"]
 
-    make_options = f"-j{cpu_num} ARCH={arch} CROSS_COMPILE={toolchain_prefix}"
+    make_options = (
+        f"-j{cpu_num} -C {compile_path} ARCH={arch} CROSS_COMPILE={toolchain_prefix}"
+    )
 
     options_kernel = kernel_options["kernel"].split()
     options_module = kernel_options["module"].split()
@@ -291,7 +294,7 @@ def compile():
     kernel_components = {
         "kernel_image": f"{compile_path}/arch/{arch}/boot/Image",
         "dtb": [f"{compile_path}/arch/{arch}/boot/dts/{vendor}/{dev_name}.dtb"],
-        "ramdisk": f"{compile_path}/ramdisk.gz",
+        "ramdisk": f"{workspace}/ramdisk.gz",
         "cmdline": dev_info["cmdline"],
     }
 
@@ -302,8 +305,6 @@ def compile():
             f.write(f"\n{option}=m")
         for option in options_close:
             f.write(f"\n{option}=n")
-
-    os.chdir(compile_path)
 
     try:
         exec_shell_cmd(f"make {make_options} defconfig")
