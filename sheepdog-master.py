@@ -488,7 +488,9 @@ def main():
 if __name__ == "__main__":
     try:
         main()
+        logging.info("master success!\n\n")
     except:
+        logging.info("master fail!\n\n")
         print(
             "Please refer to https://github.qualcomm.com/yijiyang/linux-sheepdog/blob/main/README.md for instructions"
         )

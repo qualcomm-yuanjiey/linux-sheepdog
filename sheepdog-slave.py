@@ -387,13 +387,14 @@ def main():
     precheck()
     sync_code()
     compile()
-    logging.info("slave success!\n\n")
 
 
 if __name__ == "__main__":
     try:
         main()
+        logging.info("slave success!\n\n")
     except:
+        logging.info("slave fail!\n\n")
         print(
             "Please refer to https://github.qualcomm.com/yijiyang/linux-sheepdog/blob/main/README.md for instructions"
         )
