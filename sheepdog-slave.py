@@ -151,7 +151,15 @@ def build_boot_image(kernel_components):
 def install_esdk():
     logging.info("Install esdk")
 
-    sdk_script = "/prj/qct/quic/oe_filer_scratch/ESDK/LE.QCLINUX.1.0/AU_LINUX_EMBEDDED_LE.QCLINUX.1.0_TARGET_ALL.01.013.236/qcom-wayland-x86_64-qcom-console-image-armv8-2a-qcm6490-toolchain-ext-1.0.sh"
+    for root, dir, files in os.walk(
+        "/prj/qct/quic/oe_filer_scratch/ESDK/LE.QCLINUX.1.0/"
+    ):
+        for file in files:
+            if ".sh" in file:
+                sdk_script = os.path.join(root, file)
+                logging.info(f"Found esdk: {sdk_script}")
+                break
+
     sdk_path = f"{tool_path}/esdk"
     cmd = f"{sdk_script} -y -d {sdk_path}"
 
