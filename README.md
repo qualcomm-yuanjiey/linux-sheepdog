@@ -9,9 +9,11 @@
 * master/host: refer to the environment where the target test device connected to. 
 
 # Preparation
+## Environment
 * A slave with enough disk space.
 * Ensure **network connectivity** between master and slave.
-* **Install necessary Python modules**.
+
+## Install Python modules
   ```bash
     python -m pip install <module name>
   ```
@@ -21,10 +23,15 @@
   ``` 
   Modules for the host:
   ```bash
-    pyserial, TACDev, paramiko, pydevicetree, python-magic-win64, pyfatfs, extract-dtb, fs, pydtc
+    pyserial, paramiko, pydevicetree, python-magic-win64, pyfatfs, extract-dtb, fs, pydtc
   ``` 
+* You may get error messages when installing pydtc:
+'error: Microsoft Visual C++ 14.0 or greater is required. Get it with "Microsoft C++ Build Tools": https://visualstudio.microsoft.com/visual-cpp-build-tools/ '
+* Follow the instructions to install necessary development components on your host
 
-## Steps for installing TACDev
+
+## Install TACDev
+* TACDev is a Python module provided by **alpaca** and it should be installed manually on master side.
 * Python greater than 3.8 should be installed on both sides.
 * Install the Alpaca software suite from the QPM.
 * Navigate to the path 'C:\ProgramData\Qualcomm\Alpaca\Python\XPlatform' and execute the setup.bat
@@ -81,7 +88,7 @@
   ```bash
     <path>\sheepdog-master.py [--config <config file>]
   ```
-* --config: specify config file's path of the master side. If this option not provided, it would search the path of the script.
+* --config: specify config file's path of the master side. If this option not provided, it would search under the same path of the script.
 * --local-images: skip syncing and compilation of slave side. Verify existing images in 'local_path' of 'IMAGE' section directly.
 * username and password are required after execution if no-password of ssh hasn't been configured.
 
@@ -92,7 +99,10 @@
     <path>\sheepdog-master.py [--config <config file>] [--local-images]
   ```
 * It will find images from 'local_path' in 'IMAGE' section of the config file.
-* The script of the host part can be used separately as follows:
+* The slave script can be used separately as follows:
   ```bash
     <path>/sheepdog-slave.py [--config <config file>] [--local <local repo path>]
   ```
+* --config: specify config file's path of the master side. If this option not provided, it would search under the same path of the script.
+
+* --local: same meaning as 'local_repo' in 'REMOTE' section of template-master.ini which represents the path of an existing local repo (usually upstream kernel) in compilation environment if it has been downloaded before
