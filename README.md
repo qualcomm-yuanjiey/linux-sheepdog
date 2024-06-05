@@ -35,6 +35,7 @@
 * Python greater than 3.8 should be installed on both sides.
 * Install the Alpaca software suite from the QPM.
 * Navigate to the path 'C:\ProgramData\Qualcomm\Alpaca\Python\XPlatform' and execute the setup.bat
+* Ensure join 'oe.filer.ro' group to ensure your access to esdk.
 
 
 # Download
