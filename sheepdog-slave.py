@@ -151,21 +151,24 @@ def build_boot_image(kernel_components):
 def install_esdk():
     logging.info("Install esdk")
 
-    for root, dir, files in os.walk(
-        "/prj/qct/quic/oe_filer_scratch/ESDK/LE.QCLINUX.1.0/"
-    ):
+    sdk_path = f"{tool_path}/esdk"
+    if os.path.exists(sdk_path):
+        logging.info(f"Already installed, remove {sdk_path} to reinstall.")
+        return
+
+    esdk_source = "/prj/qct/quic/oe_filer_scratch/ESDK/LE.QCLINUX.1.0"
+    if not os.path.exists(esdk_source):
+        logging.info(f"esdk source path {esdk_source} not found.")
+        exit(1)
+
+    for root, dir, files in os.walk(esdk_source):
         for file in files:
             if ".sh" in file:
                 sdk_script = os.path.join(root, file)
                 logging.info(f"Found esdk: {sdk_script}")
                 break
 
-    sdk_path = f"{tool_path}/esdk"
     cmd = f"{sdk_script} -y -d {sdk_path}"
-
-    if os.path.exists(sdk_path):
-        logging.info(f"Already installed, remove {sdk_path} to reinstall.")
-        return
 
     logging.info(f"Install esdk to {sdk_path}")
     try:
