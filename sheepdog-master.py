@@ -371,8 +371,14 @@ def build():
         cmdline = cmdline + " --local " + local_repo
 
     cmdline = f"cd {remote_workspace} && {cmdline}"
+    logging.info(f"will exe: {cmdline}")
+    
 
     stdin, stdout, stderr = ssh.exec_command(command=cmdline)
+    # lyz_output = stdout.read().decode('utf-8')
+    # lyz_error = stderr.read().decode('utf-8')
+    # print("[lyz stdout]:\n" + lyz_output)
+    # print("[lyz stderr]:\n" + lyz_error)
     stdout.channel.recv_exit_status()
 
 
@@ -459,7 +465,7 @@ def parse_dts():
 
     for dtb_file in glob.glob(dtb_pattern):
         try:
-            exec_cmd(f"pydtc unpack {dtb_file}")
+            exec_cmd(f"pydtc.exe unpack {dtb_file}")
         except Exception as e:
             exit_with_msg(str(e.args[0]), e.args[1])
 
@@ -475,13 +481,12 @@ def main():
         build()
         trans_images()
 
+    # print("lyz===========lyz")
     parse_dts()
     flash_images()
     open_serial()
     wait_bootup()
-
     run_test_cases()
-
     cleanup()
 
 
