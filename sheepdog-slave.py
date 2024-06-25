@@ -331,7 +331,7 @@ def compile():
 
     build_boot_image(kernel_components)
     install_esdk()
-    build_efi_bin(kernel_components)
+    # build_efi_bin(kernel_components)
 
 
 def precheck():

@@ -375,10 +375,6 @@ def build():
     
 
     stdin, stdout, stderr = ssh.exec_command(command=cmdline)
-    # lyz_output = stdout.read().decode('utf-8')
-    # lyz_error = stderr.read().decode('utf-8')
-    # print("[lyz stdout]:\n" + lyz_output)
-    # print("[lyz stderr]:\n" + lyz_error)
     stdout.channel.recv_exit_status()
 
 
