@@ -71,12 +71,19 @@ C:\Users\yanzl\AppData\Local\Microsoft\WindowsApps\python3.9.exe setup.py instal
 
 * Ensure join 'oe.filer.ro' group to ensure your access to esdk.
 
+## Install apt applications
+
+* diffstat
+
+```bash
+sudo apt install diffstat
+```
 
 # Download
 * Clone this tool from GitHub to you compiling environment.
-  ```bash
-    git clone https://github.qualcomm.com/yijiyang/linux-sheepdog
-  ```
+```bash
+git clone https://github.qualcomm.com/yijiyang/linux-sheepdog
+```
 * This tool consists of two parts. Files for master side including sheepdog-master.py and template-master.ini. While files for the slave side including sheepdog-slave.py and template-slave.ini.
 ![files](./doc/img/download-files.png)
 * Tracking origin/main is recommended.

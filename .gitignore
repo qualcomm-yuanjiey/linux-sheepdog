@@ -2,6 +2,7 @@
 *.*
 *
 !*.py
-!*.ini
+!template-master.ini
+!template-slave.ini
 !README.md
 !doc
