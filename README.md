@@ -4,9 +4,11 @@
 * It can implement syncing, compiling, flashing and verification automatically.
 * Two parts of this tool can be used either unified or seperately.
 
+
 # Terms
 * slave: refer to the environment where code can be synced and compiled. Usually a server or a gv. It also referred to as 'compilation environment'.
 * master/host: refer to the environment where the target test device connected to. 
+![over.img](./doc/img/overview.png)
 
 # Preparation
 ## Environment
@@ -34,17 +36,58 @@
 * TACDev is a Python module provided by **alpaca** and it should be installed manually on master side.
 * Python greater than 3.8 should be installed on both sides.
 * Install the Alpaca software suite from the QPM.
-* Navigate to the path 'C:\ProgramData\Qualcomm\Alpaca\Python\XPlatform' and execute the setup.bat
+* Navigate to the path 'C:\ProgramData\Qualcomm\Alpaca\Python\XPlatform'(should have the `setup.py` to install TACDev) and execute the setup.bat(need to be configured according to your own work environment)
+
+example setup.bat
+```bat
+DEL /F /Q /S TACDev.egg-info > NUL
+RMDIR /Q /S TACDev.egg-info
+
+DEL /F /Q /S build > NUL
+RMDIR /Q /S build
+
+DEL /F /Q /S dist > NUL
+RMDIR /Q /S dist
+
+; need to change to your python.exe path
+C:\Users\yanzl\AppData\Local\Microsoft\WindowsApps\python3.9.exe -m pip uninstall -y tacdev
+ 
+DEL /F /Q /S EPMDev.egg-info > NUL
+RMDIR /Q /S EPMDev.egg-info
+
+DEL /F /Q /S build > NUL
+RMDIR /Q /S build
+
+DEL /F /Q /S dist > NUL
+RMDIR /Q /S dist
+
+; need to change to your python.exe path
+C:\Users\yanzl\AppData\Local\Microsoft\WindowsApps\python3.9.exe -m pip uninstall -y epmdev
+
+; need to change to your python.exe path
+C:\Users\yanzl\AppData\Local\Microsoft\WindowsApps\python3.9.exe setup.py install
+
+```
+
 * Ensure join 'oe.filer.ro' group to ensure your access to esdk.
 
+## Install apt applications
+
+* diffstat
+
+```bash
+sudo apt install diffstat
+```
 
 # Download
 * Clone this tool from GitHub to you compiling environment.
-  ```bash
-    git clone https://github.qualcomm.com/yijiyang/linux-sheepdog
-  ```
+```bash
+git clone https://github.qualcomm.com/yijiyang/linux-sheepdog
+```
 * This tool consists of two parts. Files for master side including sheepdog-master.py and template-master.ini. While files for the slave side including sheepdog-slave.py and template-slave.ini.
+![files](./doc/img/download-files.png)
 * Tracking origin/main is recommended.
+![recommend](./doc/img/download-branch_recommend.png)
 
 # Deployment
 * Files of two parts should be deployed manually. Both copying files or sharing directories is okay. There's no restrictions on where files should be placed.
@@ -56,27 +99,42 @@
 * Relative paths are based on user's working directory.
 * Be aware of the **different path formats** in Windows and Linux.
 
+![configs-overview](./doc/img/configs-overview.png)
+
+
 ## The master side
+For example, in the `template-master.ini`:
+### REMOTE
 * addr: the IP address or  hostname of your compilation environment.
 * username: the username for login into the compilation environment.
 * slave_script & slave_config: the name of sheepdog-slave.py and template-slave.ini in your compilation environment.
 * local_repo: the path of an existing local repo (usually upstream kernel) in compilation environment if it has been downloaded before. Using this option would save much time on syncing code. **But unstaged changes in that repo will be discarded!**
 * remote_path: a path of the slave side where artifacts (the images) of sheepdog-slave stored.
+### IMAGE
+![config-image](./doc/img/config-image.png)
+
 * local_path: the path of the host to which these artifacts (the images) are going to be copied.
 * workspace: the path where you want the remote command to be executed in compilation environment.
 * names: images' names. If there're more than one image, each name can be separated with space.
+### DEVICE
 * com_port: get it from device manager.
+![com_port](./doc/img/device-comport.png)
 * serial_num: get it from either adb or fastboot
   ```bash
     adb devices -l
     fastboot devices -l
   ```
+![serial_num1](./doc/img/device-adb_serial_num.png)
+![serial_num2](./doc/img/device-flash_serial_num.png)
 
 ## The slave side
+### REPO
 * url: the URL of the target repository going to be test
 * cmdline: the kernel command line for this test
+### TOOLS
 * toolchain_prefix: the prefix of cross compiling tools. It's same with CROSS_COMPILE option * when compiling kernel using 'make'.
 * mkbootimg: the path of tool 'mkbootimg'.
+### KERNEL_OPTION
 * kernel: Kconfig options that should be compiled into kernel during this test.
 * module: Kconfig options that should be compiled as module during this test.
 * close: Kconfig options that shouldn't be compiled during this test.
@@ -92,6 +150,7 @@
 * --config: specify config file's path of the master side. If this option not provided, it would search under the same path of the script.
 * --local-images: skip syncing and compilation of slave side. Verify existing images in 'local_path' of 'IMAGE' section directly.
 * username and password are required after execution if no-password of ssh hasn't been configured.
+
 
 # Split Execution
 * The two parts can be executed separately if you only want to sync & compile upstream or you want to verify existing meta.
