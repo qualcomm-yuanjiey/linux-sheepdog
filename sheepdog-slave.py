@@ -4,8 +4,6 @@ import sys, os, datetime, logging, configparser, argparse
 import subprocess, multiprocessing
 import glob, git, shutil, re
 
-import git.exc
-
 
 def exit_with_msg(msg, code):
     logging.error(msg)
@@ -159,7 +157,7 @@ def build_boot_image(kernel_components):
 
 def make_patch():
     logging.info("patch working.....")
-    logging.debug("patch environment setup")
+
     patch_build_dir = config["PATCH"]["patch_build_dir"]
     if patch_build_dir == None or patch_build_dir == './':
         patch_build_dir = f"/patches/"
@@ -179,7 +177,6 @@ def make_patch():
     else:
         os.makedirs(patch_build_dir, exist_ok=True)
 
-    logging.debug("patches begin to be made")
     patch_branch = config["PATCH"]["patch_branch"]
     logging.info(f"\"{patch_branch}\" will be made patches. Patches will be generate in \"{patch_build_dir}\"")
     try:
@@ -187,7 +184,6 @@ def make_patch():
     except git.exc.GitCommandError as e:
         logging.error(f"Error creating patch files: {e}")
         raise e
-    
     patch_files = patch_files.split('\n')
     
     # check patches
@@ -457,7 +453,7 @@ def main():
     sync_code()
     if config["PATCH"]["patch"] == "True":
         make_patch()
-    # compile()
+    compile()
 
 
 if __name__ == "__main__":
