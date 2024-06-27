@@ -4,6 +4,8 @@ import sys, os, datetime, logging, configparser, argparse
 import subprocess, multiprocessing
 import glob, git, shutil, re
 
+import git.exc
+
 
 def exit_with_msg(msg, code):
     logging.error(msg)
@@ -38,7 +40,7 @@ def exec_shell_cmd(cmd):
 def sync_kernel():
     logging.info("sync kernel code begin")
 
-    global compile_path
+    global compile_path, local_repo, track_branch
     tracking = False
     repo_url = config["REPO"]["url"]
     remote_branch = config["REPO"]["branch"]
@@ -49,48 +51,56 @@ def sync_kernel():
 
     if local_repo_path != None:
         local_repo_path = os.path.abspath(local_repo_path)
-        repo = git.Repo(path=local_repo_path)
+        local_repo = git.Repo(path=local_repo_path)
     else:
         local_repo_path = f"{workspace}/{repo_name}"
-        repo = git.Repo.clone_from(repo_url, local_repo_path)
+        local_repo = git.Repo.clone_from(repo_url, local_repo_path)
 
-    compile_path = repo.working_dir
-    os.chdir(repo.working_dir)
+    compile_path = local_repo.working_dir
+    os.chdir(local_repo.working_dir)
 
-    for remote in repo.remotes:
+    for remote in local_repo.remotes:
         if remote.url == repo_url:
             remote_exist = True
             break
 
     # use repo name as remote name
     if not remote_exist:
-        remote = repo.create_remote(repo_name, repo_url)
+        remote = local_repo.create_remote(repo_name, repo_url)
     else:
         repo_name = remote.name
 
     # remove unstaged files which would block checkout
-    repo.git.reset("--hard")
+    local_repo.git.reset("--hard")
 
     # find if there's a local branch which is tracking remote repo
-    for branch in repo.branches:
+    for track_branch in local_repo.branches:
         if (
-            branch.tracking_branch() != None
-            and branch.tracking_branch().name == f"{repo_name}/{remote_branch}"
+            track_branch.tracking_branch() != None
+            and track_branch.tracking_branch().name == f"{repo_name}/{remote_branch}"
         ):
             tracking = True
             break
 
     if not tracking:
-        branch = repo.create_head(f"{repo_name}-{remote_branch}")
-        branch.set_tracking_branch(remote.refs[remote_branch])
-    branch.checkout()
+        track_branch = local_repo.create_head(f"{repo_name}-{remote_branch}")
+        track_branch.set_tracking_branch(remote.refs[remote_branch])
+    track_branch.checkout()
 
-    repo.git.fetch(remote, "--tags")
+    local_repo.git.fetch(remote, "--tags")
     remote.pull(rebase=True)
     if len(tag) != 0:
         exec_shell_cmd(f"git checkout {tag}")
     else:
-        tag = repo.git.describe(tags=True, abbrev=0)
+        try:
+            tag = local_repo.git.describe(tags=True, abbrev=0)
+        except git.exc.GitCommandError as e:
+            if "No names found, cannot describe anything" in str(e):
+                logging.warning("No tags found in the repository")
+                tag = "no tags"
+            else:
+                logging.error(f"Error : {e}")
+                raise e
 
     os.chdir(workspace)
     logging.info(f"sync kernel code finished, current tag: {tag}")
@@ -146,6 +156,54 @@ def build_boot_image(kernel_components):
         exec_shell_cmd(cmd)
     except Exception as e:
         exit_with_msg(str(e.args[0]), e.args[1])
+
+def make_patch():
+    logging.info("patch working.....")
+    logging.debug("patch environment setup")
+    patch_build_dir = config["PATCH"]["patch_build_dir"]
+    if patch_build_dir == None or patch_build_dir == './':
+        patch_build_dir = f"/patches/"
+    patch_build_dir = f"{workspace}/{patch_build_dir}"
+
+    # TODO: remove directory before generate patches
+    if os.path.exists(patch_build_dir):
+        logging.debug(f"patches dir:{patch_build_dir} cleaning *.patch")
+        cmd = f"rm {patch_build_dir}*.patch"
+        logging.debug(cmd)
+        try:
+            logging.debug(f"Exe command: {cmd}")
+            exec_shell_cmd(cmd)
+        except Exception as e:
+            logging.error(f"Please remove\"{patch_build_dir}\" and try again")
+            exit_with_msg(str(e.args[0]), e.args[1])
+    else:
+        os.makedirs(patch_build_dir, exist_ok=True)
+
+    logging.debug("patches begin to be made")
+    patch_branch = config["PATCH"]["patch_branch"]
+    logging.info(f"\"{patch_branch}\" will be made patches. Patches will be generate in \"{patch_build_dir}\"")
+    try:
+        patch_files = local_repo.git.format_patch(f"{patch_branch}", output_directory=patch_build_dir)
+    except git.exc.GitCommandError as e:
+        logging.error(f"Error creating patch files: {e}")
+        raise e
+    
+    patch_files = patch_files.split('\n')
+    
+    # check patches
+    logging.debug("patch checking..")
+    for patch_file in patch_files:
+        try:
+            local_repo.git.apply('--check', patch_file)
+        except git.exc.GitCommandError as e:
+            logging.error(f"Error is {e}\n")
+            local_repo.git.reset("--hard")
+            raise e
+        local_repo.git.apply(patch_file)
+        logging.info(f"{patch_file} applies to {track_branch}")
+        
+    if config["PATCH"]["checkwithreset"] == 'True':
+        local_repo.git.reset("--hard")
 
 
 def install_esdk():
@@ -397,7 +455,9 @@ def main():
     initialize()
     precheck()
     sync_code()
-    compile()
+    if config["PATCH"]["patch"] == "True":
+        make_patch()
+    # compile()
 
 
 if __name__ == "__main__":
