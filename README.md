@@ -139,21 +139,15 @@ For example, in the `template-master.ini`:
 * **module**: Kconfig options that should be compiled as module during this test.
 * **close**: Kconfig options that shouldn't be compiled during this test.
 ### PATCH
-now, we just execute below commands to generate  and test patches. So user can control the `start_commit` and `end_commit` of patches. But the commit to be applied and tested is just the tracking branch.(Checkout to tracking branch hard before). 
+If you want to check your patches correction, you can use this configuration. 
+
 More information and example is [here](#make-and-test-patch).
-```bash
- git forward-patch {patch_branch} -o {patch_build_dir}
- git apply --check  {patch_build_dir}/*.patch 
-```
-* **patch**: control generate patch or not. `True` open, other close.
-> patch = True
+* **patch**: control generate patch or not. `True` enable, other disable.
 
-* **patch_branch**: used like commands abrove
+* **patch_build_dir**: should be absolute path
 
-* **patch_build_dir**: patches will be generated in
-
-  ⚠️ patch_build_dir will be generated **under thesheepdog directory**, and "./" will be reset to "./patches/"
-* **checkwithreset**: control if or not reset to clean work tree after apply patches. `True` open, other close.
+* **checkwithreset**: control if or not reset to clean work tree after apply patches. `True` enable, other disable. 
+  > This configuration optin will affect subsequent compilations. If you need to include the contents of the patch in the compilation, you need to enable this option; otherwise, disable it.
  
 # Integrated Execution
 * It would trigger sheepdog-slave.py to sync and compile.
@@ -189,15 +183,20 @@ More information and example is [here](#make-and-test-patch).
 
 1. example git work tree:
 
-![worktree](./doc/img/patch-worktree.png)
-![remoteshow](./doc/img/patch-remoteshow.png)
+To simulate a real situation, use the `main` branch as the tracking remote branch, and the `work` branch as the actual working branch.
 * main is tracking remote `linux-sheepdogtest`
 * work is developers develop branch
 
 ⚠️ **sheepdog firstly find the tracking branch `main` and then checkout to it. After that all commands will execute with the `HEAD` in this `main` commit. Expecially will apply patches to `main` one by one to test patches correction.**
 
-2. example slaver.ini
+![worktree](./doc/img/patch-worktree.png)
+![remoteshow](./doc/img/patch-remoteshow.png)
+
+
+2. example check process
+
 ```
+# ini file
 [REPO]
 url = git@github.qualcomm.com:yanzl/sheepdog-patchtest.git
 # tracking branch
@@ -209,15 +208,25 @@ tag =
 ...
 
 [PATCH]
-# open patch function
 patch = True
-# will generate patches from main to work
-patch_branch = main..work
-# will generat in sheepdog_directory/patches/
-patch_build_dir = ./patches/
-# after test patches, will delete the changes, made by patch apply
+patch_build_dir = /local/mnt/workspace/test/sheepdog-patchtest/
 checkwithreset = True
 ```
-After run sheepdog, will get patches
+I made two patches from `main` to `work` to display the process. If you have more than one patch, you should ensure the dependency order of the patches by sorting the names of the patches in **ascending order** yourself.
 
 ![patches](./doc/img/patch-patches.png)
+
+Such as we have patches from `work` to `main`(`{patch_build_dir}./0001-work1.patch` and `{patch_build_dir}./0002-work2.patch`).
+
+After run sheepdog-slever.py, `{patch_build_dir}./0001-work1.patch` and `{patch_build_dir}./0002-work2.patch` will run like below commands
+```bash
+git apply --check {patch_build_dir}./0001-work1.patch
+git apply {patch_build_dir}./0001-work1.patch
+
+git apply --check {patch_build_dir}./0002-work2.patch
+git apply {patch_build_dir}./0002-work2.patch
+
+# because `checkwithreset` is `True`
+git reset --hard
+```
+

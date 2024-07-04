@@ -155,36 +155,16 @@ def build_boot_image(kernel_components):
     except Exception as e:
         exit_with_msg(str(e.args[0]), e.args[1])
 
-def make_patch():
-    logging.info("patch working.....")
+def test_patch():
+    if config["PATCH"]["patch"] != "True":
+        return
+    logging.debug("patch working.....")
 
     patch_build_dir = config["PATCH"]["patch_build_dir"]
-    if patch_build_dir == None or patch_build_dir == './':
-        patch_build_dir = f"/patches/"
-    patch_build_dir = f"{workspace}/{patch_build_dir}"
-
-    # TODO: remove directory before generate patches
-    if os.path.exists(patch_build_dir):
-        logging.debug(f"patches dir:{patch_build_dir} cleaning *.patch")
-        cmd = f"rm {patch_build_dir}*.patch"
-        logging.debug(cmd)
-        try:
-            logging.debug(f"Exe command: {cmd}")
-            exec_shell_cmd(cmd)
-        except Exception as e:
-            logging.error(f"Please remove\"{patch_build_dir}\" and try again")
-            exit_with_msg(str(e.args[0]), e.args[1])
-    else:
-        os.makedirs(patch_build_dir, exist_ok=True)
-
-    patch_branch = config["PATCH"]["patch_branch"]
-    logging.info(f"\"{patch_branch}\" will be made patches. Patches will be generate in \"{patch_build_dir}\"")
-    try:
-        patch_files = local_repo.git.format_patch(f"{patch_branch}", output_directory=patch_build_dir)
-    except git.exc.GitCommandError as e:
-        logging.error(f"Error creating patch files: {e}")
-        raise e
-    patch_files = patch_files.split('\n')
+    patches_pattern = f"{patch_build_dir}./*.patch"
+    patch_files = glob.glob(patches_pattern)
+    # sort patches in ascending order
+    patch_files = sorted(patch_files)
     
     # check patches
     logging.debug("patch checking..")
@@ -200,6 +180,7 @@ def make_patch():
         
     if config["PATCH"]["checkwithreset"] == 'True':
         local_repo.git.reset("--hard")
+    logging.info("patch check down")
 
 
 def install_esdk():
@@ -451,8 +432,7 @@ def main():
     initialize()
     precheck()
     sync_code()
-    if config["PATCH"]["patch"] == "True":
-        make_patch()
+    test_patch()
     compile()
 
 
