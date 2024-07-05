@@ -5,6 +5,11 @@ import subprocess, multiprocessing
 import glob, git, shutil, re
 
 
+def restore():
+    local_repo.git.reset("--hard", base_commit)
+    logging.info(f"reset to {base_commit}")
+
+
 def exit_with_msg(msg, code):
     logging.error(msg)
     exit(code)
@@ -38,7 +43,7 @@ def exec_shell_cmd(cmd):
 def sync_kernel():
     logging.info("sync kernel code begin")
 
-    global compile_path, local_repo, track_branch
+    global compile_path, local_repo, track_branch, local_repo_path, base_commit
     tracking = False
     repo_url = config["REPO"]["url"]
     remote_branch = config["REPO"]["branch"]
@@ -70,7 +75,7 @@ def sync_kernel():
 
     # remove unstaged files which would block checkout
     local_repo.git.reset("--hard")
-
+    
     # find if there's a local branch which is tracking remote repo
     for track_branch in local_repo.branches:
         if (
@@ -99,6 +104,9 @@ def sync_kernel():
             else:
                 logging.error(f"Error : {e}")
                 raise e
+
+    # store current commit, will reset to this commit in the end
+    base_commit = local_repo.head.commit.hexsha
 
     os.chdir(workspace)
     logging.info(f"sync kernel code finished, current tag: {tag}")
@@ -155,33 +163,37 @@ def build_boot_image(kernel_components):
     except Exception as e:
         exit_with_msg(str(e.args[0]), e.args[1])
 
-def test_patch():
+def am_patch():
     if config["PATCH"]["patch"] != "True":
         return
     logging.debug("patch working.....")
 
+    # get patches file
     patch_build_dir = config["PATCH"]["patch_build_dir"]
     patches_pattern = f"{patch_build_dir}./*.patch"
     patch_files = glob.glob(patches_pattern)
     # sort patches in ascending order
     patch_files = sorted(patch_files)
-    
+    if len(patch_files) < 1:
+        logging.error("Not found the patches. Please check the patch_build_dir")
+        raise FileNotFoundError("Not found the patches.")
+
     # check patches
-    logging.debug("patch checking..")
+    logging.info(f"patch base commit is {base_commit}")
     for patch_file in patch_files:
         try:
-            local_repo.git.apply('--check', patch_file)
-        except git.exc.GitCommandError as e:
+            subprocess.run(["git", "am", patch_file], cwd=local_repo_path, capture_output=True, text=True, check=True)
+        except subprocess.CalledProcessError as e:
             logging.error(f"Error is {e}\n")
-            local_repo.git.reset("--hard")
+            if "patch failed" in e.stderr or "Patch failed at" in e.stdout:
+                logging.error(e.stderr.replace('\n','    '))
+                logging.error(f"Git am operation aborted and changes reverted")
+                subprocess.run(["git", "am", "--abort"], cwd=local_repo_path)
+            local_repo.git.reset("--hard", base_commit)
             raise e
-        local_repo.git.apply(patch_file)
         logging.info(f"{patch_file} applies to {track_branch}")
-        
-    if config["PATCH"]["checkwithreset"] == 'True':
-        local_repo.git.reset("--hard")
-    logging.info("patch check down")
 
+    logging.info(f"patches apply down")
 
 def install_esdk():
     logging.info("Install esdk")
@@ -432,8 +444,9 @@ def main():
     initialize()
     precheck()
     sync_code()
-    test_patch()
+    am_patch()
     compile()
+    restore()
 
 
 if __name__ == "__main__":
@@ -442,6 +455,7 @@ if __name__ == "__main__":
         logging.info("slave success!\n\n")
     except:
         logging.info("slave fail!\n\n")
+        restore()
         print(
             "Please refer to https://github.qualcomm.com/yijiyang/linux-sheepdog/blob/main/README.md for instructions"
         )

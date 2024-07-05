@@ -2,7 +2,7 @@
 * The principle and how-to can be found on [this](https://confluence.qualcomm.com/confluence/display/LK/Linux+Kernel+Test+Tool) confluence page.
 * This tool was designed to verify upstream kernels on different physical platforms.
 * It can implement syncing, making patches, compiling, flashing and verification automatically.
-* Two parts of this tool can be used either unified or seperately.
+* Two parts of this tool can be used either unified or separately.
 
 
 # Terms
@@ -129,26 +129,40 @@ For example, in the `template-master.ini`:
 
 ## The slave side
 ### REPO
+example is [here](#set-the-target-repo)
 * **url**: the URL of the target repository going to be test
+* **branch**: the remote branch
+* **linux-next**: the tracking remote
+* **tag**: the commit want to checkout. If empty, sheepdog will find the nearest tag to checkout.
+
+✏️ If `branch` isn't be tracked by local branch, sheepdog will create a branch `{linux-next}-{branch}` to track.
+
+### DEVICE
+* **arch**: the kernel arch. It's same with `ARCH` option when compiling kernel using 'make'.
+
+* **name**: the name of the dtb file used
+* **vendor**: the directory where the target dtb file exists. Will be used like `arch/arm64/boot/dts/{vendor}/`
 * **cmdline**: the kernel command line for this test
+* **ramdisk_url**: the url of ramdisk 
+
 ### TOOLS
-* **toolchain_prefix**: the prefix of cross compiling tools. It's same with CROSS_COMPILE option * when compiling kernel using 'make'.
+* **toolchain_prefix**: the prefix of cross compiling tools. It's same with `CROSS_COMPILE` option when compiling kernel using 'make'.
 * **mkbootimg**: the path of tool 'mkbootimg'.
 ### KERNEL_OPTION
 * **kernel**: Kconfig options that should be compiled into kernel during this test.
 * **module**: Kconfig options that should be compiled as module during this test.
 * **close**: Kconfig options that shouldn't be compiled during this test.
 ### PATCH
-If you want to check your patches correction, you can use this configuration. 
 
-More information and example is [here](#make-and-test-patch).
-* **patch**: control generate patch or not. `True` enable, other disable.
+If you want to check your patches correction and apply them to build, you can use this configuration. 
 
+* **patch**: control generate patch or not. `True` enable, other disable. 
 * **patch_build_dir**: should be absolute path
 
-* **checkwithreset**: control if or not reset to clean work tree after apply patches. `True` enable, other disable. 
-  > This configuration optin will affect subsequent compilations. If you need to include the contents of the patch in the compilation, you need to enable this option; otherwise, disable it.
- 
+📝sheepdog will reset repository to its initial state in the end, so you will find nothing happened in repository after execute sheepdog-slaver.py. But don't be astonished, you can find patch infomation in log file.
+
+More information and example is [here](#make-and-test-patch).
+
 # Integrated Execution
 * It would trigger sheepdog-slave.py to sync and compile.
 * Syncing code usually time consuming. If there's an existing repo in compilation environment * cloned before, just filled out 'local_repo' in REMOTE section of the config file.
@@ -179,6 +193,19 @@ More information and example is [here](#make-and-test-patch).
 
 # Example
 
+## set the target repo
+If want to work on the linux kernel remote branch `linux-next/master`
+```ini
+# slave.ini
+[REPO]
+url = https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+branch = master
+name = linux-next
+tag =
+```
+Because `tag` is empty, sheepdog will checkout to the nearest tag.
+
+
 ## make and test patch
 
 1. example git work tree:
@@ -187,7 +214,7 @@ To simulate a real situation, use the `main` branch as the tracking remote branc
 * main is tracking remote `linux-sheepdogtest`
 * work is developers develop branch
 
-⚠️ **sheepdog firstly find the tracking branch `main` and then checkout to it. After that all commands will execute with the `HEAD` in this `main` commit. Expecially will apply patches to `main` one by one to test patches correction.**
+⚠️ **sheepdog firstly find the tracking branch `main` and then checkout to it. After that all commands will execute with the `HEAD` in this `main` commit. Especially will apply patches to `main` one by one to test patches correction.**
 
 ![worktree](./doc/img/patch-worktree.png)
 ![remoteshow](./doc/img/patch-remoteshow.png)
@@ -209,24 +236,17 @@ tag =
 
 [PATCH]
 patch = True
-patch_build_dir = /local/mnt/workspace/test/sheepdog-patchtest/
-checkwithreset = True
+patch_build_dir = /local/mnt/workspace/test/sheepdog-patchtest/patches/
 ```
-I made two patches from `main` to `work` to display the process. If you have more than one patch, you should ensure the dependency order of the patches by sorting the names of the patches in **ascending order** yourself.
+There are two patches from `main` to `work` to display the process. If you have more than one patch, you should ensure the dependency order of the patches by sorting the names of the patches in **ascending order** yourself.
 
 ![patches](./doc/img/patch-patches.png)
 
 Such as we have patches from `work` to `main`(`{patch_build_dir}./0001-work1.patch` and `{patch_build_dir}./0002-work2.patch`).
 
-After run sheepdog-slever.py, `{patch_build_dir}./0001-work1.patch` and `{patch_build_dir}./0002-work2.patch` will run like below commands
+After run sheepdog-slaver.py, `{patch_build_dir}./0001-work1.patch` and `{patch_build_dir}./0002-work2.patch` will run like below commands
 ```bash
-git apply --check {patch_build_dir}./0001-work1.patch
-git apply {patch_build_dir}./0001-work1.patch
-
-git apply --check {patch_build_dir}./0002-work2.patch
-git apply {patch_build_dir}./0002-work2.patch
-
-# because `checkwithreset` is `True`
-git reset --hard
+git am {patch_build_dir}./0001-work1.patch
+git am {patch_build_dir}./0002-work2.patch
 ```
 
