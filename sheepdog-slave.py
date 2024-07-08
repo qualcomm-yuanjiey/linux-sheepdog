@@ -6,8 +6,11 @@ import glob, git, shutil, re
 
 
 def restore():
-    local_repo.git.reset("--hard", base_commit)
-    logging.info(f"reset to {base_commit}")
+    try:
+        local_repo.git.reset("--hard", base_commit)
+        logging.info(f"reset to {base_commit}")
+    except NameError:
+        logging.error("local_repo is not exist")
 
 
 def exit_with_msg(msg, code):
@@ -396,8 +399,12 @@ def parse_config():
     config_file = args.config
     if config_file is None:
         config_file = os.path.dirname(__file__) + "/template-slave.ini"
+        logging.info("Using the default config tempelete-slave.ini")
 
     config_file = os.path.abspath(config_file)
+    if not os.path.exists(config_file):
+        logging.error(f"Don't get the config file{config_file}")
+        raise FileNotFoundError(f"File {config_file} not found")
     config = configparser.ConfigParser()
     config.read(config_file)
 
