@@ -5,7 +5,10 @@ import subprocess, multiprocessing
 import glob, git, shutil, re
 
 
-def restore():
+def reset2basecommit(success):
+    if success and config["RESET"]["reset2basecommit"] != "True":
+        return
+
     try:
         local_repo.git.reset("--hard", base_commit)
         logging.info(f"reset to {base_commit}")
@@ -185,15 +188,15 @@ def am_patch():
     logging.info(f"patch base commit is {base_commit}")
     for patch_file in patch_files:
         try:
-            subprocess.run(["git", "am", patch_file], cwd=local_repo_path, capture_output=True, text=True, check=True)
-        except subprocess.CalledProcessError as e:
+            local_repo.git.am(patch_file)
+        except git.exc.GitCommandError as e:
             logging.error(f"Error is {e}\n")
             if "patch failed" in e.stderr or "Patch failed at" in e.stdout:
                 logging.error(e.stderr.replace('\n','    '))
                 logging.error(f"Git am operation aborted and changes reverted")
-                subprocess.run(["git", "am", "--abort"], cwd=local_repo_path)
-            local_repo.git.reset("--hard", base_commit)
+                local_repo.git.am("--abort")
             raise e
+        
         logging.info(f"{patch_file} applies to {track_branch}")
 
     logging.info(f"patches apply down")
@@ -351,6 +354,7 @@ def compile():
     options_close = kernel_options["close"].split()
 
     defconfig = f"{compile_path}/arch/{arch}/configs/defconfig"
+    logging.debug(f"defconfig is {defconfig}")
 
     kernel_components = {
         "kernel_image": f"{compile_path}/arch/{arch}/boot/Image",
@@ -453,16 +457,16 @@ def main():
     sync_code()
     am_patch()
     compile()
-    restore()
 
 
 if __name__ == "__main__":
     try:
         main()
+        reset2basecommit(True)
         logging.info("slave success!\n\n")
     except:
+        reset2basecommit(False)
         logging.info("slave fail!\n\n")
-        restore()
         print(
             "Please refer to https://github.qualcomm.com/yijiyang/linux-sheepdog/blob/main/README.md for instructions"
         )
