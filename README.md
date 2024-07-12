@@ -159,7 +159,7 @@ If you want to check your patches correction and apply them to build, you can us
 * **patch**: control generate patch or not. `True` enable, other disable. 
 * **patch_build_dir**: should be absolute path
 
-📝sheepdog will reset repository to its initial state in the end, so you will find nothing happened in repository after execute sheepdog-slaver.py. But don't be astonished, you can find patch infomation in log file.
+📝sheepdog will checkout to its initial commit if failed. If success, sheepdog will keep patch commit in the work tree. If you want to test patches again you should reset the work tree by yourself.
 
 More information and example is [here](#make-and-test-patch).
 
