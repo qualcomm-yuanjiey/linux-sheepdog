@@ -244,7 +244,7 @@ There are two patches from `main` to `work` to display the process. If you have 
 
 Such as we have patches from `work` to `main`(`{patch_build_dir}./0001-work1.patch` and `{patch_build_dir}./0002-work2.patch`).
 
-After run sheepdog-slaver.py, `{patch_build_dir}./0001-work1.patch` and `{patch_build_dir}./0002-work2.patch` will run like below commands
+After run sheepdog-slave.py, `{patch_build_dir}./0001-work1.patch` and `{patch_build_dir}./0002-work2.patch` will run like below commands
 ```bash
 git am {patch_build_dir}./0001-work1.patch
 git am {patch_build_dir}./0002-work2.patch
