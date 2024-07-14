@@ -156,8 +156,7 @@ example is [here](#set-the-target-repo)
 
 If you want to check your patches correction and apply them to build, you can use this configuration. 
 
-* **patch**: control generate patch or not. `True` enable, other disable. 
-* **patch_build_dir**: should be absolute path
+* **patch_build_dir**: The absolute path where patches exist. If you don't need apply patch, just keep this option empty.
 
 📝sheepdog will checkout to its initial commit if failed. If success, sheepdog will keep patch commit in the work tree. If you want to test patches again you should reset the work tree by yourself.
 
@@ -235,7 +234,6 @@ tag =
 ...
 
 [PATCH]
-patch = True
 patch_build_dir = /local/mnt/workspace/test/sheepdog-patchtest/patches/
 ```
 There are two patches from `main` to `work` to display the process. If you have more than one patch, you should ensure the dependency order of the patches by sorting the names of the patches in **ascending order** yourself.

@@ -167,7 +167,7 @@ def build_boot_image(kernel_components):
         exit_with_msg(str(e.args[0]), e.args[1])
 
 def am_patch():
-    if config["PATCH"]["patch"] != "True":
+    if config["PATCH"]["patch_build_dir"] == '':
         return
     logging.debug("patch working.....")
 
@@ -175,8 +175,6 @@ def am_patch():
     patch_build_dir = config["PATCH"]["patch_build_dir"]
     patches_pattern = f"{patch_build_dir}./*.patch"
     patch_files = glob.glob(patches_pattern)
-    # sort patches in ascending order
-    patch_files = sorted(patch_files)
     if len(patch_files) < 1:
         logging.error("Not found the patches. Please check the patch_build_dir")
         raise FileNotFoundError("Not found the patches.")
