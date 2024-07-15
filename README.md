@@ -156,7 +156,7 @@ example is [here](#set-the-target-repo)
 
 If you want to check your patches correction and apply them to build, you can use this configuration. 
 
-* **patch_build_dir**: The absolute path where patches exist. If you don't need apply patch, just keep this option empty.
+* **patch_dir**: The absolute path where patches exist. If you don't need apply patch, just keep this option empty.
 
 📝sheepdog will checkout to its initial commit if failed. If success, sheepdog will keep patch commit in the work tree. If you want to test patches again you should reset the work tree by yourself.
 
@@ -234,17 +234,17 @@ tag =
 ...
 
 [PATCH]
-patch_build_dir = /local/mnt/workspace/test/sheepdog-patchtest/patches/
+patch_dir = /local/mnt/workspace/test/sheepdog-patchtest/patches/
 ```
 There are two patches from `main` to `work` to display the process. If you have more than one patch, you should ensure the dependency order of the patches by sorting the names of the patches in **ascending order** yourself.
 
 ![patches](./doc/img/patch-patches.png)
 
-Such as we have patches from `work` to `main`(`{patch_build_dir}./0001-work1.patch` and `{patch_build_dir}./0002-work2.patch`).
+Such as we have patches from `work` to `main`(`{patch_dir}./0001-work1.patch` and `{patch_dir}./0002-work2.patch`).
 
-After run sheepdog-slave.py, `{patch_build_dir}./0001-work1.patch` and `{patch_build_dir}./0002-work2.patch` will run like below commands
+After run sheepdog-slave.py, `{patch_dir}./0001-work1.patch` and `{patch_dir}./0002-work2.patch` will run like below commands
 ```bash
-git am {patch_build_dir}./0001-work1.patch
-git am {patch_build_dir}./0002-work2.patch
+git am {patch_dir}./0001-work1.patch
+git am {patch_dir}./0002-work2.patch
 ```
 
