@@ -477,7 +477,6 @@ def main():
         build()
         trans_images()
 
-    # print("lyz===========lyz")
     parse_dts()
     flash_images()
     open_serial()

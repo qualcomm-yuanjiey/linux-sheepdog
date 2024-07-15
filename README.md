@@ -1,8 +1,8 @@
 # linux-sheepdog
 * The principle and how-to can be found on [this](https://confluence.qualcomm.com/confluence/display/LK/Linux+Kernel+Test+Tool) confluence page.
 * This tool was designed to verify upstream kernels on different physical platforms.
-* It can implement syncing, compiling, flashing and verification automatically.
-* Two parts of this tool can be used either unified or seperately.
+* It can implement syncing, making patches, compiling, flashing and verification automatically.
+* Two parts of this tool can be used either unified or separately.
 
 
 # Terms
@@ -105,21 +105,21 @@ git clone https://github.qualcomm.com/yijiyang/linux-sheepdog
 ## The master side
 For example, in the `template-master.ini`:
 ### REMOTE
-* addr: the IP address or  hostname of your compilation environment.
-* username: the username for login into the compilation environment.
-* slave_script & slave_config: the name of sheepdog-slave.py and template-slave.ini in your compilation environment.
-* local_repo: the path of an existing local repo (usually upstream kernel) in compilation environment if it has been downloaded before. Using this option would save much time on syncing code. **But unstaged changes in that repo will be discarded!**
-* remote_path: a path of the slave side where artifacts (the images) of sheepdog-slave stored.
+* **addr**: the IP address or  hostname of your compilation environment.
+* **username**: the username for login into the compilation environment.
+* **slave_script** & slave_config: the name of sheepdog-slave.py and template-slave.ini in your compilation environment.
+* **local_repo**: the path of an existing local repo (usually upstream kernel) in compilation environment if it has been downloaded before. Using this option would save much time on syncing code. **But unstaged changes in that repo will be discarded!**
+* **remote_path**: a path of the slave side where artifacts (the images) of sheepdog-slave stored.
 ### IMAGE
 ![config-image](./doc/img/config-image.png)
 
-* local_path: the path of the host to which these artifacts (the images) are going to be copied.
-* workspace: the path where you want the remote command to be executed in compilation environment.
-* names: images' names. If there're more than one image, each name can be separated with space.
+* **local_path**: the path of the host to which these artifacts (the images) are going to be copied.
+* **workspace**: the path where you want the remote command to be executed in compilation environment.
+* **names**: images' names. If there're more than one image, each name can be separated with space.
 ### DEVICE
-* com_port: get it from device manager.
+* **com_port**: get it from device manager.
 ![com_port](./doc/img/device-comport.png)
-* serial_num: get it from either adb or fastboot
+* **serial_num**: get it from either adb or fastboot
   ```bash
     adb devices -l
     fastboot devices -l
@@ -129,16 +129,38 @@ For example, in the `template-master.ini`:
 
 ## The slave side
 ### REPO
-* url: the URL of the target repository going to be test
-* cmdline: the kernel command line for this test
-### TOOLS
-* toolchain_prefix: the prefix of cross compiling tools. It's same with CROSS_COMPILE option * when compiling kernel using 'make'.
-* mkbootimg: the path of tool 'mkbootimg'.
-### KERNEL_OPTION
-* kernel: Kconfig options that should be compiled into kernel during this test.
-* module: Kconfig options that should be compiled as module during this test.
-* close: Kconfig options that shouldn't be compiled during this test.
+example is [here](#set-the-target-repo)
+* **url**: the URL of the target repository going to be test
+* **branch**: the remote branch
+* **linux-next**: the tracking remote
+* **tag**: the commit want to checkout. If empty, sheepdog will find the nearest tag to checkout.
 
+✏️ If `branch` isn't be tracked by local branch, sheepdog will create a branch `{linux-next}-{branch}` to track.
+
+### DEVICE
+* **arch**: the kernel arch. It's same with `ARCH` option when compiling kernel using 'make'.
+
+* **name**: the name of the dtb file used
+* **vendor**: the directory where the target dtb file exists. Will be used like `arch/arm64/boot/dts/{vendor}/`
+* **cmdline**: the kernel command line for this test
+* **ramdisk_url**: the url of ramdisk 
+
+### TOOLS
+* **toolchain_prefix**: the prefix of cross compiling tools. It's same with `CROSS_COMPILE` option when compiling kernel using 'make'.
+* **mkbootimg**: the path of tool 'mkbootimg'.
+### KERNEL_OPTION
+* **kernel**: Kconfig options that should be compiled into kernel during this test.
+* **module**: Kconfig options that should be compiled as module during this test.
+* **close**: Kconfig options that shouldn't be compiled during this test.
+### PATCH
+
+If you want to check your patches correction and apply them to build, you can use this configuration. 
+
+* **patch_dir**: The absolute path where patches exist. If you don't need apply patch, just keep this option empty.
+
+📝sheepdog will checkout to its initial commit if failed. If success, sheepdog will keep patch commit in the work tree. If you want to test patches again you should reset the work tree by yourself.
+
+More information and example is [here](#make-and-test-patch).
 
 # Integrated Execution
 * It would trigger sheepdog-slave.py to sync and compile.
@@ -166,3 +188,63 @@ For example, in the `template-master.ini`:
 * --config: specify config file's path of the master side. If this option not provided, it would search under the same path of the script.
 
 * --local: same meaning as 'local_repo' in 'REMOTE' section of template-master.ini which represents the path of an existing local repo (usually upstream kernel) in compilation environment if it has been downloaded before
+
+
+# Example
+
+## set the target repo
+If want to work on the linux kernel remote branch `linux-next/master`
+```ini
+# slave.ini
+[REPO]
+url = https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+branch = master
+name = linux-next
+tag =
+```
+Because `tag` is empty, sheepdog will checkout to the nearest tag.
+
+
+## make and test patch
+
+1. example git work tree:
+
+To simulate a real situation, use the `main` branch as the tracking remote branch, and the `work` branch as the actual working branch.
+* main is tracking remote `linux-sheepdogtest`
+* work is developers develop branch
+
+⚠️ **sheepdog firstly find the tracking branch `main` and then checkout to it. After that all commands will execute with the `HEAD` in this `main` commit. Especially will apply patches to `main` one by one to test patches correction.**
+
+![worktree](./doc/img/patch-worktree.png)
+![remoteshow](./doc/img/patch-remoteshow.png)
+
+
+2. example check process
+
+```
+# ini file
+[REPO]
+url = git@github.qualcomm.com:yanzl/sheepdog-patchtest.git
+# tracking branch
+branch = main
+# tracking remote
+name = sheepdog-patchtest
+tag =
+
+...
+
+[PATCH]
+patch_dir = /local/mnt/workspace/test/sheepdog-patchtest/patches/
+```
+There are two patches from `main` to `work` to display the process. If you have more than one patch, you should ensure the dependency order of the patches by sorting the names of the patches in **ascending order** yourself.
+
+![patches](./doc/img/patch-patches.png)
+
+Such as we have patches from `work` to `main`(`{patch_dir}./0001-work1.patch` and `{patch_dir}./0002-work2.patch`).
+
+After run sheepdog-slave.py, `{patch_dir}./0001-work1.patch` and `{patch_dir}./0002-work2.patch` will run like below commands
+```bash
+git am {patch_dir}./0001-work1.patch
+git am {patch_dir}./0002-work2.patch
+```
+

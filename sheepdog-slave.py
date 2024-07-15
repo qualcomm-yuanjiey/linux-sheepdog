@@ -5,6 +5,14 @@ import subprocess, multiprocessing
 import glob, git, shutil, re
 
 
+def back2basecommit():
+    try:
+        local_repo.git.checkout(base_commit)
+        logging.info(f"checkout to {base_commit}")
+    except NameError:
+        logging.error("local_repo is not exist")
+
+
 def exit_with_msg(msg, code):
     logging.error(msg)
     exit(code)
@@ -38,7 +46,7 @@ def exec_shell_cmd(cmd):
 def sync_kernel():
     logging.info("sync kernel code begin")
 
-    global compile_path
+    global compile_path, local_repo, track_branch, local_repo_path, base_commit
     tracking = False
     repo_url = config["REPO"]["url"]
     remote_branch = config["REPO"]["branch"]
@@ -49,48 +57,59 @@ def sync_kernel():
 
     if local_repo_path != None:
         local_repo_path = os.path.abspath(local_repo_path)
-        repo = git.Repo(path=local_repo_path)
+        local_repo = git.Repo(path=local_repo_path)
     else:
         local_repo_path = f"{workspace}/{repo_name}"
-        repo = git.Repo.clone_from(repo_url, local_repo_path)
+        local_repo = git.Repo.clone_from(repo_url, local_repo_path)
 
-    compile_path = repo.working_dir
-    os.chdir(repo.working_dir)
+    compile_path = local_repo.working_dir
+    os.chdir(local_repo.working_dir)
 
-    for remote in repo.remotes:
+    for remote in local_repo.remotes:
         if remote.url == repo_url:
             remote_exist = True
             break
 
     # use repo name as remote name
     if not remote_exist:
-        remote = repo.create_remote(repo_name, repo_url)
+        remote = local_repo.create_remote(repo_name, repo_url)
     else:
         repo_name = remote.name
 
     # remove unstaged files which would block checkout
-    repo.git.reset("--hard")
-
+    local_repo.git.reset("--hard")
+    
     # find if there's a local branch which is tracking remote repo
-    for branch in repo.branches:
+    for track_branch in local_repo.branches:
         if (
-            branch.tracking_branch() != None
-            and branch.tracking_branch().name == f"{repo_name}/{remote_branch}"
+            track_branch.tracking_branch() != None
+            and track_branch.tracking_branch().name == f"{repo_name}/{remote_branch}"
         ):
             tracking = True
             break
 
     if not tracking:
-        branch = repo.create_head(f"{repo_name}-{remote_branch}")
-        branch.set_tracking_branch(remote.refs[remote_branch])
-    branch.checkout()
+        track_branch = local_repo.create_head(f"{repo_name}-{remote_branch}")
+        track_branch.set_tracking_branch(remote.refs[remote_branch])
+    track_branch.checkout()
 
-    repo.git.fetch(remote, "--tags")
+    local_repo.git.fetch(remote, "--tags")
     remote.pull(rebase=True)
     if len(tag) != 0:
         exec_shell_cmd(f"git checkout {tag}")
     else:
-        tag = repo.git.describe(tags=True, abbrev=0)
+        try:
+            tag = local_repo.git.describe(tags=True, abbrev=0)
+        except git.exc.GitCommandError as e:
+            if "No names found, cannot describe anything" in str(e):
+                logging.warning("No tags found in the repository")
+                tag = "no tags"
+            else:
+                logging.error(f"Error : {e}")
+                raise e
+
+    # store current commit, will reset to this commit in the end
+    base_commit = local_repo.head.commit.hexsha
 
     os.chdir(workspace)
     logging.info(f"sync kernel code finished, current tag: {tag}")
@@ -147,6 +166,35 @@ def build_boot_image(kernel_components):
     except Exception as e:
         exit_with_msg(str(e.args[0]), e.args[1])
 
+def am_patch():
+    if config["PATCH"]["patch_dir"] == '':
+        return
+    logging.debug("patch working.....")
+
+    # get patches file
+    patch_dir = config["PATCH"]["patch_dir"]
+    patches_pattern = f"{patch_dir}./*.patch"
+    patch_files = glob.glob(patches_pattern)
+    if len(patch_files) < 1:
+        logging.error("Not found the patches. Please check the patch_dir")
+        raise FileNotFoundError("Not found the patches.")
+
+    # check patches
+    logging.info(f"patch base commit is {base_commit}")
+    for patch_file in patch_files:
+        try:
+            local_repo.git.am(patch_file)
+        except git.exc.GitCommandError as e:
+            logging.error(f"Error is {e}\n")
+            if "patch failed" in e.stderr or "Patch failed at" in e.stdout:
+                logging.error(e.stderr.replace('\n','    '))
+                logging.error(f"Git am operation aborted and changes reverted")
+                local_repo.git.am("--abort")
+            raise e
+        
+        logging.info(f"{patch_file} applies to {track_branch}")
+
+    logging.info(f"patches apply down")
 
 def install_esdk():
     logging.info("Install esdk")
@@ -301,6 +349,7 @@ def compile():
     options_close = kernel_options["close"].split()
 
     defconfig = f"{compile_path}/arch/{arch}/configs/defconfig"
+    logging.debug(f"defconfig is {defconfig}")
 
     kernel_components = {
         "kernel_image": f"{compile_path}/arch/{arch}/boot/Image",
@@ -349,8 +398,12 @@ def parse_config():
     config_file = args.config
     if config_file is None:
         config_file = os.path.dirname(__file__) + "/template-slave.ini"
+        logging.info("Using the default config tempelete-slave.ini")
 
     config_file = os.path.abspath(config_file)
+    if not os.path.exists(config_file):
+        logging.error(f"Don't get the config file{config_file}")
+        raise FileNotFoundError(f"File {config_file} not found")
     config = configparser.ConfigParser()
     config.read(config_file)
 
@@ -397,6 +450,7 @@ def main():
     initialize()
     precheck()
     sync_code()
+    am_patch()
     compile()
 
 
@@ -405,6 +459,7 @@ if __name__ == "__main__":
         main()
         logging.info("slave success!\n\n")
     except:
+        back2basecommit()
         logging.info("slave fail!\n\n")
         print(
             "Please refer to https://github.qualcomm.com/yijiyang/linux-sheepdog/blob/main/README.md for instructions"
