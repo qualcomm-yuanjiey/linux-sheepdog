@@ -147,6 +147,27 @@ def sync_code():
     sync_build_tool()
     install_esdk()
 
+def make_ramdisk(kernel_components):
+    ramdisk_url = config["DEVICE"]["ramdisk_url"]
+    try:
+        if not os.access('./clean_ramdisk.gz', os.F_OK):
+            exec_shell_cmd(f"wget -O ./clean_ramdisk.gz {ramdisk_url}")
+        shutil.copy("clean_ramdisk.gz", kernel_components['ramdisk'])
+
+        if os.path.exists(f'{compile_path}/modules_dir/lib/modules'):
+            os.chdir(f'{compile_path}/modules_dir')
+        else:
+            logging.warning(f'{compile_path}/modules_dir/lib/modules not exists')
+            logging.warning('skip package modules into ramdisk')
+            return
+        
+        cmd = f"find ./lib/modules | cpio -o -H newc -R +0:+0 | gzip -9 >> {kernel_components['ramdisk']}"
+        exec_shell_cmd(cmd)
+
+        os.chdir(f'{workspace}')
+    except Exception as e:
+        os.chdir(f'{workspace}')
+        exit_with_msg(str(e.args[0]), e.args[1])
 
 def build_boot_image(kernel_components):
     logging.info("build boot image")
@@ -335,7 +356,6 @@ def compile():
 
     arch = dev_info["arch"]
     dev_name = dev_info["name"]
-    ramdisk_url = dev_info["ramdisk_url"]
     vendor = dev_info["vendor"]
 
     toolchain_prefix = tools["toolchain_prefix"]
@@ -372,12 +392,10 @@ def compile():
         exec_shell_cmd(
             f"make {make_options} modules_install INSTALL_MOD_PATH=./modules_dir INSTALL_MOD_STRIP=1"
         )
-
-        if not os.access(kernel_components["ramdisk"], os.F_OK):
-            exec_shell_cmd(f"wget -O {kernel_components['ramdisk']} {ramdisk_url}")
     except Exception as e:
         exit_with_msg(str(e.args[0]), e.args[1])
-
+    
+    make_ramdisk(kernel_components)
     build_boot_image(kernel_components)
     install_esdk()
     build_efi_bin(kernel_components)
