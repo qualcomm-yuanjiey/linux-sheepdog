@@ -161,7 +161,7 @@ def make_ramdisk(kernel_components):
             logging.warning('skip package modules into ramdisk')
             return
         
-        cmd = f"find ./lib/modules | cpio -o -H newc -R +0:+0 | gzip -9 >> {kernel_components['ramdisk']}"
+        cmd = f"find ./lib/modules | cpio -o -H newc -R +0:+0 | pigz -9 >> {kernel_components['ramdisk']}"
         exec_shell_cmd(cmd)
 
         os.chdir(f'{workspace}')
