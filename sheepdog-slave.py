@@ -194,7 +194,18 @@ def am_patch():
 
     # get patches file
     patch_dir = config["PATCH"]["patch_dir"]
-    patches_pattern = f"{patch_dir}./*.patch"
+    if os.path.isabs(f"{patch_dir}"):
+        patch_dir = os.path.normpath(f"{patch_dir}")
+    else:
+        patch_dir = f"{workspace}/{patch_dir}"
+        patch_dir = os.path.abspath(patch_dir)
+    
+    if not os.path.exists(patch_dir):
+        logging.error("Wrong patch directory path. Please check patch_dir option in ini file")
+        raise FileNotFoundError("Not found patch directory")
+    logging.debug(f"patches dir is {patch_dir}")
+
+    patches_pattern = f"{patch_dir}/*.patch"
     patch_files = glob.glob(patches_pattern)
     if len(patch_files) < 1:
         logging.error("Not found the patches. Please check the patch_dir")
