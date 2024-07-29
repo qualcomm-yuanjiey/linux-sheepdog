@@ -5,9 +5,9 @@ import subprocess, multiprocessing
 import glob, git, shutil, re
 
 
-def back2basecommit():
+def reset2basecommit():
     try:
-        local_repo.git.checkout(base_commit)
+        local_repo.git.reset("--hard", base_commit)
         logging.info(f"checkout to {base_commit}")
     except NameError:
         logging.error("local_repo is not exist")
@@ -486,9 +486,10 @@ def main():
 if __name__ == "__main__":
     try:
         main()
+        reset2basecommit()
         logging.info("slave success!\n\n")
     except:
-        back2basecommit()
+        reset2basecommit()
         logging.info("slave fail!\n\n")
         print(
             "Please refer to https://github.qualcomm.com/yijiyang/linux-sheepdog/blob/main/README.md for instructions"
