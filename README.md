@@ -110,7 +110,10 @@ For example, in the `template-master.ini`:
 * **addr**: the IP address or  hostname of your compilation environment.
 * **username**: the username for login into the compilation environment.
 * **slave_script** & slave_config: the name of sheepdog-slave.py and template-slave.ini in your compilation environment.
-* **local_repo**: the path of an existing local repo (usually upstream kernel) in compilation environment if it has been downloaded before. Using this option would save much time on syncing code. **But unstaged changes in that repo will be discarded!**
+* **local_repo**: the path of an existing local repo (usually upstream kernel) in compilation environment if it has been downloaded before. Using this option would save much time on syncing code. 
+
+  ⚠️**But unstaged changes in that repo will be discarded!**
+  If path not exist, will clone repo(slave.ini set the url) to this path.
 * **remote_path**: a path of the slave side where artifacts (the images) of sheepdog-slave stored.
 ### IMAGE
 ![config-image](./doc/img/config-image.png)
@@ -192,6 +195,8 @@ More information and example is [here](#make-and-test-patch).
 * --config: specify config file's path of the master side. If this option not provided, it would search under the same path of the script.
 
 * --local: same meaning as 'local_repo' in 'REMOTE' section of template-master.ini which represents the path of an existing local repo (usually upstream kernel) in compilation environment if it has been downloaded before
+⚠️ If path not exist, will clone repo(slave.ini set the url) to this path.
+
 
 
 # Example

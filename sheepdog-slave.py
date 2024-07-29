@@ -10,7 +10,7 @@ def reset2basecommit():
         local_repo.git.reset("--hard", base_commit)
         logging.info(f"checkout to {base_commit}")
     except NameError:
-        logging.error("local_repo is not exist")
+        logging.error("local_repo is not exist. But if failed before sync kernel code completes, you can ignore this error")
 
 
 def exit_with_msg(msg, code):
@@ -57,10 +57,18 @@ def sync_kernel():
 
     if local_repo_path != None:
         local_repo_path = os.path.abspath(local_repo_path)
-        local_repo = git.Repo(path=local_repo_path)
     else:
         local_repo_path = f"{workspace}/{repo_name}"
-        local_repo = git.Repo.clone_from(repo_url, local_repo_path)
+    
+    try:
+        if os.path.exists(local_repo_path):
+            local_repo = git.Repo(path=local_repo_path)
+        else:
+            logging.info(f"{local_repo_path} not exist.\n****Begin clone from {repo_url}****")
+            local_repo = git.Repo.clone_from(repo_url, local_repo_path)
+    except git.exc.InvalidGitRepositoryError as e:
+        logging.error(f"{local_repo_path} is exist but no git repository in it.")
+        raise e
 
     compile_path = local_repo.working_dir
     os.chdir(local_repo.working_dir)
