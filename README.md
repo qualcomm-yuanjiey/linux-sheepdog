@@ -161,7 +161,7 @@ example is [here](#set-the-target-repo)
 
 If you want to check your patches correction and apply them to build, you can use this configuration. 
 
-* **patch_dir**: The absolute path where patches exist. If you don't need apply patch, just keep this option empty.
+* **patch_dir**: The absolute path where patches exist. If you don't need apply patch, just keep this option empty. If you have multiple directories, you can just split these directories by spaces. Sheepdog will apply patches one directory at a time in sequence, so you need to ensure the correct order of the directories yourself.
 
 📝This option support absolute path and relative path based on the sheepdog directory.
 

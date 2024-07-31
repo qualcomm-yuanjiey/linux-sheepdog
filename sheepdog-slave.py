@@ -34,7 +34,7 @@ def exec_shell_cmd(cmd):
     out = result.stdout
 
     if ret_code == 0:
-        logging.info(out)
+        logging.debug(out)
     else:
         raise Exception(
             f"Error executing command {cmd}\nReturn code: ${ret_code}", ret_code
@@ -200,43 +200,45 @@ def build_boot_image(kernel_components):
 def am_patch():
     if config["PATCH"]["patch_dir"] == '':
         return
-    logging.debug("patch working.....")
+    logging.info("patch apply begin")
 
     # get patches file
-    patch_dir = config["PATCH"]["patch_dir"]
-    if os.path.isabs(f"{patch_dir}"):
-        patch_dir = os.path.normpath(f"{patch_dir}")
-    else:
-        patch_dir = f"{workspace}/{patch_dir}"
-        patch_dir = os.path.abspath(patch_dir)
-    
-    if not os.path.exists(patch_dir):
-        logging.error("Wrong patch directory path. Please check patch_dir option in ini file")
-        raise FileNotFoundError("Not found patch directory")
-    logging.debug(f"patches dir is {patch_dir}")
-
-    patches_pattern = f"{patch_dir}/*.patch"
-    patch_files = glob.glob(patches_pattern)
-    patch_files = sorted(patch_files)
-    
-    if len(patch_files) < 1:
-        logging.error("Not found the patches. Please check the patch_dir")
-        raise FileNotFoundError("Not found the patches.")
-
-    # check patches
-    logging.info(f"patch base commit is {base_commit}")
-    for patch_file in patch_files:
-        try:
-            local_repo.git.am(patch_file)
-        except git.exc.GitCommandError as e:
-            logging.error(f"Error is {e}\n")
-            if "patch failed" in e.stderr or "Patch failed at" in e.stdout:
-                logging.error(e.stderr.replace('\n','    '))
-                logging.error(f"Git am operation aborted and changes reverted")
-                local_repo.git.am("--abort")
-            raise e
+    patch_dirs = config["PATCH"]["patch_dir"].split()
+    for patch_dir in patch_dirs:
+        if os.path.isabs(f"{patch_dir}"):
+            patch_dir = os.path.normpath(f"{patch_dir}")
+        else:
+            patch_dir = f"{workspace}/{patch_dir}"
+            patch_dir = os.path.abspath(patch_dir)
         
-        logging.info(f"{patch_file} applies to {track_branch}")
+        if not os.path.exists(patch_dir):
+            logging.error("Wrong patch directory path. Please check patch_dir option in ini file")
+            raise FileNotFoundError("Not found patch directory")
+        logging.debug(f"patches dir is {patch_dir}")
+
+        patches_pattern = f"{patch_dir}/*.patch"
+        patch_files = glob.glob(patches_pattern)
+        patch_files = sorted(patch_files)
+        
+        if len(patch_files) < 1:
+            logging.error("Not found the patches. Please check the patch_dir")
+            raise FileNotFoundError("Not found the patches.")
+
+        # check patches
+        logging.debug(f"patch base commit is {base_commit}")
+        for patch_file in patch_files:
+            try:
+                local_repo.git.am(patch_file)
+            except git.exc.GitCommandError as e:
+                logging.error(f"Error is {e}\n")
+                if "patch failed" in e.stderr or "Patch failed at" in e.stdout:
+                    logging.error(e.stderr.replace('\n','    '))
+                    logging.error(f"Git am operation aborted and changes reverted")
+                    local_repo.git.am("--abort")
+                raise e
+            
+            logging.debug(f"{patch_file} applies to {track_branch}")
+        logging.info(f'patches in {patch_dir} are all applied down')
 
     logging.info(f"patches apply down")
 
@@ -422,7 +424,6 @@ def compile():
     build_boot_image(kernel_components)
     install_esdk()
     build_efi_bin(kernel_components)
-
 
 
 def precheck():
