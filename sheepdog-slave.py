@@ -162,16 +162,18 @@ def make_ramdisk(kernel_components):
             exec_shell_cmd(f"wget -O ./clean_ramdisk.gz {ramdisk_url}")
         shutil.copy("clean_ramdisk.gz", kernel_components['ramdisk'])
 
-        if os.path.exists(f'{compile_path}/modules_dir/lib/modules'):
+        modules_install_dir = f'{compile_path}/modules_dir/lib/modules'
+        if os.path.exists(modules_install_dir):
             os.chdir(f'{compile_path}/modules_dir')
         else:
-            logging.warning(f'{compile_path}/modules_dir/lib/modules not exists')
+            logging.warning(f'{modules_install_dir} not exists')
             logging.warning('skip package modules into ramdisk')
             return
         
         cmd = f"find ./lib/modules | cpio -o -H newc -R +0:+0 | pigz -9 >> {kernel_components['ramdisk']}"
         exec_shell_cmd(cmd)
 
+        shutil.rmtree(modules_install_dir)
         os.chdir(f'{workspace}')
     except Exception as e:
         os.chdir(f'{workspace}')
@@ -215,6 +217,8 @@ def am_patch():
 
     patches_pattern = f"{patch_dir}/*.patch"
     patch_files = glob.glob(patches_pattern)
+    patch_files = sorted(patch_files)
+    
     if len(patch_files) < 1:
         logging.error("Not found the patches. Please check the patch_dir")
         raise FileNotFoundError("Not found the patches.")
@@ -418,6 +422,7 @@ def compile():
     build_boot_image(kernel_components)
     install_esdk()
     build_efi_bin(kernel_components)
+
 
 
 def precheck():
