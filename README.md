@@ -85,8 +85,10 @@ sudo apt install diffstat
 git clone https://github.qualcomm.com/yijiyang/linux-sheepdog
 ```
 * This tool consists of two parts. Files for master side including sheepdog-master.py and template-master.ini. While files for the slave side including sheepdog-slave.py and template-slave.ini.
+
 ![files](./doc/img/download-files.png)
 * Tracking origin/main is recommended.
+
 ![recommend](./doc/img/download-branch_recommend.png)
 
 # Deployment
@@ -108,7 +110,10 @@ For example, in the `template-master.ini`:
 * **addr**: the IP address or  hostname of your compilation environment.
 * **username**: the username for login into the compilation environment.
 * **slave_script** & slave_config: the name of sheepdog-slave.py and template-slave.ini in your compilation environment.
-* **local_repo**: the path of an existing local repo (usually upstream kernel) in compilation environment if it has been downloaded before. Using this option would save much time on syncing code. **But unstaged changes in that repo will be discarded!**
+* **local_repo**: the path of an existing local repo (usually upstream kernel) in compilation environment if it has been downloaded before. Using this option would save much time on syncing code. 
+
+  ⚠️**But unstaged changes in that repo will be discarded!**
+  If path not exist, will clone repo(slave.ini set the url) to this path.
 * **remote_path**: a path of the slave side where artifacts (the images) of sheepdog-slave stored.
 ### IMAGE
 ![config-image](./doc/img/config-image.png)
@@ -158,7 +163,9 @@ If you want to check your patches correction and apply them to build, you can us
 
 * **patch_dir**: The absolute path where patches exist. If you don't need apply patch, just keep this option empty.
 
-📝sheepdog will checkout to its initial commit if failed. If success, sheepdog will keep patch commit in the work tree. If you want to test patches again you should reset the work tree by yourself.
+📝This option support absolute path and relative path based on the sheepdog directory.
+
+⚠️sheepdog will reset repository to the commit before the patch was applied in the end, so you will find nothing happened in repository after execute sheepdog-slaver.py. But don't be astonished, you can find patch infomation in log file.
 
 More information and example is [here](#make-and-test-patch).
 
@@ -188,6 +195,8 @@ More information and example is [here](#make-and-test-patch).
 * --config: specify config file's path of the master side. If this option not provided, it would search under the same path of the script.
 
 * --local: same meaning as 'local_repo' in 'REMOTE' section of template-master.ini which represents the path of an existing local repo (usually upstream kernel) in compilation environment if it has been downloaded before
+⚠️ If path not exist, will clone repo(slave.ini set the url) to this path.
+
 
 
 # Example
@@ -234,17 +243,25 @@ tag =
 ...
 
 [PATCH]
+; If you want to use absolute path
 patch_dir = /local/mnt/workspace/test/sheepdog-patchtest/patches/
+; patch_dir = /local/mnt/workspace/test/sheepdog-patchtest/patches
+
+; If patch directory in {sheepdog_dir}/patches/, this option also can be
+; patch_dir = ./patches/
+; patch_dir = ./patches
+; patch_dir = patches/
+; patch_dir = patches
 ```
 There are two patches from `main` to `work` to display the process. If you have more than one patch, you should ensure the dependency order of the patches by sorting the names of the patches in **ascending order** yourself.
 
 ![patches](./doc/img/patch-patches.png)
 
-Such as we have patches from `work` to `main`(`{patch_dir}./0001-work1.patch` and `{patch_dir}./0002-work2.patch`).
+Such as we have patches from `work` to `main`(`{patch_dir}/0001-work1.patch` and `{patch_dir}/0002-work2.patch`).
 
-After run sheepdog-slave.py, `{patch_dir}./0001-work1.patch` and `{patch_dir}./0002-work2.patch` will run like below commands
+After run sheepdog-slave.py, `{patch_dir}/0001-work1.patch` and `{patch_dir}/0002-work2.patch` will run like below commands
 ```bash
-git am {patch_dir}./0001-work1.patch
-git am {patch_dir}./0002-work2.patch
+git am {patch_dir}/0001-work1.patch
+git am {patch_dir}/0002-work2.patch
 ```
 

@@ -5,12 +5,12 @@ import subprocess, multiprocessing
 import glob, git, shutil, re
 
 
-def back2basecommit():
+def reset2basecommit():
     try:
-        local_repo.git.checkout(base_commit)
+        local_repo.git.reset("--hard", base_commit)
         logging.info(f"checkout to {base_commit}")
     except NameError:
-        logging.error("local_repo is not exist")
+        logging.error("local_repo is not exist. But if failed before sync kernel code completes, you can ignore this error")
 
 
 def exit_with_msg(msg, code):
@@ -57,10 +57,18 @@ def sync_kernel():
 
     if local_repo_path != None:
         local_repo_path = os.path.abspath(local_repo_path)
-        local_repo = git.Repo(path=local_repo_path)
     else:
         local_repo_path = f"{workspace}/{repo_name}"
-        local_repo = git.Repo.clone_from(repo_url, local_repo_path)
+    
+    try:
+        if os.path.exists(local_repo_path):
+            local_repo = git.Repo(path=local_repo_path)
+        else:
+            logging.info(f"{local_repo_path} not exist.\n****Begin clone from {repo_url}****")
+            local_repo = git.Repo.clone_from(repo_url, local_repo_path)
+    except git.exc.InvalidGitRepositoryError as e:
+        logging.error(f"{local_repo_path} is exist but no git repository in it.")
+        raise e
 
     compile_path = local_repo.working_dir
     os.chdir(local_repo.working_dir)
@@ -194,7 +202,18 @@ def am_patch():
 
     # get patches file
     patch_dir = config["PATCH"]["patch_dir"]
-    patches_pattern = f"{patch_dir}./*.patch"
+    if os.path.isabs(f"{patch_dir}"):
+        patch_dir = os.path.normpath(f"{patch_dir}")
+    else:
+        patch_dir = f"{workspace}/{patch_dir}"
+        patch_dir = os.path.abspath(patch_dir)
+    
+    if not os.path.exists(patch_dir):
+        logging.error("Wrong patch directory path. Please check patch_dir option in ini file")
+        raise FileNotFoundError("Not found patch directory")
+    logging.debug(f"patches dir is {patch_dir}")
+
+    patches_pattern = f"{patch_dir}/*.patch"
     patch_files = glob.glob(patches_pattern)
     if len(patch_files) < 1:
         logging.error("Not found the patches. Please check the patch_dir")
@@ -475,9 +494,10 @@ def main():
 if __name__ == "__main__":
     try:
         main()
+        reset2basecommit()
         logging.info("slave success!\n\n")
     except:
-        back2basecommit()
+        reset2basecommit()
         logging.info("slave fail!\n\n")
         print(
             "Please refer to https://github.qualcomm.com/yijiyang/linux-sheepdog/blob/main/README.md for instructions"
