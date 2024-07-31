@@ -231,10 +231,8 @@ def am_patch():
                 local_repo.git.am(patch_file)
             except git.exc.GitCommandError as e:
                 logging.error(f"Error is {e}\n")
-                if "patch failed" in e.stderr or "Patch failed at" in e.stdout:
-                    logging.error(e.stderr.replace('\n','    '))
-                    logging.error(f"Git am operation aborted and changes reverted")
-                    local_repo.git.am("--abort")
+                logging.error(f"Git am operation aborted and changes reverted")
+                local_repo.git.am("--abort")
                 raise e
             
             logging.debug(f"{patch_file} applies to {track_branch}")
@@ -422,8 +420,9 @@ def compile():
     
     make_ramdisk(kernel_components)
     build_boot_image(kernel_components)
-    install_esdk()
-    build_efi_bin(kernel_components)
+    if kernel_options["make_efi_bin"] == 'True':
+        install_esdk()
+        build_efi_bin(kernel_components)
 
 
 def precheck():
