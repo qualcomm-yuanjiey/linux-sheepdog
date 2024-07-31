@@ -241,6 +241,9 @@ def am_patch():
     logging.info(f"patches apply down")
 
 def install_esdk():
+    if config["KERNEL_OPTION"]["make_efi_bin"] != 'True':
+        return
+
     logging.info("Install esdk")
 
     sdk_path = f"{tool_path}/esdk"
