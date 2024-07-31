@@ -157,6 +157,7 @@ example is [here](#set-the-target-repo)
 * **kernel**: Kconfig options that should be compiled into kernel during this test.
 * **module**: Kconfig options that should be compiled as module during this test.
 * **close**: Kconfig options that shouldn't be compiled during this test.
+* **make_efi_bin**: If this option is True, sheepdog will make efi.bin; otherwise, will not.
 ### PATCH
 
 If you want to check your patches correction and apply them to build, you can use this configuration. 
