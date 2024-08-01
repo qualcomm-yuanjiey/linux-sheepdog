@@ -196,6 +196,7 @@ def make_ramdisk(kernel_components):
             logging.warning('skip package modules into ramdisk')
             return
         
+        #Fixme: Because dash can't catch error in pipeline, so this cmd error can't catch correctly.
         cmd = f"find ./lib/modules | cpio -o -H newc -R +0:+0 | pigz -9 >> {kernel_components['ramdisk']}"
         exec_shell_cmd(cmd)
 
