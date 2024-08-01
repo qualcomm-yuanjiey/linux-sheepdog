@@ -1,0 +1,24 @@
+From 31d9acce32aed7849b4439ce577208f0a7239540 Mon Sep 17 00:00:00 2001
+From: Yijie Yang <quic_yijiyang@quicinc.com>
+Date: Thu, 25 Jul 2024 17:53:03 +0800
+Subject: [PATCH 29/30] tlmm update
+
+---
+ arch/arm64/boot/dts/qcom/qcs8300.dtsi | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/arch/arm64/boot/dts/qcom/qcs8300.dtsi b/arch/arm64/boot/dts/qcom/qcs8300.dtsi
+index e055676a7469..5cc342689c5a 100644
+--- a/arch/arm64/boot/dts/qcom/qcs8300.dtsi
++++ b/arch/arm64/boot/dts/qcom/qcs8300.dtsi
+@@ -920,6 +920,7 @@ tlmm: pinctrl@f000000 {
+ 			gpio-ranges = <&tlmm 0 0 133>;
+ 			interrupt-controller;
+ 			#interrupt-cells = <2>;
++			wakeup-parent = <&pdc>;
+ 
+ 			qup_uart7_default: qup-uart7-state {
+ 				/* TX, RX */
+-- 
+2.34.1
+

@@ -1,0 +1,28 @@
+From 0c6bdbdeb5201b38a23df95b4d73e49db4cf7d54 Mon Sep 17 00:00:00 2001
+From: Jingyi Wang <quic_jingyw@quicinc.com>
+Date: Thu, 20 Jun 2024 15:44:05 +0800
+Subject: [PATCH 01/30] dt-bindings: qcom,pdc: document QCS8300 Power Domain
+ Controller
+
+Document Power Domain Controller for QCS8300.
+
+Signed-off-by: Jingyi Wang <quic_jingyw@quicinc.com>
+---
+ .../devicetree/bindings/interrupt-controller/qcom,pdc.yaml       | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/Documentation/devicetree/bindings/interrupt-controller/qcom,pdc.yaml b/Documentation/devicetree/bindings/interrupt-controller/qcom,pdc.yaml
+index 985fa10abb99..acd6341e9f90 100644
+--- a/Documentation/devicetree/bindings/interrupt-controller/qcom,pdc.yaml
++++ b/Documentation/devicetree/bindings/interrupt-controller/qcom,pdc.yaml
+@@ -26,6 +26,7 @@ properties:
+   compatible:
+     items:
+       - enum:
++          - qcom,qcs8300-pdc
+           - qcom,qdu1000-pdc
+           - qcom,sa8775p-pdc
+           - qcom,sc7180-pdc
+-- 
+2.34.1
+

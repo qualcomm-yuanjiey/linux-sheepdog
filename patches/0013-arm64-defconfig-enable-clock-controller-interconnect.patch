@@ -1,0 +1,45 @@
+From e2f3711cc3e94361004b4e2467151557addd98f9 Mon Sep 17 00:00:00 2001
+From: Jingyi Wang <quic_jingyw@quicinc.com>
+Date: Tue, 25 Jun 2024 17:07:36 +0800
+Subject: [PATCH 13/30] arm64: defconfig: enable clock controller, interconnect
+ and pinctrl for QCS8300
+
+Enable clock controller, interrconnect and pinctrl for QCS8300.
+It needs to be built-in for UART to provide a console.
+
+Signed-off-by: Jingyi Wang <quic_jingyw@quicinc.com>
+---
+ arch/arm64/configs/defconfig | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
+index 7d32fca64996..bb3c8e154f82 100644
+--- a/arch/arm64/configs/defconfig
++++ b/arch/arm64/configs/defconfig
+@@ -604,6 +604,7 @@ CONFIG_PINCTRL_MSM8996=y
+ CONFIG_PINCTRL_MSM8998=y
+ CONFIG_PINCTRL_QCM2290=y
+ CONFIG_PINCTRL_QCS404=y
++CONFIG_PINCTRL_QCS8300=y
+ CONFIG_PINCTRL_QDF2XXX=y
+ CONFIG_PINCTRL_QDU1000=y
+ CONFIG_PINCTRL_SA8775P=y
+@@ -1312,6 +1313,7 @@ CONFIG_MSM_MMCC_8998=m
+ CONFIG_QCM_GCC_2290=y
+ CONFIG_QCM_DISPCC_2290=m
+ CONFIG_QCS_GCC_404=y
++CONFIG_QCS_GCC_8300=y
+ CONFIG_QDU_GCC_1000=y
+ CONFIG_SC_CAMCC_8280XP=m
+ CONFIG_SC_DISPCC_7280=m
+@@ -1613,6 +1615,7 @@ CONFIG_INTERCONNECT_QCOM_MSM8996=y
+ CONFIG_INTERCONNECT_QCOM_OSM_L3=m
+ CONFIG_INTERCONNECT_QCOM_QCM2290=y
+ CONFIG_INTERCONNECT_QCOM_QCS404=m
++CONFIG_INTERCONNECT_QCOM_QCS8300=y
+ CONFIG_INTERCONNECT_QCOM_QDU1000=y
+ CONFIG_INTERCONNECT_QCOM_SA8775P=y
+ CONFIG_INTERCONNECT_QCOM_SC7180=y
+-- 
+2.34.1
+

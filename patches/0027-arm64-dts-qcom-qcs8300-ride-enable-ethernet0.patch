@@ -1,0 +1,115 @@
+From 51a85267000829e545a9331fdc19ab81309759da Mon Sep 17 00:00:00 2001
+From: Yijie Yang <quic_yijiyang@quicinc.com>
+Date: Mon, 29 Jul 2024 14:07:04 +0800
+Subject: [PATCH 27/30] arm64: dts: qcom: qcs8300-ride: enable ethernet0
+
+Enable the first 1Gb ethernet port on qcs8300-ride development board.
+
+Signed-off-by: Yijie Yang <quic_yijiyang@quicinc.com>
+---
+ arch/arm64/boot/dts/qcom/qcs8300-ride.dts | 89 +++++++++++++++++++++++
+ 1 file changed, 89 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/qcom/qcs8300-ride.dts b/arch/arm64/boot/dts/qcom/qcs8300-ride.dts
+index a29464a97a41..590ee1aa3cac 100644
+--- a/arch/arm64/boot/dts/qcom/qcs8300-ride.dts
++++ b/arch/arm64/boot/dts/qcom/qcs8300-ride.dts
+@@ -195,6 +195,95 @@ vreg_l9c: ldo9 {
+ 	};
+ };
+ 
++&ethernet0 {
++	phy-mode = "sgmii";
++	phy-handle = <&sgmii_phy0>;
++
++	pinctrl-0 = <&ethernet0_default>;
++	pinctrl-names = "default";
++
++	snps,mtl-rx-config = <&mtl_rx_setup>;
++	snps,mtl-tx-config = <&mtl_tx_setup>;
++	snps,ps-speed = <1000>;
++
++	status = "okay";
++
++	mdio {
++		compatible = "snps,dwmac-mdio";
++		#address-cells = <1>;
++		#size-cells = <0>;
++
++		sgmii_phy0: phy@8 {
++			compatible = "ethernet-phy-id0141.0dd4";
++			reg = <0x8>;
++			device_type = "ethernet-phy";
++			interrupts-extended = <&tlmm 4 IRQ_TYPE_EDGE_FALLING>;
++			reset-gpios = <&tlmm 31 GPIO_ACTIVE_LOW>;
++			reset-assert-us = <11000>;
++			reset-deassert-us = <70000>;
++		};
++	};
++
++	mtl_rx_setup: rx-queues-config {
++		snps,rx-queues-to-use = <4>;
++		snps,rx-sched-sp;
++
++		queue0 {
++			snps,dcb-algorithm;
++			snps,map-to-dma-channel = <0x0>;
++			snps,route-up;
++			snps,priority = <0x1>;
++		};
++
++		queue1 {
++			snps,dcb-algorithm;
++			snps,map-to-dma-channel = <0x1>;
++			snps,route-ptp;
++		};
++
++		queue2 {
++			snps,avb-algorithm;
++			snps,map-to-dma-channel = <0x2>;
++			snps,route-avcp;
++		};
++
++		queue3 {
++			snps,avb-algorithm;
++			snps,map-to-dma-channel = <0x3>;
++			snps,priority = <0xc>;
++		};
++	};
++
++	mtl_tx_setup: tx-queues-config {
++		snps,tx-queues-to-use = <4>;
++		snps,tx-sched-sp;
++
++		queue0 {
++			snps,dcb-algorithm;
++		};
++
++		queue1 {
++			snps,dcb-algorithm;
++		};
++
++		queue2 {
++			snps,avb-algorithm;
++			snps,send_slope = <0x1000>;
++			snps,idle_slope = <0x1000>;
++			snps,high_credit = <0x3e800>;
++			snps,low_credit = <0xffc18000>;
++		};
++
++		queue3 {
++			snps,avb-algorithm;
++			snps,send_slope = <0x1000>;
++			snps,idle_slope = <0x1000>;
++			snps,high_credit = <0x3e800>;
++			snps,low_credit = <0xffc18000>;
++		};
++	};
++};
++
+ &tlmm {
+ 	ethernet0_default: ethernet0-default-state {
+ 		ethernet0_mdc: ethernet0-mdc-pins {
+-- 
+2.34.1
+
