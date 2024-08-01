@@ -1,0 +1,51 @@
+From 3948e0752a8da7c5870d6ea9256125c229049174 Mon Sep 17 00:00:00 2001
+From: Jingyi Wang <quic_jingyw@quicinc.com>
+Date: Thu, 25 Jul 2024 11:16:38 +0800
+Subject: [PATCH 14/30] pinctrl pdc addon
+
+Change-Id: I37bbca4443d9b73a8fe2f05116bb46274e9d48fe
+Signed-off-by: Jingyi Wang <quic_jingyw@quicinc.com>
+---
+ drivers/pinctrl/qcom/pinctrl-qcs8300.c | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
+
+diff --git a/drivers/pinctrl/qcom/pinctrl-qcs8300.c b/drivers/pinctrl/qcom/pinctrl-qcs8300.c
+index 5b7f263e6d5e..89badcf6715a 100644
+--- a/drivers/pinctrl/qcom/pinctrl-qcs8300.c
++++ b/drivers/pinctrl/qcom/pinctrl-qcs8300.c
+@@ -1207,6 +1207,23 @@ static const struct msm_pingroup qcs8300_groups[] = {
+ 	[133] = UFS_RESET(ufs_reset, 0x192000),
+ };
+ 
++static const struct msm_gpio_wakeirq_map qcs8300_pdc_map[] = {
++	{ 0, 169 },   { 1, 174 },   { 2, 221 },   { 3, 176 },   { 4, 171 },
++	{ 9, 198 },   { 10, 187 },  { 11, 188 },  { 13, 211 },  { 16, 203 },
++	{ 17, 213 },  { 18, 209 },  { 19, 201 },  { 20, 230 },  { 21, 231 },
++	{ 22, 175 },  { 23, 170 },  { 24, 232 },  { 28, 235 },  { 29, 216 },
++	{ 31, 208 },  { 32, 200 },  { 36, 212 },  { 37, 177 },  { 38, 178 },
++	{ 39, 184 },  { 40, 185 },  { 42, 186 },  { 44, 194 },  { 45, 173 },
++	{ 48, 195 },  { 51, 215 },  { 52, 197 },  { 53, 192 },  { 56, 193 },
++	{ 66, 238 },  { 67, 172 },  { 68, 182 },  { 69, 179 },  { 70, 181 },
++	{ 71, 202 },  { 72, 183 },  { 73, 189 },  { 74, 196 },  { 75, 190 },
++	{ 76, 191 },  { 77, 204 },  { 78, 206 },  { 79, 207 },  { 83, 214 },
++	{ 84, 205 },  { 87, 237 },  { 89, 225 },  { 90, 217 },  { 91, 218 },
++	{ 92, 226 },  { 93, 227 },  { 94, 228 },  { 95, 236 },  { 97, 199 },
++	{ 98, 229 },  { 99, 180 },  { 100, 220 }, { 101, 239 }, { 102, 219 },
++	{ 103, 233 }, { 104, 234 }, { 105, 223 }, { 129, 210 }, { 130, 222 },
++};
++
+ static const struct msm_pinctrl_soc_data qcs8300_pinctrl = {
+ 	.pins = qcs8300_pins,
+ 	.npins = ARRAY_SIZE(qcs8300_pins),
+@@ -1215,6 +1232,8 @@ static const struct msm_pinctrl_soc_data qcs8300_pinctrl = {
+ 	.groups = qcs8300_groups,
+ 	.ngroups = ARRAY_SIZE(qcs8300_groups),
+ 	.ngpios = 134,
++	.wakeirq_map = qcs8300_pdc_map,
++	.nwakeirq_map = ARRAY_SIZE(qcs8300_pdc_map),
+ };
+ 
+ static int qcs8300_pinctrl_probe(struct platform_device *pdev)
+-- 
+2.34.1
+

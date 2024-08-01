@@ -1,0 +1,31 @@
+From 3117ec802a32c20324fbb1af596e6d6e627afd6f Mon Sep 17 00:00:00 2001
+From: Yijie Yang <quic_yijiyang@quicinc.com>
+Date: Mon, 29 Jul 2024 14:01:03 +0800
+Subject: [PATCH 25/30] arm64: dts: qcom: qcs8300-ride: enable the SerDes PHY
+
+Enable the internal PHY on qcs8300-ride.
+
+Signed-off-by: Yijie Yang <quic_yijiyang@quicinc.com>
+---
+ arch/arm64/boot/dts/qcom/qcs8300-ride.dts | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/qcom/qcs8300-ride.dts b/arch/arm64/boot/dts/qcom/qcs8300-ride.dts
+index 8c70fa663f0b..3cc2b98a0594 100644
+--- a/arch/arm64/boot/dts/qcom/qcs8300-ride.dts
++++ b/arch/arm64/boot/dts/qcom/qcs8300-ride.dts
+@@ -198,6 +198,11 @@ &qupv3_id_0 {
+ 	status = "okay";
+ };
+ 
++&serdes0 {
++	phy-supply = <&vreg_l5a>;
++	status = "okay";
++};
++
+ &sleep_clk {
+ 	clock-frequency = <32764>;
+ };
+-- 
+2.34.1
+
