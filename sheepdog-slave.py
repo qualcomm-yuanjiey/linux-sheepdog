@@ -505,7 +505,7 @@ def parse_options():
 
 
 def env_init():
-    global workspace, tool_path 
+    global workspace, tool_path
     workspace = os.getcwd()
     tool_path = os.path.dirname(os.path.abspath(__file__))
 
