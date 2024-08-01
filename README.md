@@ -157,11 +157,12 @@ example is [here](#set-the-target-repo)
 * **kernel**: Kconfig options that should be compiled into kernel during this test.
 * **module**: Kconfig options that should be compiled as module during this test.
 * **close**: Kconfig options that shouldn't be compiled during this test.
+* **make_efi_bin**: If this option is True, sheepdog will make efi.bin; otherwise, will not.
 ### PATCH
 
 If you want to check your patches correction and apply them to build, you can use this configuration. 
 
-* **patch_dir**: The absolute path where patches exist. If you don't need apply patch, just keep this option empty.
+* **patch_dir**: The absolute path where patches exist. If you don't need apply patch, just keep this option empty. If you have multiple directories, you can just split these directories by spaces. Sheepdog will apply patches one directory at a time in sequence, so you need to ensure the correct order of the directories yourself.
 
 📝This option support absolute path and relative path based on the sheepdog directory.
 
