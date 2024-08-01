@@ -7,11 +7,14 @@ import glob, git, shutil, re
 
 def reset2basecommit():
     try:
-        local_repo.git.reset("--hard", base_commit)
         logging.info(f"checkout to {base_commit}")
     except NameError:
-        logging.error("local_repo is not exist. But if failed before sync kernel code completes, you can ignore this error")
+        return
 
+    try:
+        local_repo.git.reset("--hard", base_commit)
+    except:
+        logging.error("in the end reset to base commit error!")
 
 def exit_with_msg(msg, code):
     logging.error(msg)
@@ -32,10 +35,12 @@ def exec_shell_cmd(cmd):
     )
     ret_code = result.returncode
     out = result.stdout
+    err_out = result.stderr
 
     if ret_code == 0:
         logging.debug(out)
     else:
+        logging.error(err_out)
         raise Exception(
             f"Error executing command {cmd}\nReturn code: ${ret_code}", ret_code
         )
@@ -478,7 +483,7 @@ def parse_options():
 
 
 def env_init():
-    global workspace, tool_path
+    global workspace, tool_path 
     workspace = os.getcwd()
     tool_path = os.path.dirname(os.path.abspath(__file__))
 
