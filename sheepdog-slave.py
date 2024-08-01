@@ -7,11 +7,29 @@ import glob, git, shutil, re
 
 def reset2basecommit():
     try:
-        local_repo.git.reset("--hard", base_commit)
         logging.info(f"checkout to {base_commit}")
     except NameError:
-        logging.error("local_repo is not exist. But if failed before sync kernel code completes, you can ignore this error")
+        return
 
+    try:
+        local_repo.git.reset("--hard", base_commit)
+    except:
+        logging.error("in the end reset to base commit error!")
+
+def file_is_exist(file_path):
+    if len(file_path) == 0 or file_path == None:
+        return False
+
+    if os.path.isabs(f"{file_path}"):
+        file_path = os.path.normpath(f"{file_path}")
+    else:
+        file_path = f"{workspace}/{file_path}"
+        file_path = os.path.abspath(file_path)
+
+    if os.path.exists(file_path):
+        return True
+    else:
+        return False
 
 def exit_with_msg(msg, code):
     logging.error(msg)
@@ -32,10 +50,12 @@ def exec_shell_cmd(cmd):
     )
     ret_code = result.returncode
     out = result.stdout
+    err_out = result.stderr
 
     if ret_code == 0:
         logging.debug(out)
     else:
+        logging.error(err_out)
         raise Exception(
             f"Error executing command {cmd}\nReturn code: ${ret_code}", ret_code
         )
@@ -133,17 +153,23 @@ def sync_mkbootimg():
     target_branch = "KERNEL.PLATFORM.4.0"
     repo_name = "mkbootimg"
 
-    mkbootimg = os.path.abspath(config.get("TOOLS", "mkbootimg", fallback=None))
-    if mkbootimg != None and len(mkbootimg) != 0:
+    mkbootimg = config["TOOLS"]["mkbootimg"]
+    if file_is_exist(mkbootimg):
+        logging.info("mkbootimg.py is exsit. Skip")
         return
+
+    mkbootimg = f"{tool_path}/{repo_name}/mkbootimg.py"
+    logging.debug(f'mkbootimg path is {mkbootimg}')
+    if file_is_exist(mkbootimg):
+        logging.info("mkbootimg.py is exsit. Skip")
+        return
+
+    if file_is_exist(f"{tool_path}/{repo_name}"):
+        shutil.rmtree(f"{tool_path}/{repo_name}")
 
     repo = git.Repo.clone_from(url=mkbootimg_url, to_path=f"{tool_path}/{repo_name}")
     os.chdir(repo.working_dir)
-    local_branch = repo.create_head(target_branch)
-    local_branch.set_tracking_branch(repo.refs[f"origin/{target_branch}"])
-    repo.head.reference = local_branch
-
-    mkbootimg = f"{tool_path}/{repo_name}/mkbootimg.py"
+    repo.git.checkout(f"{target_branch}")
 
     os.chdir(workspace)
     logging.info("sync mkbootimg finished")
@@ -170,6 +196,7 @@ def make_ramdisk(kernel_components):
             logging.warning('skip package modules into ramdisk')
             return
         
+        #Fixme: Because dash can't catch error in pipeline, so this cmd error can't catch correctly.
         cmd = f"find ./lib/modules | cpio -o -H newc -R +0:+0 | pigz -9 >> {kernel_components['ramdisk']}"
         exec_shell_cmd(cmd)
 
