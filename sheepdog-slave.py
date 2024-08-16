@@ -128,6 +128,7 @@ def sync_kernel():
     if not skip_sync:
         local_repo.git.fetch(remote, "--tags")
         remote.pull(rebase=True)
+    else:
         logging.info("skip sync kernel")
 
     if len(tag) != 0:
