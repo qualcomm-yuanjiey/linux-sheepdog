@@ -139,6 +139,7 @@ example is [here](#set-the-target-repo)
 * **branch**: the remote branch
 * **linux-next**: the tracking remote
 * **tag**: the commit want to checkout. If empty, sheepdog will find the nearest tag to checkout.
+* **skip_sync**: If "True", sheepdog will skip fetch repo. Others, will fetch the repo.
 
 ✏️ If `branch` isn't be tracked by local branch, sheepdog will create a branch `{linux-next}-{branch}` to track.
 

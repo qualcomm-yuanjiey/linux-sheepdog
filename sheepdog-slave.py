@@ -43,7 +43,7 @@ def exec_shell_cmd(cmd):
     ret_code = 0
 
     current_time = datetime.datetime.now()
-    print(f"{current_time} {cmd}")
+    logging.info(f"{current_time} {cmd}")
 
     result = subprocess.run(
         cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True
@@ -74,6 +74,9 @@ def sync_kernel():
     local_repo_path = args.local
     tag = config["REPO"]["tag"]
     remote_exist = False
+    skip_sync = False
+    if config["REPO"]["skip_sync"] == 'True':
+        skip_sync = True
 
     if local_repo_path != None:
         local_repo_path = os.path.abspath(local_repo_path)
@@ -121,8 +124,12 @@ def sync_kernel():
         track_branch.set_tracking_branch(remote.refs[remote_branch])
     track_branch.checkout()
 
-    local_repo.git.fetch(remote, "--tags")
-    remote.pull(rebase=True)
+    # just need to skip fetch and rebase.
+    if not skip_sync:
+        local_repo.git.fetch(remote, "--tags")
+        remote.pull(rebase=True)
+        logging.info("skip sync kernel")
+
     if len(tag) != 0:
         exec_shell_cmd(f"git checkout {tag}")
     else:
