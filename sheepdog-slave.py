@@ -74,9 +74,6 @@ def sync_kernel():
     local_repo_path = args.local
     tag = config["REPO"]["tag"]
     remote_exist = False
-    skip_sync = False
-    if config["REPO"]["skip_sync"] == 'True':
-        skip_sync = True
 
     if local_repo_path != None:
         local_repo_path = os.path.abspath(local_repo_path)
@@ -125,7 +122,7 @@ def sync_kernel():
     track_branch.checkout()
 
     # just need to skip fetch and rebase.
-    if not skip_sync:
+    if not args.skip_sync:
         local_repo.git.fetch(remote, "--tags")
         remote.pull(rebase=True)
     else:
@@ -409,6 +406,7 @@ def build_efi_bin(kernel_components):
 
 
 def compile():
+    logging.info("compile begin")
     cpu_num = multiprocessing.cpu_count()
 
     dev_info = config["DEVICE"]
@@ -462,6 +460,7 @@ def compile():
         install_esdk()
         build_efi_bin(kernel_components)
 
+    logging.info("compile down")
 
 def precheck():
     toolchain_prefix = config["TOOLS"]["toolchain_prefix"]
@@ -509,6 +508,7 @@ def parse_options():
     parser = argparse.ArgumentParser()
     parser.add_argument("--config", type=str, help="the full path of config file")
     parser.add_argument("--local", type=str, help="the path to already synced code")
+    parser.add_argument("--skip_sync", action="store_true", help="to skip sync and rebase to newest kernel repo")
     args = parser.parse_args()
 
 

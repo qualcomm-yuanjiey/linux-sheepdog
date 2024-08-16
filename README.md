@@ -132,6 +132,9 @@ For example, in the `template-master.ini`:
 ![serial_num1](./doc/img/device-adb_serial_num.png)
 ![serial_num2](./doc/img/device-flash_serial_num.png)
 
+### CMDLINE
+* **--skip_sync** : add this option to skip fetch and rebase to the newest commit of kernel repo.
+
 ## The slave side
 ### REPO
 example is [here](#set-the-target-repo)
@@ -139,7 +142,6 @@ example is [here](#set-the-target-repo)
 * **branch**: the remote branch
 * **linux-next**: the tracking remote
 * **tag**: the commit want to checkout. If empty, sheepdog will find the nearest tag to checkout.
-* **skip_sync**: If "True", sheepdog will skip fetch repo. Others, will fetch the repo.
 
 ✏️ If `branch` isn't be tracked by local branch, sheepdog will create a branch `{linux-next}-{branch}` to track.
 
@@ -182,6 +184,8 @@ More information and example is [here](#make-and-test-patch).
 * --local-images: skip syncing and compilation of slave side. Verify existing images in 'local_path' of 'IMAGE' section directly.
 * username and password are required after execution if no-password of ssh hasn't been configured.
 
+### CMDLINE
+* **--skip_sync** : add this option to skip fetch and rebase to the newest commit of kernel repo.
 
 # Split Execution
 * The two parts can be executed separately if you only want to sync & compile upstream or you want to verify existing meta.
