@@ -43,7 +43,7 @@ def exec_shell_cmd(cmd):
     ret_code = 0
 
     current_time = datetime.datetime.now()
-    print(f"{current_time} {cmd}")
+    logging.info(f"{current_time} {cmd}")
 
     result = subprocess.run(
         cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True
@@ -121,8 +121,13 @@ def sync_kernel():
         track_branch.set_tracking_branch(remote.refs[remote_branch])
     track_branch.checkout()
 
-    local_repo.git.fetch(remote, "--tags")
-    remote.pull(rebase=True)
+    # just need to skip fetch and rebase.
+    if not args.skip_sync:
+        local_repo.git.fetch(remote, "--tags")
+        remote.pull(rebase=True)
+    else:
+        logging.info("skip sync kernel")
+
     if len(tag) != 0:
         exec_shell_cmd(f"git checkout {tag}")
     else:
@@ -401,6 +406,7 @@ def build_efi_bin(kernel_components):
 
 
 def compile():
+    logging.info("compile begin")
     cpu_num = multiprocessing.cpu_count()
 
     dev_info = config["DEVICE"]
@@ -454,6 +460,7 @@ def compile():
         install_esdk()
         build_efi_bin(kernel_components)
 
+    logging.info("compile down")
 
 def precheck():
     toolchain_prefix = config["TOOLS"]["toolchain_prefix"]
@@ -501,6 +508,7 @@ def parse_options():
     parser = argparse.ArgumentParser()
     parser.add_argument("--config", type=str, help="the full path of config file")
     parser.add_argument("--local", type=str, help="the path to already synced code")
+    parser.add_argument("--skip_sync", action="store_true", help="to skip sync and rebase to newest kernel repo")
     args = parser.parse_args()
 
 
