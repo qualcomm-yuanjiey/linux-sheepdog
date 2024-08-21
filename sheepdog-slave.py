@@ -445,16 +445,18 @@ def compile():
         "cmdline": dev_info["cmdline"],
     }
 
-    with open(defconfig, "a") as f:
-        for option in options_kernel:
-            f.write(f"\n{option}=y")
-        for option in options_module:
-            f.write(f"\n{option}=m")
-        for option in options_close:
-            f.write(f"\n{option}=n")
 
     try:
-        exec_shell_cmd(f"make {make_options} defconfig")
+        if not args.build_only:
+            # build only also need skip this cmd
+            with open(defconfig, "a") as f:
+                for option in options_kernel:
+                    f.write(f"\n{option}=y")
+                for option in options_module:
+                    f.write(f"\n{option}=m")
+                for option in options_close:
+                    f.write(f"\n{option}=n")
+            exec_shell_cmd(f"make {make_options} defconfig")
         exec_shell_cmd(f"make {make_options} Image.gz dtbs modules")
         exec_shell_cmd(
             f"make {make_options} modules_install INSTALL_MOD_PATH=./modules_dir INSTALL_MOD_STRIP=1"
