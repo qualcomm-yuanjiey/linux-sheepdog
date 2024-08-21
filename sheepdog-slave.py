@@ -62,18 +62,12 @@ def exec_shell_cmd(cmd):
 
     return result
 
-
-def sync_kernel():
-    logging.info("sync kernel code begin")
-
-    global compile_path, local_repo, track_branch, local_repo_path, base_commit
-    tracking = False
+def init_repo():
+    logging.info("init repo begin")
+    global compile_path, local_repo, local_repo_path 
     repo_url = config["REPO"]["url"]
-    remote_branch = config["REPO"]["branch"]
     repo_name = config["REPO"]["name"]
     local_repo_path = args.local
-    tag = config["REPO"]["tag"]
-    remote_exist = False
 
     if local_repo_path != None:
         local_repo_path = os.path.abspath(local_repo_path)
@@ -84,13 +78,26 @@ def sync_kernel():
         if os.path.exists(local_repo_path):
             local_repo = git.Repo(path=local_repo_path)
         else:
-            logging.info(f"{local_repo_path} not exist.\n****Begin clone from {repo_url}****")
+            logging.info(f"{local_repo_path} not exist.\n**********Begin clone from {repo_url}**********")
             local_repo = git.Repo.clone_from(repo_url, local_repo_path)
     except git.exc.InvalidGitRepositoryError as e:
         logging.error(f"{local_repo_path} is exist but no git repository in it.")
         raise e
 
     compile_path = local_repo.working_dir
+    logging.info("init repo down")
+
+
+def sync_kernel():
+    logging.info("sync kernel code begin")
+    global track_branch, base_commit
+    tracking = False
+    remote_branch = config["REPO"]["branch"]
+    tag = config["REPO"]["tag"]
+    repo_url = config["REPO"]["url"]
+    repo_name = config["REPO"]["name"]
+    remote_exist = False
+
     os.chdir(local_repo.working_dir)
 
     for remote in local_repo.remotes:
@@ -121,12 +128,8 @@ def sync_kernel():
         track_branch.set_tracking_branch(remote.refs[remote_branch])
     track_branch.checkout()
 
-    # just need to skip fetch and rebase.
-    if not args.skip_sync:
-        local_repo.git.fetch(remote, "--tags")
-        remote.pull(rebase=True)
-    else:
-        logging.info("skip sync kernel")
+    local_repo.git.fetch(remote, "--tags")
+    remote.pull(rebase=True)
 
     if len(tag) != 0:
         exec_shell_cmd(f"git checkout {tag}")
@@ -182,9 +185,13 @@ def sync_mkbootimg():
 
 def sync_code():
     sync_mkbootimg()
-    sync_kernel()
     sync_build_tool()
     install_esdk()
+    init_repo()
+    if args.build_only:
+        logging.info("Skip sync kernel!")
+        return
+    sync_kernel()
 
 def make_ramdisk(kernel_components):
     ramdisk_url = config["DEVICE"]["ramdisk_url"]
@@ -274,6 +281,7 @@ def am_patch():
 
 def install_esdk():
     if config["KERNEL_OPTION"]["make_efi_bin"] != 'True':
+        logging.info("Install esdk. Skip.")
         return
 
     logging.info("Install esdk")
@@ -508,7 +516,7 @@ def parse_options():
     parser = argparse.ArgumentParser()
     parser.add_argument("--config", type=str, help="the full path of config file")
     parser.add_argument("--local", type=str, help="the path to already synced code")
-    parser.add_argument("--skip_sync", action="store_true", help="to skip sync and rebase to newest kernel repo")
+    parser.add_argument("--build_only", action="store_true", help="just build kernel and make image")
     args = parser.parse_args()
 
 

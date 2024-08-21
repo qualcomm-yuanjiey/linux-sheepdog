@@ -133,7 +133,7 @@ For example, in the `template-master.ini`:
 ![serial_num2](./doc/img/device-flash_serial_num.png)
 
 ### CMDLINE
-* **--skip_sync** : add this option to skip fetch and rebase to the newest commit of kernel repo.
+* **--build_only** : add this option to skip fetch and rebase to the newest commit of kernel repo.
 
 ## The slave side
 ### REPO
@@ -185,7 +185,7 @@ More information and example is [here](#make-and-test-patch).
 * username and password are required after execution if no-password of ssh hasn't been configured.
 
 ### CMDLINE
-* **--skip_sync** : add this option to skip fetch and rebase to the newest commit of kernel repo.
+* **--build_only** : add this option to skip fetch and rebase to the newest commit of kernel repo.
 
 # Split Execution
 * The two parts can be executed separately if you only want to sync & compile upstream or you want to verify existing meta.

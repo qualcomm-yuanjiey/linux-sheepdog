@@ -325,7 +325,7 @@ def parse_options():
     parser = argparse.ArgumentParser()
     parser.add_argument("--config", type=str, help="the full path of config file")
     parser.add_argument("--local-images", action="store_true", help="use local images")
-    parser.add_argument("--skip_sync", action="store_true", help="to skip sync and rebase to newest kernel repo")
+    parser.add_argument("--build_only", action="store_true", help="to skip sync and rebase to newest kernel repo")
     args = parser.parse_args()
 
 
@@ -370,8 +370,8 @@ def build():
         cmdline = cmdline + " --config " + slave_config
     if len(local_repo) != 0:
         cmdline = cmdline + " --local " + local_repo
-    if args.skip_sync:
-        cmdline = cmdline + " --skip_sync"  
+    if args.build_only:
+        cmdline = cmdline + " --build_only"  
 
     cmdline = f"cd {remote_workspace} && {cmdline}"
     logging.info(f"will exe: {cmdline}")
