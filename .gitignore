@@ -8,3 +8,4 @@ mkbootimg/
 boot.img
 efi.bin
 uki.efi
+.vscode-ctags

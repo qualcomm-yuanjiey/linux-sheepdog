@@ -1,0 +1,46 @@
+From 165dd28d852997fc51e26c09b4b5001571afc6e7 Mon Sep 17 00:00:00 2001
+From: Lijuan Gao <quic_lijuang@quicinc.com>
+Date: Fri, 16 Aug 2024 14:51:10 +0800
+Subject: [PATCH 6/6] arm64: dts: qcom: add base QCS615 RIDE dts
+
+Add initial support for Qualcomm QCS615 RIDE board.
+
+Signed-off-by: Lijuan Gao <quic_lijuang@quicinc.com>
+---
+ arch/arm64/boot/dts/qcom/Makefile        |  1 +
+ arch/arm64/boot/dts/qcom/qcs615-ride.dts | 11 +++++++++++
+ 2 files changed, 12 insertions(+)
+ create mode 100644 arch/arm64/boot/dts/qcom/qcs615-ride.dts
+
+diff --git a/arch/arm64/boot/dts/qcom/Makefile b/arch/arm64/boot/dts/qcom/Makefile
+index 197ab325c0b9..c5503f189847 100644
+--- a/arch/arm64/boot/dts/qcom/Makefile
++++ b/arch/arm64/boot/dts/qcom/Makefile
+@@ -110,6 +110,7 @@ dtb-$(CONFIG_ARCH_QCOM)	+= qcm6490-idp.dtb
+ dtb-$(CONFIG_ARCH_QCOM)	+= qcm6490-shift-otter.dtb
+ dtb-$(CONFIG_ARCH_QCOM)	+= qcs404-evb-1000.dtb
+ dtb-$(CONFIG_ARCH_QCOM)	+= qcs404-evb-4000.dtb
++dtb-$(CONFIG_ARCH_QCOM)	+= qcs615-ride.dtb
+ dtb-$(CONFIG_ARCH_QCOM)	+= qcs6490-rb3gen2.dtb
+ dtb-$(CONFIG_ARCH_QCOM)	+= qcs8550-aim300-aiot.dtb
+ dtb-$(CONFIG_ARCH_QCOM)	+= qdu1000-idp.dtb
+diff --git a/arch/arm64/boot/dts/qcom/qcs615-ride.dts b/arch/arm64/boot/dts/qcom/qcs615-ride.dts
+new file mode 100644
+index 000000000000..cf75bddc4c9b
+--- /dev/null
++++ b/arch/arm64/boot/dts/qcom/qcs615-ride.dts
+@@ -0,0 +1,11 @@
++// SPDX-License-Identifier: BSD-3-Clause
++/*
++ * Copyright (c) 2024, Qualcomm Innovation Center, Inc. All rights reserved.
++ */
++/dts-v1/;
++
++#include "qcs615.dtsi"
++/ {
++	model = "Qualcomm Technologies, Inc. QCS615 Ride";
++	compatible = "qcom,qcs615-ride", "qcom,qcs615";
++};
+-- 
+2.17.1
+
