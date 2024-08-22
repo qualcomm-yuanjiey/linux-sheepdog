@@ -237,7 +237,7 @@ def build_boot_image(kernel_components):
         exit_with_msg(str(e.args[0]), e.args[1])
 
 def am_patch():
-    if config["PATCH"]["patch_dir"] == '':
+    if config["PATCH"]["patch_dir"] == '' or args.build_only:
         return
     logging.info("patch apply begin")
 
