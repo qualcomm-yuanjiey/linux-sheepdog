@@ -325,7 +325,7 @@ def parse_options():
     parser = argparse.ArgumentParser()
     parser.add_argument("--config", type=str, help="the full path of config file")
     parser.add_argument("--local-images", action="store_true", help="use local images")
-    parser.add_argument("--build_only", action="store_true", help="to skip sync and rebase to newest kernel repo")
+    parser.add_argument("--build_only", action="store_true", help="just build kernel and make image")
     args = parser.parse_args()
 
 
