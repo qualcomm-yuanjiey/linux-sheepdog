@@ -1,15 +1,16 @@
-From 165dd28d852997fc51e26c09b4b5001571afc6e7 Mon Sep 17 00:00:00 2001
+From 14c86c2f35358734ac7480c2d63d49995f891b13 Mon Sep 17 00:00:00 2001
 From: Lijuan Gao <quic_lijuang@quicinc.com>
 Date: Fri, 16 Aug 2024 14:51:10 +0800
-Subject: [PATCH 6/6] arm64: dts: qcom: add base QCS615 RIDE dts
+Subject: [PATCH 6/7] arm64: dts: qcom: add base QCS615 RIDE dts
 
-Add initial support for Qualcomm QCS615 RIDE board.
+Add initial support for Qualcomm QCS615 RIDE board and enable
+the QCS615 RIDE board to shell with dcc console.
 
 Signed-off-by: Lijuan Gao <quic_lijuang@quicinc.com>
 ---
  arch/arm64/boot/dts/qcom/Makefile        |  1 +
- arch/arm64/boot/dts/qcom/qcs615-ride.dts | 11 +++++++++++
- 2 files changed, 12 insertions(+)
+ arch/arm64/boot/dts/qcom/qcs615-ride.dts | 15 +++++++++++++++
+ 2 files changed, 16 insertions(+)
  create mode 100644 arch/arm64/boot/dts/qcom/qcs615-ride.dts
 
 diff --git a/arch/arm64/boot/dts/qcom/Makefile b/arch/arm64/boot/dts/qcom/Makefile
@@ -26,10 +27,10 @@ index 197ab325c0b9..c5503f189847 100644
  dtb-$(CONFIG_ARCH_QCOM)	+= qdu1000-idp.dtb
 diff --git a/arch/arm64/boot/dts/qcom/qcs615-ride.dts b/arch/arm64/boot/dts/qcom/qcs615-ride.dts
 new file mode 100644
-index 000000000000..cf75bddc4c9b
+index 000000000000..31d32ad951b5
 --- /dev/null
 +++ b/arch/arm64/boot/dts/qcom/qcs615-ride.dts
-@@ -0,0 +1,11 @@
+@@ -0,0 +1,15 @@
 +// SPDX-License-Identifier: BSD-3-Clause
 +/*
 + * Copyright (c) 2024, Qualcomm Innovation Center, Inc. All rights reserved.
@@ -40,7 +41,11 @@ index 000000000000..cf75bddc4c9b
 +/ {
 +	model = "Qualcomm Technologies, Inc. QCS615 Ride";
 +	compatible = "qcom,qcs615-ride", "qcom,qcs615";
++
++	chosen {
++		bootargs = "console=hvc0";
++	};
 +};
 -- 
-2.17.1
+2.46.0
 

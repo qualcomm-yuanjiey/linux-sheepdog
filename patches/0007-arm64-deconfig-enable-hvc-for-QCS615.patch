@@ -1,0 +1,31 @@
+From 718db3184afb803c15b3a27d5396a827d17ce971 Mon Sep 17 00:00:00 2001
+From: lijuang <quic_lijuang@quicinc.com>
+Date: Tue, 27 Aug 2024 20:40:35 +0800
+Subject: [PATCH 7/7] arm64: deconfig: enable hvc for QCS615
+
+Enable hvc dcc for QCS615
+
+Signed-off-by: Lijuan Gao <quic_lijuang@quicinc.com>
+---
+ arch/arm64/configs/defconfig | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
+index 81ca46e3ab4b..12ff1eb57195 100644
+--- a/arch/arm64/configs/defconfig
++++ b/arch/arm64/configs/defconfig
+@@ -1,4 +1,5 @@
+ CONFIG_SYSVIPC=y
++CONFIG_HVC_DCC=y
+ CONFIG_POSIX_MQUEUE=y
+ CONFIG_AUDIT=y
+ CONFIG_NO_HZ_IDLE=y
+@@ -1717,3 +1718,5 @@ CONFIG_CORESIGHT_STM=m
+ CONFIG_CORESIGHT_CPU_DEBUG=m
+ CONFIG_CORESIGHT_CTI=m
+ CONFIG_MEMTEST=y
++
++CONFIG_FTRACE=y
+-- 
+2.46.0
+
