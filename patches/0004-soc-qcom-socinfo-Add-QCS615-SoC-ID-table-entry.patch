@@ -1,7 +1,7 @@
-From ebf15911f5648d1713ad97851f1520039b132672 Mon Sep 17 00:00:00 2001
+From 4951796a77ca84929e053aba7bbaa2593a153ae6 Mon Sep 17 00:00:00 2001
 From: Lijuan Gao <quic_lijuang@quicinc.com>
 Date: Wed, 14 Aug 2024 16:45:26 +0800
-Subject: [PATCH 4/6] soc: qcom: socinfo: Add QCS615 SoC ID table entry
+Subject: [PATCH 4/7] soc: qcom: socinfo: Add QCS615 SoC ID table entry
 
 Add SoC Info support for the QCS615 platform.
 
@@ -23,5 +23,5 @@ index 24c3971f2ef1..aed430f10eec 100644
  
  static const char *socinfo_machine(struct device *dev, unsigned int id)
 -- 
-2.17.1
+2.46.0
 

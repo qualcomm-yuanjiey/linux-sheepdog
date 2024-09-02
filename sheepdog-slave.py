@@ -73,7 +73,8 @@ def init_repo():
         local_repo_path = os.path.abspath(local_repo_path)
     else:
         local_repo_path = f"{workspace}/{repo_name}"
-    
+    logging.debug(f"local repo directory is {local_repo_path}")
+
     try:
         if os.path.exists(local_repo_path):
             local_repo = git.Repo(path=local_repo_path)
@@ -85,6 +86,7 @@ def init_repo():
         raise e
 
     compile_path = local_repo.working_dir
+    logging.debug(f"compile directory is {compile_path}")
     logging.info("init repo down")
 
 
@@ -456,7 +458,7 @@ def compile():
                     f.write(f"\n{option}=m")
                 for option in options_close:
                     f.write(f"\n{option}=n")
-            exec_shell_cmd(f"make {make_options} defconfig")
+        exec_shell_cmd(f"make {make_options} defconfig")
         exec_shell_cmd(f"make {make_options} Image.gz dtbs modules")
         exec_shell_cmd(
             f"make {make_options} modules_install INSTALL_MOD_PATH=./modules_dir INSTALL_MOD_STRIP=1"
