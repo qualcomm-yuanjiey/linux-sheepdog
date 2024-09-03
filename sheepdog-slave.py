@@ -25,7 +25,7 @@ def exit_with_msg(msg, code):
     exit(code)
 
 
-def exec_shell_cmd(cmd):
+def exec_shell_cmd(cmd, interactive=False):
     """
     Execute a shell command and return the output
     """
@@ -34,9 +34,12 @@ def exec_shell_cmd(cmd):
     current_time = datetime.datetime.now()
     logging.info(f"{current_time} {cmd}")
 
-    result = subprocess.run(
-        cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True
-    )
+    if interactive:
+        result = subprocess.run(cmd, shell=True, stderr=subprocess.PIPE, text=True)
+    else:
+        result = subprocess.run(
+            cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True
+        )
     ret_code = result.returncode
     out = result.stdout
     err_out = result.stderr
@@ -50,6 +53,7 @@ def exec_shell_cmd(cmd):
         )
 
     return result
+
 
 def init_repo():
     logging.info("init repo begin")
@@ -436,7 +440,6 @@ def compile():
         "cmdline": dev_info["cmdline"],
     }
 
-
     try:
         if not args.build_only:
             # build only also need skip this cmd
@@ -448,13 +451,18 @@ def compile():
                 for option in options_close:
                     f.write(f"\n{option}=n")
         exec_shell_cmd(f"make {make_options} defconfig")
+        if args.menuconfig:
+            exec_shell_cmd(f"make {make_options} menuconfig", interactive=True)
+            exec_shell_cmd(f"make {make_options} savedefconfig")
+            shutil.copy(f"{compile_path}/defconfig", defconfig)
+            exit(0)
         exec_shell_cmd(f"make {make_options} Image.gz dtbs modules")
         exec_shell_cmd(
             f"make {make_options} modules_install INSTALL_MOD_PATH=./modules_dir INSTALL_MOD_STRIP=1"
         )
     except Exception as e:
         exit_with_msg(str(e.args[0]), e.args[1])
-    
+
     make_ramdisk(kernel_components)
     build_boot_image(kernel_components)
     if kernel_options["make_efi_bin"] == 'True':
@@ -508,6 +516,9 @@ def parse_options():
     parser.add_argument("--config", type=str, help="the full path of config file")
     parser.add_argument("--local", type=str, help="the path to already synced code")
     parser.add_argument("--build_only", action="store_true", help="just build kernel and make image")
+    parser.add_argument(
+        "--menuconfig", action="store_true", help="config and save kernel option"
+    )
     args = parser.parse_args()
 
 
