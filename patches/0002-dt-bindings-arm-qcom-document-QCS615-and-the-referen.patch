@@ -1,7 +1,7 @@
-From 3079ebe062bde6ead20019e929400660616c0437 Mon Sep 17 00:00:00 2001
+From de5cba082f47a5bfd802ce0cda0a3c5139c68c2b Mon Sep 17 00:00:00 2001
 From: Lijuan Gao <quic_lijuang@quicinc.com>
 Date: Wed, 14 Aug 2024 16:24:25 +0800
-Subject: [PATCH 2/7] dt-bindings: arm: qcom: document QCS615 and the reference
+Subject: [PATCH 2/9] dt-bindings: arm: qcom: document QCS615 and the reference
  board
 
 Document the QCS615 SoC and its reference board QCS615 RIDE.
@@ -12,7 +12,7 @@ Signed-off-by: Lijuan Gao <quic_lijuang@quicinc.com>
  1 file changed, 6 insertions(+)
 
 diff --git a/Documentation/devicetree/bindings/arm/qcom.yaml b/Documentation/devicetree/bindings/arm/qcom.yaml
-index c0529486810f..957c3bc91ef2 100644
+index 5cb54d69af0b..a0c9e7179ce9 100644
 --- a/Documentation/devicetree/bindings/arm/qcom.yaml
 +++ b/Documentation/devicetree/bindings/arm/qcom.yaml
 @@ -42,6 +42,7 @@ description: |

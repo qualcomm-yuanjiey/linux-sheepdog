@@ -1,0 +1,168 @@
+From eedeee84657c18ee6f5a514508bfb5d3f8306117 Mon Sep 17 00:00:00 2001
+From: Lijuan Gao <quic_lijuang@quicinc.com>
+Date: Fri, 30 Aug 2024 14:52:34 +0800
+Subject: [PATCH 7/9] dt-bindings: pinctrl: describe qcs615-tlmm
+
+Add DT bindings for the TLMM controller on QCS615 platforms.
+
+Signed-off-by: Lijuan Gao <quic_lijuang@quicinc.com>
+---
+ .../bindings/pinctrl/qcom,qcs615-pinctrl.yaml | 146 ++++++++++++++++++
+ 1 file changed, 146 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/pinctrl/qcom,qcs615-pinctrl.yaml
+
+diff --git a/Documentation/devicetree/bindings/pinctrl/qcom,qcs615-pinctrl.yaml b/Documentation/devicetree/bindings/pinctrl/qcom,qcs615-pinctrl.yaml
+new file mode 100644
+index 000000000000..64f84df83593
+--- /dev/null
++++ b/Documentation/devicetree/bindings/pinctrl/qcom,qcs615-pinctrl.yaml
+@@ -0,0 +1,146 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/pinctrl/qcom,qcs615-tlmm.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Qualcomm Technologies, Inc. QCS615 TLMM block
++
++maintainers:
++  - Lijuan Gao <quic_lijuang@quicinc.com>
++
++description:
++  Top Level Mode Multiplexer pin controller in Qualcomm QCS615 SoC.
++
++allOf:
++  - $ref: /schemas/pinctrl/qcom,tlmm-common.yaml#
++
++properties:
++  compatible:
++    const: qcom,qcs615-tlmm
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  gpio-reserved-ranges:
++    minItems: 1
++    maxItems: 62
++
++  gpio-line-names:
++    maxItems: 123
++
++patternProperties:
++  "-state$":
++    oneOf:
++      - $ref: "#/$defs/qcom-x1e80100-tlmm-state"
++      - patternProperties:
++          "-pins$":
++            $ref: "#/$defs/qcom-x1e80100-tlmm-state"
++        additionalProperties: false
++
++$defs:
++  qcom-qcs615-tlmm-state:
++    type: object
++    description:
++      Pinctrl node's client devices use subnodes for desired pin configuration.
++      Client device subnodes use below standard properties.
++    $ref: qcom,tlmm-common.yaml#/$defs/qcom-tlmm-state
++    unevaluatedProperties: false
++
++    properties:
++      pins:
++        description:
++          List of gpio pins affected by the properties specified in this
++          subnode.
++        items:
++          oneOf:
++            - pattern: "^gpio([0-9]|[1-9][0-9]|1[0-2][0-9]|12[0-2])$"
++            - enum: [ ufs_reset, sdc1_rclk, sdc1_clk, sdc1_cmd,
++                      sdc1_data, sdc2_clk, sdc2_cmd, sdc2_data ]
++        minItems: 1
++        maxItems: 36
++
++      function:
++        description:
++          Specify the alternative function to be configured for the specified
++          pins.
++        enum: [ AGERA_PLL, COPY_PHASE, CRI_TRNG, CRI_TRNG0, CRI_TRNG1,
++                GPS_TX, GP_PDM_MIRA0, GP_PDM_MIRA1, GP_PDM_MIRA2,
++                GP_PDM_MIRB0, GP_PDM_MIRB1, GP_PDM_MIRB2, JITTER_BIST,
++                NAV_PPS, PLL_BIST, SP_CMU, WSA_CLK, WSA_DATA, adsp_ext,
++                aoss_cti, atest_char, atest_char0, atest_char1, atest_char2,
++                atest_char3, atest_char_start, atest_tsens, atest_tsens2,
++                atest_usb1, atest_usb10, atest_usb11, atest_usb12, atest_usb13,
++                atest_usb2, atest_usb20, atest_usb21, atest_usb22, atest_usb23,
++                cam_mclk, cci_async_in0, cci_async_in1, cci_async_in2,
++                cci_i2c_scl0, cci_i2c_scl1, cci_i2c_sda0, cci_i2c_sda1,
++                cci_timer0, cci_timer1, cci_timer2, cci_timer3, cci_timer4,
++                copy_gp, dbg_out_clk, ddr_bist_complete, ddr_bist_fail,
++                ddr_bist_start, ddr_bist_stop, ddr_pxi0, ddr_pxi1, ddr_pxi2,
++                ddr_pxi3, dp_hot, edp_hot, edp_lcd, emac_gcc0, emac_gcc1,
++                emac_phy_intr, forced_usb, gcc_gp1, gcc_gp2, gcc_gp3,
++                hs0_mi2s_data0, hs0_mi2s_data1, hs0_mi2s_sck, hs0_mi2s_ws,
++                hs1_mi2s_data0, hs1_mi2s_data1, hs1_mi2s_sck, hs1_mi2s_ws,
++                ldo_en, ldo_update, m_voc, mclk1, mclk2, mdp_vsync,
++                mdp_vsync0_out, mdp_vsync1_out, mdp_vsync2_out, mdp_vsync3_out,
++                mdp_vsync4_out, mdp_vsync5_out, mdp_vsync_e, mdp_vsync_p,
++                mi2s_1_data0, mi2s_1_data1, mi2s_1_sck, mi2s_1_ws, mss_lte,
++                pa_indicator_or, pcie_clk_req, pcie_ep_rst, phase_flag0,
++                phase_flag1, phase_flag10, phase_flag11, phase_flag12,
++                phase_flag13, phase_flag14, phase_flag15, phase_flag16,
++                phase_flag17, phase_flag18, phase_flag19, phase_flag2,
++                phase_flag20, phase_flag21, phase_flag22, phase_flag23,
++                phase_flag24, phase_flag25, phase_flag26, phase_flag27,
++                phase_flag28, phase_flag29, phase_flag3, phase_flag30,
++                phase_flag31, phase_flag4, phase_flag5, phase_flag6,
++                phase_flag7, phase_flag8, phase_flag9, pll_bypassnl,
++                pll_reset_n, prng_rosc, qdss_cti, qdss_gpio, qdss_gpio0,
++                qdss_gpio1, qdss_gpio10, qdss_gpio11, qdss_gpio12, qdss_gpio13,
++                qdss_gpio14, qdss_gpio15, qdss_gpio2, qdss_gpio3, qdss_gpio4,
++                qdss_gpio5, qdss_gpio6, qdss_gpio7, qdss_gpio8, qdss_gpio9,
++                qlink_enable, qlink_request, qspi0, qspi1, qspi2, qspi3,
++                qspi_clk, qspi_cs, qup0_l01, qup0_l02, qup0_l03, qup0_l11,
++                qup0_l12, qup0_l13, qup0_l20, qup0_l22, qup0_l30, qup0_l32,
++                qup1_l00, qup1_l01, qup1_l02, qup1_l03, qup1_l10, qup1_l11,
++                qup1_l12, qup1_l13, qup1_l20, qup1_l22, qup1_l23, qup1_l30,
++                qup1_l32, qup1_l33, rgmii_mdc, rgmii_mdio, rgmii_rx_ctl,
++                rgmii_rxc, rgmii_rxd0, rgmii_rxd1, rgmii_rxd2, rgmii_rxd3,
++                rgmii_sync, rgmii_tx_ctl, rgmii_txc, rgmii_txd0, rgmii_txd1,
++                rgmii_txd2, rgmii_txd3, sd_write_protect, ter_mi2s_data0,
++                ter_mi2s_data1, ter_mi2s_sck, ter_mi2s_ws, tgu_ch0_trigout,
++                tgu_ch1_trigout, tgu_ch2_trigout, tgu_ch3_trigout, uim1_clk,
++                uim1_data, uim1_present, uim1_reset, uim2_clk, uim2_data,
++                uim2_present, uim2_reset, usb0_hs, usb1_hs, usb_phy_ps, vfr_1,
++                vsense_trigger_mirnat, wlan1_adc0, wlan1_adc1, wlan2_adc0,
++                wlan2_adc1, adsp_ext, aoss_cti, atest_char, atest_char0 ]
++
++    required:
++      - pins
++
++required:
++  - compatible
++  - reg
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++	tlmm: pinctrl@3000000 {
++		compatible = "qcom,qcs615-pinctrl";
++		reg = <0x03100000 0x300000>,
++		      <0x03500000 0x300000>,
++		      <0x03900000 0x300000>,
++		      <0x03D00000 0x300000>;
++		reg-names = "west", "east", "north", "south";
++		gpio-controller;
++		#gpio-cells = <2>;
++		gpio-ranges = <&tlmm 0 0 175>;
++		gpio-reserved-ranges = <0 4>, <126 4>;
++		interrupt-controller;
++		#interrupt-cells = <2>;
++		interrupts = <GIC_SPI 208 IRQ_TYPE_LEVEL_HIGH>;
++	};
+-- 
+2.46.0
+
