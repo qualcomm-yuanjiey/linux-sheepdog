@@ -5,17 +5,6 @@ import subprocess, multiprocessing
 import glob, git, shutil, re
 
 
-def reset2basecommit():
-    try:
-        logging.info(f"checkout to {base_commit}")
-    except NameError:
-        return
-
-    try:
-        local_repo.git.reset("--hard", base_commit)
-    except:
-        logging.error("in the end reset to base commit error!")
-
 def file_is_exist(file_path):
     if len(file_path) == 0 or file_path == None:
         return False
@@ -547,10 +536,8 @@ def main():
 if __name__ == "__main__":
     try:
         main()
-        reset2basecommit()
         logging.info("slave success!\n\n")
     except:
-        reset2basecommit()
         logging.info("slave fail!\n\n")
         print(
             "Please refer to https://github.qualcomm.com/yijiyang/linux-sheepdog/blob/main/README.md for instructions"
