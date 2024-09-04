@@ -1,0 +1,28 @@
+From 6a98c6c9b8dd3cdab911a006ec33f2553dad172a Mon Sep 17 00:00:00 2001
+From: Swetha Chintavatla <quic_chintava@quicinc.com>
+Date: Wed, 28 Aug 2024 17:27:42 +0530
+Subject: [PATCH 12/19] arm64: defconfig: Enable interconnect driver for QCS615
+
+Enable interconnect driver on QCS615 platform so that consumers
+can obtain their interconnect path handles properly.
+
+Signed-off-by: Swetha Chintavatla <quic_chintava@quicinc.com>
+---
+ arch/arm64/configs/defconfig | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
+index 4c2d9566f1f7..2066be303482 100644
+--- a/arch/arm64/configs/defconfig
++++ b/arch/arm64/configs/defconfig
+@@ -1621,6 +1621,7 @@ CONFIG_INTERCONNECT_QCOM_MSM8996=y
+ CONFIG_INTERCONNECT_QCOM_OSM_L3=m
+ CONFIG_INTERCONNECT_QCOM_QCM2290=y
+ CONFIG_INTERCONNECT_QCOM_QCS404=m
++CONFIG_INTERCONNECT_QCOM_QCS615=y
+ CONFIG_INTERCONNECT_QCOM_QDU1000=y
+ CONFIG_INTERCONNECT_QCOM_SA8775P=y
+ CONFIG_INTERCONNECT_QCOM_SC7180=y
+-- 
+2.46.0
+

@@ -1,7 +1,7 @@
-From ee1891ac08bb204da3d78145635584b05e98603f Mon Sep 17 00:00:00 2001
+From eb7650a7f2aac30e7717e1d34d34ff0031bf2f3d Mon Sep 17 00:00:00 2001
 From: Lijuan Gao <quic_lijuang@quicinc.com>
 Date: Tue, 3 Sep 2024 10:45:24 +0800
-Subject: [PATCH 9/9] arm64: defconfig: enable and pinctrl
+Subject: [PATCH 09/19] arm64: defconfig: enable and pinctrl
 
 The serial engine depends on some global clock controller and pinctrl, but
 as the serial console driver is only available as built-in, so the global

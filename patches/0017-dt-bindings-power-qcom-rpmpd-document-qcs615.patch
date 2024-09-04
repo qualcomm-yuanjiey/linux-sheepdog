@@ -1,0 +1,50 @@
+From 0b44128a7e6539601f28d108b75996f118cedead Mon Sep 17 00:00:00 2001
+From: Tingguo Cheng <quic_tingguoc@quicinc.com>
+Date: Wed, 4 Sep 2024 15:17:15 +0800
+Subject: [PATCH 17/19] dt-bindings: power: qcom,rpmpd: document qcs615
+
+Add compatible for qcs615 platform and add it's defines in
+include file.
+
+Signed-off-by: Tingguo Cheng <quic_tingguoc@quicinc.com>
+---
+ .../devicetree/bindings/power/qcom,rpmpd.yaml          |  1 +
+ include/dt-bindings/power/qcom-rpmpd.h                 | 10 ++++++++++
+ 2 files changed, 11 insertions(+)
+
+diff --git a/Documentation/devicetree/bindings/power/qcom,rpmpd.yaml b/Documentation/devicetree/bindings/power/qcom,rpmpd.yaml
+index 929b7ef9c1bc..b4f4ea905667 100644
+--- a/Documentation/devicetree/bindings/power/qcom,rpmpd.yaml
++++ b/Documentation/devicetree/bindings/power/qcom,rpmpd.yaml
+@@ -32,6 +32,7 @@ properties:
+           - qcom,msm8998-rpmpd
+           - qcom,qcm2290-rpmpd
+           - qcom,qcs404-rpmpd
++          - qcom,qcs615-rpmhpd
+           - qcom,qdu1000-rpmhpd
+           - qcom,qm215-rpmpd
+           - qcom,sa8155p-rpmhpd
+diff --git a/include/dt-bindings/power/qcom-rpmpd.h b/include/dt-bindings/power/qcom-rpmpd.h
+index 608087fb9a3d..4660f92ff44f 100644
+--- a/include/dt-bindings/power/qcom-rpmpd.h
++++ b/include/dt-bindings/power/qcom-rpmpd.h
+@@ -4,6 +4,16 @@
+ #ifndef _DT_BINDINGS_POWER_QCOM_RPMPD_H
+ #define _DT_BINDINGS_POWER_QCOM_RPMPD_H
+ 
++/* QCS615 Power Domain Indexes */
++#define QCS615_CX	0
++#define QCS615_CX_AO	1
++#define QCS615_LCX	0
++#define QCS615_LMX	0
++#define QCS615_MX	0
++#define QCS615_MX_AO	1
++#define QCS615_EBI	0
++#define QCS615_MSS 0
++
+ /* SA8775P Power Domain Indexes */
+ #define SA8775P_CX	0
+ #define SA8775P_CX_AO	1
+-- 
+2.46.0
+

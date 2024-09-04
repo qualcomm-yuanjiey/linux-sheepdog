@@ -1,24 +1,24 @@
-From 0b2bffe7fa80c9fee8556eeef70c4920d9d88f61 Mon Sep 17 00:00:00 2001
+From 20caa79fc4f4d38e0efab2fd5f79a0cdb9f55229 Mon Sep 17 00:00:00 2001
 From: Lijuan Gao <quic_lijuang@quicinc.com>
 Date: Tue, 3 Sep 2024 10:34:12 +0800
-Subject: [PATCH 5/9] arm64: dts: qcom: add initial support for QCS615 DTSI
+Subject: [PATCH 05/19] arm64: dts: qcom: add initial support for QCS615 DTSI
 
 Add initial DTSI for QCS615 SoC. It includes base description
-of CPUs, interrupt-controller, reserved-memory and cpu idle on
-Qualcomm QCS615 platform.
+of CPUs, interrupt-controller, reserved-memory, apps_rsc, gcc,
+qup and cpu idle on Qualcomm QCS615 platform.
 
 Signed-off-by: Lijuan Gao <quic_lijuang@quicinc.com>
 ---
- arch/arm64/boot/dts/qcom/qcs615.dtsi | 661 +++++++++++++++++++++++++++
- 1 file changed, 661 insertions(+)
+ arch/arm64/boot/dts/qcom/qcs615.dtsi | 652 +++++++++++++++++++++++++++
+ 1 file changed, 652 insertions(+)
  create mode 100644 arch/arm64/boot/dts/qcom/qcs615.dtsi
 
 diff --git a/arch/arm64/boot/dts/qcom/qcs615.dtsi b/arch/arm64/boot/dts/qcom/qcs615.dtsi
 new file mode 100644
-index 000000000000..bc767971111b
+index 000000000000..72a92645c2a3
 --- /dev/null
 +++ b/arch/arm64/boot/dts/qcom/qcs615.dtsi
-@@ -0,0 +1,661 @@
+@@ -0,0 +1,652 @@
 +// SPDX-License-Identifier: BSD-3-Clause
 +/*
 + * Copyright (c) 2024, Qualcomm Innovation Center, Inc. All rights reserved.
@@ -544,36 +544,27 @@ index 000000000000..bc767971111b
 +				     <GIC_SPI 214 IRQ_TYPE_LEVEL_HIGH>,
 +				     <GIC_SPI 215 IRQ_TYPE_LEVEL_HIGH>,
 +				     <GIC_SPI 216 IRQ_TYPE_LEVEL_HIGH>;
-+                        gpio-controller;
-+                        #gpio-cells = <2>;
-+                        interrupt-controller;
-+                        #interrupt-cells = <2>;
-+                        gpio-ranges = <&tlmm 0 0 123>;
-+                        wakeup-parent = <&pdc>;
++			gpio-controller;
++			#gpio-cells = <2>;
++			interrupt-controller;
++			#interrupt-cells = <2>;
++			gpio-ranges = <&tlmm 0 0 124>;
++			wakeup-parent = <&pdc>;
 +
-+                        qup3_uart2_active: qup3-uart2-active {
-+				tx-pins {
-+                                	pins = "gpio16";
-+                                	function = "qup0_l20";
-+                               		drive-strength = <2>;
-+                                	bias-disable;
-+				};
++			qup3_uart2_active: qup3-uart2-active {
++				pins ="gpio16", "gpio17";
++				function = "qup0_se0";
++				drive-strength = <2>;
++				bias-disable;
++			};
 +
-+				rx-pins {
-+                                	pins = "gpio17";
-+                                	function = "qup0_l30";
-+                               		drive-strength = <2>;
-+                                	bias-disable;
-+				};
-+                        };
-+
-+                        qup3_uart2_sleep: qup3-uart2-sleep {
-+                                pins = "gpio16", "gpio17";
-+                                function = "gpio";
-+                                drive-strength = <2>;
-+                                bias-disable;
-+                        };
-+                };
++			qup3_uart2_sleep: qup3-uart2-sleep {
++				pins = "gpio16", "gpio17";
++				function = "gpio";
++				drive-strength = <2>;
++				bias-disable;
++			};
++		};
 +
 +		qupv3_id_0: geniqup@8c0000 {
 +			compatible = "qcom,geni-se-qup";

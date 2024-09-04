@@ -1,8 +1,8 @@
 From de5cba082f47a5bfd802ce0cda0a3c5139c68c2b Mon Sep 17 00:00:00 2001
 From: Lijuan Gao <quic_lijuang@quicinc.com>
 Date: Wed, 14 Aug 2024 16:24:25 +0800
-Subject: [PATCH 2/9] dt-bindings: arm: qcom: document QCS615 and the reference
- board
+Subject: [PATCH 02/19] dt-bindings: arm: qcom: document QCS615 and the
+ reference board
 
 Document the QCS615 SoC and its reference board QCS615 RIDE.
 
