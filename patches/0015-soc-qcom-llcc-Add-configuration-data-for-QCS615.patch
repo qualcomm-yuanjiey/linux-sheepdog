@@ -1,7 +1,7 @@
-From 86f58532973a9efd1d64500c8535d1695cacd336 Mon Sep 17 00:00:00 2001
+From fc155bb779b7efd9ff5badd33831798346ac2d4d Mon Sep 17 00:00:00 2001
 From: Song Xue <quic_songxue@quicinc.com>
 Date: Wed, 4 Sep 2024 10:54:21 +0800
-Subject: [PATCH 15/19] soc: qcom: llcc: Add configuration data for QCS615
+Subject: [PATCH 15/30] soc: qcom: llcc: Add configuration data for QCS615
 
 Add LLCC configuration data for QCS615 SoC which controls
 LLCC behaviour.
@@ -76,5 +76,5 @@ index 8fa4ffd3a9b5..fd64a1fc56f4 100644
  	{ .compatible = "qcom,sa8775p-llcc", .data = &sa8775p_cfgs },
  	{ .compatible = "qcom,sc7180-llcc", .data = &sc7180_cfgs },
 -- 
-2.46.0
+2.34.1
 

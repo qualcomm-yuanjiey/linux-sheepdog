@@ -1,0 +1,60 @@
+From 0ad3734c8c360d71f60649d8262b76723a7a7016 Mon Sep 17 00:00:00 2001
+From: Taniya Das <quic_tdas@quicinc.com>
+Date: Thu, 29 Aug 2024 23:23:32 +0530
+Subject: [PATCH 24/30] arm64: dts: qcom: add support for clocks for QCS615
+
+Signed-off-by: Taniya Das <quic_tdas@quicinc.com>
+---
+ arch/arm64/boot/dts/qcom/qcs615.dtsi | 25 +++++++++----------------
+ 1 file changed, 9 insertions(+), 16 deletions(-)
+
+diff --git a/arch/arm64/boot/dts/qcom/qcs615.dtsi b/arch/arm64/boot/dts/qcom/qcs615.dtsi
+index 05912943f616..6b49b9b68aa2 100644
+--- a/arch/arm64/boot/dts/qcom/qcs615.dtsi
++++ b/arch/arm64/boot/dts/qcom/qcs615.dtsi
+@@ -518,8 +518,9 @@ apps_rsc: rsc@18200000 {
+ 
+ 			rpmhcc: clock-controller {
+ 				compatible = "qcom,qcs615-rpmh-clk";
+-				#clock-cells = <1>;
+ 				clock-names = "xo";
++
++				#clock-cells = <1>;
+ 			};
+ 
+ 			apps_bcm_voter: bcm_voter {
+@@ -584,24 +585,16 @@ tcsr_mutex: hwlock@1f40000 {
+ 		};
+ 
+ 		gcc: clock-controller@100000 {
+-			compatible = "qcom,qcs615-gcc", "syscon";
+-			reg = <0x0 0x100000 0x0 0x1f0000>;
+-			reg-name = "cc_base";
+-			#clock-cells = <1>;
+-			#reset-cells = <1>;
++			compatible = "qcom,qcs615-gcc";
++			reg = <0 0x00100000 0 0x1f0000>;
++
+ 			clocks = <&rpmhcc RPMH_CXO_CLK>,
+ 				 <&rpmhcc RPMH_CXO_CLK_A>,
+ 				 <&sleep_clk>;
+-			clock-names = "bi_tcxo",
+-				      "bi_tcxo_ao",
+-				      "sleep_clk";
+-			protected-clocks = <GCC_SDR_CORE_CLK>,
+-					   <GCC_SDR_WR0_MEM_CLK>,
+-					   <GCC_SDR_WR1_MEM_CLK>,
+-					   <GCC_SDR_WR2_MEM_CLK>,
+-					   <GCC_SDR_CSR_HCLK>,
+-					   <GCC_SDR_PRI_MI2S_CLK>,
+-					   <GCC_SDR_SEC_MI2S_CLK>;
++
++			#clock-cells = <1>;
++			#reset-cells = <1>;
++			#power-domain-cells = <1>;
+ 		};
+ 
+ 		pdc: interrupt-controller@b220000 {
+-- 
+2.34.1
+

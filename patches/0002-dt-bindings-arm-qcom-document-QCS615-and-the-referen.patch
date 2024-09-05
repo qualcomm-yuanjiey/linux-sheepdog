@@ -1,7 +1,7 @@
-From de5cba082f47a5bfd802ce0cda0a3c5139c68c2b Mon Sep 17 00:00:00 2001
+From ac257f4098c9c61afa5f9cb94f78d2eef29b0427 Mon Sep 17 00:00:00 2001
 From: Lijuan Gao <quic_lijuang@quicinc.com>
 Date: Wed, 14 Aug 2024 16:24:25 +0800
-Subject: [PATCH 02/19] dt-bindings: arm: qcom: document QCS615 and the
+Subject: [PATCH 02/30] dt-bindings: arm: qcom: document QCS615 and the
  reference board
 
 Document the QCS615 SoC and its reference board QCS615 RIDE.
@@ -36,5 +36,5 @@ index 5cb54d69af0b..a0c9e7179ce9 100644
            - enum:
                - qcom,sa8155p-adp
 -- 
-2.46.0
+2.34.1
 

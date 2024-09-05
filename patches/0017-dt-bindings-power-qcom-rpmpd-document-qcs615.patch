@@ -1,7 +1,7 @@
-From 0b44128a7e6539601f28d108b75996f118cedead Mon Sep 17 00:00:00 2001
+From 136117e8c4379e4e634605964209db83de262112 Mon Sep 17 00:00:00 2001
 From: Tingguo Cheng <quic_tingguoc@quicinc.com>
 Date: Wed, 4 Sep 2024 15:17:15 +0800
-Subject: [PATCH 17/19] dt-bindings: power: qcom,rpmpd: document qcs615
+Subject: [PATCH 17/30] dt-bindings: power: qcom,rpmpd: document qcs615
 
 Add compatible for qcs615 platform and add it's defines in
 include file.
@@ -46,5 +46,5 @@ index 608087fb9a3d..4660f92ff44f 100644
  #define SA8775P_CX	0
  #define SA8775P_CX_AO	1
 -- 
-2.46.0
+2.34.1
 

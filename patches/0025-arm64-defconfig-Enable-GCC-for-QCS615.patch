@@ -1,0 +1,27 @@
+From 85f6bc376c205a8541089e05a14a6d1ea9c66ff6 Mon Sep 17 00:00:00 2001
+From: Taniya Das <quic_tdas@quicinc.com>
+Date: Fri, 30 Aug 2024 00:09:17 +0530
+Subject: [PATCH 25/30] arm64: defconfig: Enable GCC for QCS615
+
+Enable clock controller for QCS615.
+
+Signed-off-by: Taniya Das <quic_tdas@quicinc.com>
+---
+ arch/arm64/configs/defconfig | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
+index 50239fa25aee..2066be303482 100644
+--- a/arch/arm64/configs/defconfig
++++ b/arch/arm64/configs/defconfig
+@@ -1319,6 +1319,7 @@ CONFIG_MSM_MMCC_8998=m
+ CONFIG_QCM_GCC_2290=y
+ CONFIG_QCM_DISPCC_2290=m
+ CONFIG_QCS_GCC_404=y
++CONFIG_QCS_GCC_615=y
+ CONFIG_QDU_GCC_1000=y
+ CONFIG_SC_CAMCC_8280XP=m
+ CONFIG_SC_DISPCC_7280=m
+-- 
+2.34.1
+

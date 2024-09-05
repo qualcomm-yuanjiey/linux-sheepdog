@@ -1,7 +1,7 @@
-From 3e4e30fc04cbdbd5cd36e701e94e89f7bffcf75c Mon Sep 17 00:00:00 2001
+From 9ef8ea3dff91fc69655fba8d87d8643ddc042e91 Mon Sep 17 00:00:00 2001
 From: Tingguo Cheng <quic_tingguoc@quicinc.com>
 Date: Wed, 4 Sep 2024 15:20:35 +0800
-Subject: [PATCH 18/19] pmdomain: qcom: rpmhpd: Add qcs615 power domains
+Subject: [PATCH 18/30] pmdomain: qcom: rpmhpd: Add qcs615 power domains
 
 Add support for the power-domains on qcs8300 platform.
 
@@ -35,5 +35,5 @@ index d2cb4271a1ca..dd18b57056e7 100644
  	{ .compatible = "qcom,sa8155p-rpmhpd", .data = &sa8155p_desc },
  	{ .compatible = "qcom,sa8540p-rpmhpd", .data = &sa8540p_desc },
 -- 
-2.46.0
+2.34.1
 

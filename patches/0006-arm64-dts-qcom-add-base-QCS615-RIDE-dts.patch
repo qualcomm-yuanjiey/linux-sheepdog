@@ -1,7 +1,7 @@
-From 7fcab11e61eb3cef8c1032c4839c8449377bb7d0 Mon Sep 17 00:00:00 2001
+From 59cb98eeae5eafbe7ade50524e8e5aa9a1c66ef3 Mon Sep 17 00:00:00 2001
 From: Lijuan Gao <quic_lijuang@quicinc.com>
 Date: Tue, 3 Sep 2024 10:39:38 +0800
-Subject: [PATCH 06/19] arm64: dts: qcom: add base QCS615 RIDE dts
+Subject: [PATCH 06/30] arm64: dts: qcom: add base QCS615 RIDE dts
 
 Add initial support for Qualcomm QCS615 RIDE board and enable
 the QCS615 RIDE board to shell with dcc console.
@@ -71,5 +71,5 @@ index 000000000000..2ca064307e7f
 +        status = "okay";
 +};
 -- 
-2.46.0
+2.34.1
 

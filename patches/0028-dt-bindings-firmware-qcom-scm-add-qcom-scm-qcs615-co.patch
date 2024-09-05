@@ -1,0 +1,29 @@
+From b072840cc5fa3e54300b08efe00665f7bba2660b Mon Sep 17 00:00:00 2001
+From: Qingqing Zhou <quic_qqzhou@quicinc.com>
+Date: Thu, 5 Sep 2024 11:20:09 +0530
+Subject: [PATCH 28/30] dt-bindings: firmware: qcom,scm: add qcom,scm-qcs615
+ compatible
+
+Add a compatible for the qcs615 platform's Secure Channel Manager
+firmware interface.
+
+Signed-off-by: Qingqing Zhou <quic_qqzhou@quicinc.com>
+---
+ Documentation/devicetree/bindings/firmware/qcom,scm.yaml | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/Documentation/devicetree/bindings/firmware/qcom,scm.yaml b/Documentation/devicetree/bindings/firmware/qcom,scm.yaml
+index 2cc83771d8e7..2a94d02f11a1 100644
+--- a/Documentation/devicetree/bindings/firmware/qcom,scm.yaml
++++ b/Documentation/devicetree/bindings/firmware/qcom,scm.yaml
+@@ -42,6 +42,7 @@ properties:
+           - qcom,scm-msm8996
+           - qcom,scm-msm8998
+           - qcom,scm-qcm2290
++          - qcom,scm-qcs615
+           - qcom,scm-qdu1000
+           - qcom,scm-sa8775p
+           - qcom,scm-sc7180
+-- 
+2.34.1
+
