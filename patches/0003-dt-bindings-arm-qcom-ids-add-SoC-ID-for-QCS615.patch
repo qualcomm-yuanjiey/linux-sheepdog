@@ -1,7 +1,7 @@
-From f7412c6d274a140389dbedfd7e28b9c28fa69a6b Mon Sep 17 00:00:00 2001
+From 8540e721422cce986d7285fc78d9ac9009f5c69d Mon Sep 17 00:00:00 2001
 From: Lijuan Gao <quic_lijuang@quicinc.com>
 Date: Wed, 14 Aug 2024 16:41:16 +0800
-Subject: [PATCH 03/30] dt-bindings: arm: qcom,ids: add SoC ID for QCS615
+Subject: [PATCH 03/26] dt-bindings: arm: qcom,ids: add SoC ID for QCS615
 
 Add the ID for the Qualcomm QCS615 SoC.
 

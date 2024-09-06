@@ -1,7 +1,7 @@
-From 0ad3734c8c360d71f60649d8262b76723a7a7016 Mon Sep 17 00:00:00 2001
+From ebac90fabc460b903aef2cadabce4123232116f6 Mon Sep 17 00:00:00 2001
 From: Taniya Das <quic_tdas@quicinc.com>
 Date: Thu, 29 Aug 2024 23:23:32 +0530
-Subject: [PATCH 24/30] arm64: dts: qcom: add support for clocks for QCS615
+Subject: [PATCH 18/26] arm64: dts: qcom: add support for clocks for QCS615
 
 Signed-off-by: Taniya Das <quic_tdas@quicinc.com>
 ---
@@ -9,10 +9,10 @@ Signed-off-by: Taniya Das <quic_tdas@quicinc.com>
  1 file changed, 9 insertions(+), 16 deletions(-)
 
 diff --git a/arch/arm64/boot/dts/qcom/qcs615.dtsi b/arch/arm64/boot/dts/qcom/qcs615.dtsi
-index 05912943f616..6b49b9b68aa2 100644
+index dd567f6546f0..6d0a1aac94c8 100644
 --- a/arch/arm64/boot/dts/qcom/qcs615.dtsi
 +++ b/arch/arm64/boot/dts/qcom/qcs615.dtsi
-@@ -518,8 +518,9 @@ apps_rsc: rsc@18200000 {
+@@ -470,8 +470,9 @@ apps_rsc: rsc@18200000 {
  
  			rpmhcc: clock-controller {
  				compatible = "qcom,qcs615-rpmh-clk";
@@ -23,7 +23,7 @@ index 05912943f616..6b49b9b68aa2 100644
  			};
  
  			apps_bcm_voter: bcm_voter {
-@@ -584,24 +585,16 @@ tcsr_mutex: hwlock@1f40000 {
+@@ -491,24 +492,16 @@ tcsr: syscon@1fc0000 {
  		};
  
  		gcc: clock-controller@100000 {

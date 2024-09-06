@@ -1,7 +1,7 @@
-From b570ddca2de311cff109028cf8e34725532c1030 Mon Sep 17 00:00:00 2001
+From 5a85ac9ee6bf720366b8803a9dd95603929c4db1 Mon Sep 17 00:00:00 2001
 From: Qingqing Zhou <quic_qqzhou@quicinc.com>
 Date: Thu, 5 Sep 2024 13:46:08 +0530
-Subject: [PATCH 30/30] firmware: qcom: tzmem: blacklist QCS615 for SHM Bridge
+Subject: [PATCH 22/26] firmware: qcom: tzmem: blacklist QCS615 for SHM Bridge
 
 The SHM bridge is not supported on the QCS615 platform. The scm call
 of enabling SHM bridge returns error on this platform, this causes

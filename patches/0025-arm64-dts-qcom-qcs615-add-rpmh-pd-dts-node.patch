@@ -1,7 +1,7 @@
-From 853a6bc8f43a9569a7ef5edc51411d9223f8e7cc Mon Sep 17 00:00:00 2001
+From b3e41eae7520e68bb9c0f955cfe22602aa4f3d4d Mon Sep 17 00:00:00 2001
 From: Tingguo Cheng <quic_tingguoc@quicinc.com>
 Date: Wed, 4 Sep 2024 16:20:09 +0800
-Subject: [PATCH 19/30] arm64: dts: qcom: qcs615: add rpmh-pd dts node
+Subject: [PATCH 25/26] arm64: dts: qcom: qcs615: add rpmh-pd dts node
 
 Add rpmhpd power controller dts node for Qualcomm QCS615 platform.
 
@@ -11,7 +11,7 @@ Signed-off-by: Tingguo Cheng <quic_tingguoc@quicinc.com>
  1 file changed, 51 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/qcom/qcs615.dtsi b/arch/arm64/boot/dts/qcom/qcs615.dtsi
-index f3cc5a2538c5..05912943f616 100644
+index d46cfdfb19cb..192999da0aa4 100644
 --- a/arch/arm64/boot/dts/qcom/qcs615.dtsi
 +++ b/arch/arm64/boot/dts/qcom/qcs615.dtsi
 @@ -6,6 +6,7 @@
@@ -22,7 +22,7 @@ index f3cc5a2538c5..05912943f616 100644
  #include <dt-bindings/soc/qcom,rpmh-rsc.h>
  
  / {
-@@ -524,6 +525,56 @@ rpmhcc: clock-controller {
+@@ -478,6 +479,56 @@ rpmhcc: clock-controller {
  			apps_bcm_voter: bcm_voter {
  				compatible = "qcom,bcm-voter";
  			};
@@ -43,11 +43,11 @@ index f3cc5a2538c5..05912943f616 100644
 +						opp-level = <RPMH_REGULATOR_LEVEL_MIN_SVS>;
 +					};
 +
-+					rpmhpd_opp_low_svs: opp2 {
++					rpmhpd_opp_low_svs: opp-2 {
 +						opp-level = <RPMH_REGULATOR_LEVEL_LOW_SVS>;
 +					};
 +
-+					rpmhpd_opp_svs: opp3 {
++					rpmhpd_opp_svs: opp-3 {
 +						opp-level = <RPMH_REGULATOR_LEVEL_SVS>;
 +					};
 +

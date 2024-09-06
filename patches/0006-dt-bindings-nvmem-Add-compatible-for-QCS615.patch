@@ -1,0 +1,27 @@
+From 8d3825a17be14c524b78f8c6b6b167a149f2e004 Mon Sep 17 00:00:00 2001
+From: Lijuan Gao <quic_lijuang@quicinc.com>
+Date: Fri, 6 Sep 2024 14:20:12 +0800
+Subject: [PATCH 06/26] dt-bindings: nvmem: Add compatible for QCS615
+
+Document the QFPROM block found on QCS615.
+
+Signed-off-by: Lijuan Gao <quic_lijuang@quicinc.com>
+---
+ Documentation/devicetree/bindings/nvmem/qcom,qfprom.yaml | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/Documentation/devicetree/bindings/nvmem/qcom,qfprom.yaml b/Documentation/devicetree/bindings/nvmem/qcom,qfprom.yaml
+index 80845c722ae4..38e0d50f0e1c 100644
+--- a/Documentation/devicetree/bindings/nvmem/qcom,qfprom.yaml
++++ b/Documentation/devicetree/bindings/nvmem/qcom,qfprom.yaml
+@@ -32,6 +32,7 @@ properties:
+           - qcom,msm8998-qfprom
+           - qcom,qcm2290-qfprom
+           - qcom,qcs404-qfprom
++          - qcom,qcs615-qfprom
+           - qcom,sc7180-qfprom
+           - qcom,sc7280-qfprom
+           - qcom,sc8280xp-qfprom
+-- 
+2.34.1
+

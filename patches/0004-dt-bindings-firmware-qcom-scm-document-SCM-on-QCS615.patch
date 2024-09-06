@@ -1,0 +1,29 @@
+From 69ccd8a810f315e67da2ca39a85ce5201b2295c3 Mon Sep 17 00:00:00 2001
+From: Lijuan Gao <quic_lijuang@quicinc.com>
+Date: Fri, 6 Sep 2024 14:08:53 +0800
+Subject: [PATCH 04/26] dt-bindings: firmware: qcom,scm: document SCM on QCS615
+ SoCs
+
+Document scm compatible for QCS615 SoCs. It is an interface to
+communicate to the secure firmware.
+
+Signed-off-by: Lijuan Gao <quic_lijuang@quicinc.com>
+---
+ Documentation/devicetree/bindings/firmware/qcom,scm.yaml | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/Documentation/devicetree/bindings/firmware/qcom,scm.yaml b/Documentation/devicetree/bindings/firmware/qcom,scm.yaml
+index 2cc83771d8e7..e43e7361f779 100644
+--- a/Documentation/devicetree/bindings/firmware/qcom,scm.yaml
++++ b/Documentation/devicetree/bindings/firmware/qcom,scm.yaml
+@@ -65,6 +65,7 @@ properties:
+           - qcom,scm-sm8550
+           - qcom,scm-sm8650
+           - qcom,scm-qcs404
++          - qcom,scm-qcs615
+           - qcom,scm-x1e80100
+       - const: qcom,scm
+ 
+-- 
+2.34.1
+

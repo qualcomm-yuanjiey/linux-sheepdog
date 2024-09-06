@@ -1,7 +1,7 @@
-From 7f7c378cf320f723aff13e83146346661c8f84fc Mon Sep 17 00:00:00 2001
+From 6908bef24a5ab9aa5d5bf625c620ddfd72458dd6 Mon Sep 17 00:00:00 2001
 From: Qingqing Zhou <quic_qqzhou@quicinc.com>
 Date: Wed, 4 Sep 2024 12:16:32 +0530
-Subject: [PATCH 27/30] arm64: dts: qcom: qcs615: add the APPS SMMU node
+Subject: [PATCH 21/26] arm64: dts: qcom: qcs615: add the APPS SMMU node
 
 Add the APPS SMMU node for qcs615-based platforms.
 
@@ -11,10 +11,10 @@ Signed-off-by: Qingqing Zhou <quic_qqzhou@quicinc.com>
  1 file changed, 73 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/qcom/qcs615.dtsi b/arch/arm64/boot/dts/qcom/qcs615.dtsi
-index 6b49b9b68aa2..3127d2a6d643 100644
+index 6d0a1aac94c8..d46cfdfb19cb 100644
 --- a/arch/arm64/boot/dts/qcom/qcs615.dtsi
 +++ b/arch/arm64/boot/dts/qcom/qcs615.dtsi
-@@ -670,6 +670,79 @@ uart2: serial@880000 {
+@@ -589,6 +589,79 @@ uart2: serial@880000 {
  			};
  		};
  
