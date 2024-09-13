@@ -1,7 +1,7 @@
-From 21977fd49cdbfb64bd3bc605637c0125d1233d24 Mon Sep 17 00:00:00 2001
+From d13eb5cffe3535bbeaab01890935304a65f17ab3 Mon Sep 17 00:00:00 2001
 From: Lijuan Gao <quic_lijuang@quicinc.com>
 Date: Fri, 30 Aug 2024 14:52:34 +0800
-Subject: [PATCH 11/30] dt-bindings: pinctrl: describe qcs615-tlmm
+Subject: [PATCH 11/41] dt-bindings: pinctrl: describe qcs615-tlmm
 
 Add DT bindings for the TLMM controller on QCS615 platforms.
 

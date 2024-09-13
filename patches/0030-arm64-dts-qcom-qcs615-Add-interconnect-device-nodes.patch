@@ -1,7 +1,7 @@
-From f68ff4078486e2c8093397d9a255ba8138e04461 Mon Sep 17 00:00:00 2001
+From 3ac4bb66b53ecbb431d80dfd32b5ca792ac732f3 Mon Sep 17 00:00:00 2001
 From: Swetha Chintavatla <quic_chintava@quicinc.com>
 Date: Thu, 29 Aug 2024 17:19:46 +0530
-Subject: [PATCH 30/30] arm64: dts: qcom: qcs615: Add interconnect device nodes
+Subject: [PATCH 30/41] arm64: dts: qcom: qcs615: Add interconnect device nodes
 
 Add interconnect device nodes for qcs615 platform. This will allow the
 consumers to get the interconnect path and set bandwidth constraints on

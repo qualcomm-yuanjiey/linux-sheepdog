@@ -1,7 +1,7 @@
-From 2c0e3a26ced9b4847d5536585146010a6d8c07fd Mon Sep 17 00:00:00 2001
+From 91c0f77976336f7f94ec31b051d81d64b43e6097 Mon Sep 17 00:00:00 2001
 From: Swetha Chintavatla <quic_chintava@quicinc.com>
 Date: Wed, 28 Aug 2024 16:07:59 +0530
-Subject: [PATCH 27/30] dt-bindings: interconnect: Add Qualcomm QCS615 DT
+Subject: [PATCH 27/41] dt-bindings: interconnect: Add Qualcomm QCS615 DT
  bindings
 
 The Qualcomm QCS615 SoC has several bus fabrics that could be

@@ -1,16 +1,17 @@
-From ced51463a7822a4e8279bc62207930820d7ecb52 Mon Sep 17 00:00:00 2001
+From 2f909f134b666f1bf235da54b183d99b47cc8366 Mon Sep 17 00:00:00 2001
 From: Taniya Das <quic_tdas@quicinc.com>
 Date: Thu, 29 Aug 2024 22:42:43 +0530
-Subject: [PATCH 17/30] clk: qcom: gcc: Add support for QCS615 GCC clocks
+Subject: [PATCH 17/41] clk: qcom: gcc: Add support for QCS615 GCC clocks
 
 Add the global clock controller support for QCS615 SoC.
 
 Signed-off-by: Taniya Das <quic_tdas@quicinc.com>
 ---
- drivers/clk/qcom/Kconfig      |    7 +
- drivers/clk/qcom/Makefile     |    1 +
- drivers/clk/qcom/gcc-qcs615.c | 2958 +++++++++++++++++++++++++++++++++
- 3 files changed, 2966 insertions(+)
+ drivers/clk/qcom/Kconfig                    |    7 +
+ drivers/clk/qcom/Makefile                   |    1 +
+ drivers/clk/qcom/gcc-qcs615.c               | 3024 +++++++++++++++++++
+ include/dt-bindings/clock/qcom,qcs615-gcc.h |   36 +-
+ 4 files changed, 3054 insertions(+), 14 deletions(-)
  create mode 100644 drivers/clk/qcom/gcc-qcs615.c
 
 diff --git a/drivers/clk/qcom/Kconfig b/drivers/clk/qcom/Kconfig
@@ -45,10 +46,10 @@ index 2b378667a63f..a46ce0723602 100644
  obj-$(CONFIG_QDU_ECPRICC_1000) += ecpricc-qdu1000.o
 diff --git a/drivers/clk/qcom/gcc-qcs615.c b/drivers/clk/qcom/gcc-qcs615.c
 new file mode 100644
-index 000000000000..60917a6d73e7
+index 000000000000..4afe15d7eb1b
 --- /dev/null
 +++ b/drivers/clk/qcom/gcc-qcs615.c
-@@ -0,0 +1,2958 @@
+@@ -0,0 +1,3024 @@
 +// SPDX-License-Identifier: GPL-2.0-only
 +/*
 + * Copyright (c) 2024, Qualcomm Innovation Center, Inc. All rights reserved.
@@ -2695,7 +2696,6 @@ index 000000000000..60917a6d73e7
 +		.name = "emac_gdsc",
 +	},
 +	.pwrsts = PWRSTS_OFF_ON,
-+	.flags = POLL_CFG_GDSCR | RETAIN_FF_ENABLE,
 +};
 +
 +static struct gdsc pcie_0_gdsc = {
@@ -2707,7 +2707,6 @@ index 000000000000..60917a6d73e7
 +		.name = "pcie_0_gdsc",
 +	},
 +	.pwrsts = PWRSTS_OFF_ON,
-+	.flags = HW_CTRL | POLL_CFG_GDSCR | RETAIN_FF_ENABLE,
 +};
 +
 +static struct gdsc ufs_phy_gdsc = {
@@ -2719,7 +2718,6 @@ index 000000000000..60917a6d73e7
 +		.name = "ufs_phy_gdsc",
 +	},
 +	.pwrsts = PWRSTS_OFF_ON,
-+	.flags = POLL_CFG_GDSCR | RETAIN_FF_ENABLE,
 +};
 +
 +static struct gdsc usb20_sec_gdsc = {
@@ -2731,7 +2729,6 @@ index 000000000000..60917a6d73e7
 +		.name = "usb20_sec_gdsc",
 +	},
 +	.pwrsts = PWRSTS_OFF_ON,
-+	.flags = POLL_CFG_GDSCR | RETAIN_FF_ENABLE,
 +};
 +
 +static struct gdsc usb30_prim_gdsc = {
@@ -2743,7 +2740,69 @@ index 000000000000..60917a6d73e7
 +		.name = "usb30_prim_gdsc",
 +	},
 +	.pwrsts = PWRSTS_OFF_ON,
-+	.flags = POLL_CFG_GDSCR | RETAIN_FF_ENABLE,
++};
++
++static struct gdsc hlos1_vote_aggre_noc_mmu_audio_tbu_gdsc = {
++	.gdscr = 0x7d040,
++	.pd = {
++		.name = "hlos1_vote_aggre_noc_mmu_audio_tbu",
++	},
++	.pwrsts = PWRSTS_OFF_ON,
++	.flags = VOTABLE,
++};
++
++static struct gdsc hlos1_vote_aggre_noc_mmu_tbu1_gdsc = {
++	.gdscr = 0x7d044,
++	.pd = {
++		.name = "hlos1_vote_aggre_noc_mmu_tbu1",
++	},
++	.pwrsts = PWRSTS_OFF_ON,
++	.flags = VOTABLE,
++};
++
++static struct gdsc hlos1_vote_aggre_noc_mmu_tbu2_gdsc = {
++	.gdscr = 0x7d048,
++	.pd = {
++		.name = "hlos1_vote_aggre_noc_mmu_tbu2",
++	},
++	.pwrsts = PWRSTS_OFF_ON,
++	.flags = VOTABLE,
++};
++
++static struct gdsc hlos1_vote_aggre_noc_mmu_pcie_tbu_gdsc = {
++	.gdscr = 0x7d04c,
++	.pd = {
++		.name = "hlos1_vote_aggre_noc_mmu_pcie_tbu",
++	},
++	.pwrsts = PWRSTS_OFF_ON,
++	.flags = VOTABLE,
++};
++
++static struct gdsc hlos1_vote_mmnoc_mmu_tbu_hf0_gdsc = {
++	.gdscr = 0x7d050,
++	.pd = {
++		.name = "hlos1_vote_mmnoc_mmu_tbu_hf0_gdsc",
++	},
++	.pwrsts = PWRSTS_OFF_ON,
++	.flags = VOTABLE,
++};
++
++static struct gdsc hlos1_vote_mmnoc_mmu_tbu_sf_gdsc = {
++	.gdscr = 0x7d054,
++	.pd = {
++		.name = "hlos1_vote_mmnoc_mmu_tbu_sf_gdsc",
++	},
++	.pwrsts = PWRSTS_OFF_ON,
++	.flags = VOTABLE,
++};
++
++static struct gdsc hlos1_vote_mmnoc_mmu_tbu_hf1_gdsc = {
++	.gdscr = 0x7d058,
++	.pd = {
++		.name = "hlos1_vote_mmnoc_mmu_tbu_hf1_gdsc",
++	},
++	.pwrsts = PWRSTS_OFF_ON,
++	.flags = VOTABLE,
 +};
 +
 +static struct clk_regmap *gcc_qcs615_clocks[] = {
@@ -2900,9 +2959,17 @@ index 000000000000..60917a6d73e7
 +	[UFS_PHY_GDSC] = &ufs_phy_gdsc,
 +	[USB20_SEC_GDSC] = &usb20_sec_gdsc,
 +	[USB30_PRIM_GDSC] = &usb30_prim_gdsc,
++	[HLOS1_VOTE_AGGRE_NOC_MMU_AUDIO_TBU_GDSC] = &hlos1_vote_aggre_noc_mmu_audio_tbu_gdsc,
++	[HLOS1_VOTE_AGGRE_NOC_MMU_TBU1_GDSC] = &hlos1_vote_aggre_noc_mmu_tbu1_gdsc,
++	[HLOS1_VOTE_AGGRE_NOC_MMU_TBU2_GDSC] = &hlos1_vote_aggre_noc_mmu_tbu2_gdsc,
++	[HLOS1_VOTE_AGGRE_NOC_MMU_PCIE_TBU_GDSC] = &hlos1_vote_aggre_noc_mmu_pcie_tbu_gdsc,
++	[HLOS1_VOTE_MMNOC_MMU_TBU_HF0_GDSC] = &hlos1_vote_mmnoc_mmu_tbu_hf0_gdsc,
++	[HLOS1_VOTE_MMNOC_MMU_TBU_SF_GDSC] = &hlos1_vote_mmnoc_mmu_tbu_sf_gdsc,
++	[HLOS1_VOTE_MMNOC_MMU_TBU_HF1_GDSC] = &hlos1_vote_mmnoc_mmu_tbu_hf1_gdsc,
 +};
 +
 +static const struct qcom_reset_map gcc_qcs615_resets[] = {
++	[GCC_EMAC_BCR] = { 0x6000 },
 +	[GCC_QUSB2PHY_PRIM_BCR] = { 0xd000 },
 +	[GCC_QUSB2PHY_SEC_BCR] = { 0xd004 },
 +	[GCC_USB30_PRIM_BCR] = { 0xf000 },
@@ -3007,6 +3074,59 @@ index 000000000000..60917a6d73e7
 +
 +MODULE_DESCRIPTION("QTI GCC QCS615 Driver");
 +MODULE_LICENSE("GPL");
+diff --git a/include/dt-bindings/clock/qcom,qcs615-gcc.h b/include/dt-bindings/clock/qcom,qcs615-gcc.h
+index 4ea963c630d8..292c367380df 100644
+--- a/include/dt-bindings/clock/qcom,qcs615-gcc.h
++++ b/include/dt-bindings/clock/qcom,qcs615-gcc.h
+@@ -176,20 +176,21 @@
+ #define GCC_UFS_PHY_UNIPRO_CORE_HW_CTL_CLK			166
+ 
+ /* GCC Resets */
+-#define GCC_QUSB2PHY_PRIM_BCR					0
+-#define GCC_QUSB2PHY_SEC_BCR					1
+-#define GCC_USB30_PRIM_BCR					2
+-#define GCC_USB2_PHY_SEC_BCR					3
+-#define GCC_USB3_DP_PHY_SEC_BCR					4
+-#define GCC_USB3PHY_PHY_SEC_BCR					5
+-#define GCC_PCIE_0_BCR						6
+-#define GCC_PCIE_0_PHY_BCR					7
+-#define GCC_PCIE_PHY_BCR					8
+-#define GCC_PCIE_PHY_COM_BCR					9
+-#define GCC_UFS_PHY_BCR						10
+-#define GCC_USB20_SEC_BCR					11
+-#define GCC_USB3_PHY_PRIM_SP0_BCR				12
+-#define GCC_USB3PHY_PHY_PRIM_SP0_BCR				13
++#define GCC_EMAC_BCR						0
++#define GCC_QUSB2PHY_PRIM_BCR					1
++#define GCC_QUSB2PHY_SEC_BCR					2
++#define GCC_USB30_PRIM_BCR					3
++#define GCC_USB2_PHY_SEC_BCR					4
++#define GCC_USB3_DP_PHY_SEC_BCR					5
++#define GCC_USB3PHY_PHY_SEC_BCR					6
++#define GCC_PCIE_0_BCR						7
++#define GCC_PCIE_0_PHY_BCR					8
++#define GCC_PCIE_PHY_BCR					9
++#define GCC_PCIE_PHY_COM_BCR					10
++#define GCC_UFS_PHY_BCR						11
++#define GCC_USB20_SEC_BCR					12
++#define GCC_USB3_PHY_PRIM_SP0_BCR				13
++#define GCC_USB3PHY_PHY_PRIM_SP0_BCR				14
+ 
+ /* GCC power domains */
+ #define EMAC_GDSC						0
+@@ -197,5 +198,12 @@
+ #define UFS_PHY_GDSC						2
+ #define USB20_SEC_GDSC						3
+ #define USB30_PRIM_GDSC						4
++#define HLOS1_VOTE_AGGRE_NOC_MMU_AUDIO_TBU_GDSC			5
++#define	HLOS1_VOTE_AGGRE_NOC_MMU_TBU1_GDSC			6
++#define	HLOS1_VOTE_AGGRE_NOC_MMU_TBU2_GDSC			7
++#define	HLOS1_VOTE_AGGRE_NOC_MMU_PCIE_TBU_GDSC			8
++#define	HLOS1_VOTE_MMNOC_MMU_TBU_HF0_GDSC			9
++#define	HLOS1_VOTE_MMNOC_MMU_TBU_SF_GDSC			10
++#define	HLOS1_VOTE_MMNOC_MMU_TBU_HF1_GDSC			11
+ 
+ #endif
 -- 
 2.34.1
 
