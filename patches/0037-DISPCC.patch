@@ -1,15 +1,15 @@
-From abb09985650ecc8746184dcbc4d9961fc71f0f3a Mon Sep 17 00:00:00 2001
+From d3036d8c9ad43faca29a1369fac5c490409c9585 Mon Sep 17 00:00:00 2001
 From: Taniya Das <quic_tdas@quicinc.com>
 Date: Fri, 6 Sep 2024 23:28:03 +0530
-Subject: [PATCH 37/41] DISPCC
+Subject: [PATCH] DISPCC
 
 Signed-off-by: Taniya Das <quic_tdas@quicinc.com>
 ---
  drivers/clk/qcom/Kconfig                      |   9 +
  drivers/clk/qcom/Makefile                     |   1 +
- drivers/clk/qcom/dispcc-qcs615.c              | 789 ++++++++++++++++++
+ drivers/clk/qcom/dispcc-qcs615.c              | 788 ++++++++++++++++++
  .../dt-bindings/clock/qcom,qcs615-dispcc.h    |  52 ++
- 4 files changed, 851 insertions(+)
+ 4 files changed, 850 insertions(+)
  create mode 100644 drivers/clk/qcom/dispcc-qcs615.c
  create mode 100644 include/dt-bindings/clock/qcom,qcs615-dispcc.h
 
@@ -47,10 +47,10 @@ index 8b6ff8ebdf5e..cbda30868efe 100644
  obj-$(CONFIG_QCS_GCC_615) += gcc-qcs615.o
 diff --git a/drivers/clk/qcom/dispcc-qcs615.c b/drivers/clk/qcom/dispcc-qcs615.c
 new file mode 100644
-index 000000000000..9c2a9fe2de84
+index 000000000000..74266005a28b
 --- /dev/null
 +++ b/drivers/clk/qcom/dispcc-qcs615.c
-@@ -0,0 +1,789 @@
+@@ -0,0 +1,788 @@
 +// SPDX-License-Identifier: GPL-2.0-only
 +/*
 + * Copyright (c) 2024, Qualcomm Innovation Center, Inc. All rights reserved.
@@ -118,7 +118,6 @@ index 000000000000..9c2a9fe2de84
 +	.vco_table = disp_cc_pll_vco,
 +	.num_vco = ARRAY_SIZE(disp_cc_pll_vco),
 +	.regs = clk_alpha_pll_regs[CLK_ALPHA_PLL_TYPE_DEFAULT],
-+	.flags = SUPPORTS_DYNAMIC_UPDATE,
 +	.clkr = {
 +		.hw.init = &(const struct clk_init_data) {
 +			.name = "disp_cc_pll0",
