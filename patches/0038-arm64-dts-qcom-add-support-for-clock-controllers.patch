@@ -1,7 +1,7 @@
-From ddacc5e993291f2a4842787c37baafbcad429252 Mon Sep 17 00:00:00 2001
+From b13aa6cd5ee14abdbabc7c44210389e27c737be3 Mon Sep 17 00:00:00 2001
 From: Taniya Das <quic_tdas@quicinc.com>
 Date: Mon, 9 Sep 2024 15:56:10 +0530
-Subject: [PATCH 41/41] arm64: dts: qcom: add support for clock controllers
+Subject: [PATCH 38/45] arm64: dts: qcom: add support for clock controllers
 
 Add multimedia clock controllers for QCS615.
 
@@ -11,7 +11,7 @@ Signed-off-by: Taniya Das <quic_tdas@quicinc.com>
  1 file changed, 50 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/qcom/qcs615.dtsi b/arch/arm64/boot/dts/qcom/qcs615.dtsi
-index 2f58c2265b90..221cf744d3f5 100644
+index edea2dc5f69a..0768de5cc248 100644
 --- a/arch/arm64/boot/dts/qcom/qcs615.dtsi
 +++ b/arch/arm64/boot/dts/qcom/qcs615.dtsi
 @@ -5,7 +5,11 @@
@@ -26,7 +26,7 @@ index 2f58c2265b90..221cf744d3f5 100644
  #include <dt-bindings/power/qcom-rpmpd.h>
  #include <dt-bindings/soc/qcom,rpmh-rsc.h>
  
-@@ -609,6 +613,52 @@ gcc: clock-controller@100000 {
+@@ -555,6 +559,52 @@ gcc: clock-controller@100000 {
  			#power-domain-cells = <1>;
  		};
  

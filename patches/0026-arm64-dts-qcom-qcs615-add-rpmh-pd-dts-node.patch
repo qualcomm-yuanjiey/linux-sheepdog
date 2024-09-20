@@ -1,7 +1,7 @@
-From 059e929ded926502c404531dd06c1362001273eb Mon Sep 17 00:00:00 2001
+From 14ff06a9a25219bb62c64166a936b4a12cb90605 Mon Sep 17 00:00:00 2001
 From: Tingguo Cheng <quic_tingguoc@quicinc.com>
 Date: Wed, 4 Sep 2024 16:20:09 +0800
-Subject: [PATCH 25/41] arm64: dts: qcom: qcs615: add rpmh-pd dts node
+Subject: [PATCH 26/45] arm64: dts: qcom: qcs615: add rpmh-pd dts node
 
 Add rpmhpd power controller dts node for Qualcomm QCS615 platform.
 

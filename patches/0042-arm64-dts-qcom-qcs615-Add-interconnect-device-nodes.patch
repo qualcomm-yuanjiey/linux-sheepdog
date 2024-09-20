@@ -1,0 +1,104 @@
+From 69be87e88c9abdad23afba2c150b57763822b389 Mon Sep 17 00:00:00 2001
+From: Swetha Chintavatla <quic_chintava@quicinc.com>
+Date: Thu, 19 Sep 2024 17:02:53 +0530
+Subject: [PATCH 42/45] arm64: dts: qcom: qcs615: Add interconnect device nodes
+
+Add interconnect device nodes for qcs615 platform. This will allow the
+consumers to get the interconnect path and set bandwidth constraints on
+NoC.
+
+Signed-off-by: Swetha Chintavatla <quic_chintava@quicinc.com>
+---
+ arch/arm64/boot/dts/qcom/qcs615.dtsi | 62 ++++++++++++++++++++++++++++
+ 1 file changed, 62 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/qcom/qcs615.dtsi b/arch/arm64/boot/dts/qcom/qcs615.dtsi
+index 0768de5cc248..192989a891cd 100644
+--- a/arch/arm64/boot/dts/qcom/qcs615.dtsi
++++ b/arch/arm64/boot/dts/qcom/qcs615.dtsi
+@@ -12,6 +12,8 @@
+ #include <dt-bindings/clock/qcom,qcs615-videocc.h>
+ #include <dt-bindings/power/qcom-rpmpd.h>
+ #include <dt-bindings/soc/qcom,rpmh-rsc.h>
++#include <dt-bindings/interconnect/qcom,icc.h>
++#include <dt-bindings/interconnect/qcom,qcs615-rpmh.h>
+ 
+ / {
+ 	interrupt-parent = <&intc>;
+@@ -295,6 +297,24 @@ scm {
+ 		};
+ 	};
+ 
++	camnoc_virt: interconnect-0 {
++		compatible = "qcom,qcs615-camnoc-virt";
++		#interconnect-cells = <2>;
++		qcom,bcm-voters = <&apps_bcm_voter>;
++	};
++
++	ipa_virt: interconnect-1 {
++		compatible = "qcom,qcs615-ipa-virt";
++		#interconnect-cells = <2>;
++		qcom,bcm-voters = <&apps_bcm_voter>;
++	};
++
++	mc_virt: interconnect-2 {
++		compatible = "qcom,qcs615-mc-virt";
++		#interconnect-cells = <2>;
++		qcom,bcm-voters = <&apps_bcm_voter>;
++	};
++
+ 	psci {
+ 		compatible = "arm,psci-1.0";
+ 		method = "smc";
+@@ -453,6 +473,48 @@ soc: soc@0 {
+ 		#address-cells = <2>;
+ 		#size-cells = <2>;
+ 
++		config_noc: interconnect@1500000 {
++			reg = <0x0 0x1500000 0x0 0x5080>;
++			compatible = "qcom,qcs615-config-noc";
++			#interconnect-cells = <2>;
++			qcom,bcm-voters = <&apps_bcm_voter>;
++		};
++
++		system_noc: interconnect@1620000 {
++			reg = <0x0 0x1620000 0x0 0x1F300>;
++			compatible = "qcom,qcs615-system-noc";
++			#interconnect-cells = <2>;
++			qcom,bcm-voters = <&apps_bcm_voter>;
++		};
++
++		aggre1_noc: interconnect@1700000 {
++			reg = <0x0 0x1700000 0x0 0x3F200>;
++			compatible = "qcom,qcs615-aggre1-noc";
++			#interconnect-cells = <2>;
++			qcom,bcm-voters = <&apps_bcm_voter>;
++		};
++
++		mmss_noc: interconnect@1740000 {
++			reg = <0x0 0x1740000 0x0 0x1C100>;
++			compatible = "qcom,qcs615-mmss-noc";
++			#interconnect-cells = <2>;
++			qcom,bcm-voters = <&apps_bcm_voter>;
++		};
++
++		dc_noc: interconnect@9160000 {
++			reg = <0x0 0x9160000 0x0 0x3200>;
++			compatible = "qcom,qcs615-dc-noc";
++			#interconnect-cells = <2>;
++			qcom,bcm-voters = <&apps_bcm_voter>;
++		};
++
++		gem_noc: interconnect@9680000 {
++			reg = <0x0 0x9680000 0x0 0x3E200>;
++			compatible = "qcom,qcs615-gem-noc";
++			#interconnect-cells = <2>;
++			qcom,bcm-voters = <&apps_bcm_voter>;
++		};
++
+ 		apps_rsc: rsc@18200000 {
+ 			abel = "apps_rsc";
+ 			compatible = "qcom,rpmh-rsc";
+-- 
+2.34.1
+

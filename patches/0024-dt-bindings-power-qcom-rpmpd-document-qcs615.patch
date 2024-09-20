@@ -1,7 +1,7 @@
-From fc487367234671066737f7b8453da3a10d1b9030 Mon Sep 17 00:00:00 2001
+From aac363a39f5ba18ca708fb78780886a3c1ea5adb Mon Sep 17 00:00:00 2001
 From: Tingguo Cheng <quic_tingguoc@quicinc.com>
 Date: Wed, 4 Sep 2024 15:17:15 +0800
-Subject: [PATCH 23/41] dt-bindings: power: qcom,rpmpd: document qcs615
+Subject: [PATCH 24/45] dt-bindings: power: qcom,rpmpd: document qcs615
 
 Add compatible item for qcs615 platform in qcom,rpmpd.yaml.
 

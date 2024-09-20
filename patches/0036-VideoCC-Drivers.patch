@@ -1,15 +1,15 @@
-From d62d90691a6ef875d0cec1b27aed2ff1cb208a68 Mon Sep 17 00:00:00 2001
+From a598c9dcac4e8354821b7aff4c5b3a2a7ede0046 Mon Sep 17 00:00:00 2001
 From: Taniya Das <quic_tdas@quicinc.com>
 Date: Mon, 9 Sep 2024 15:40:08 +0530
-Subject: [PATCH] VideoCC Drivers
+Subject: [PATCH 36/45] VideoCC Drivers
 
 Signed-off-by: Taniya Das <quic_tdas@quicinc.com>
 ---
  drivers/clk/qcom/Kconfig                      |   8 +
  drivers/clk/qcom/Makefile                     |   1 +
- drivers/clk/qcom/videocc-qcs615.c             | 333 ++++++++++++++++++
+ drivers/clk/qcom/videocc-qcs615.c             | 334 ++++++++++++++++++
  .../dt-bindings/clock/qcom,qcs615-videocc.h   |  30 ++
- 4 files changed, 372 insertions(+)
+ 4 files changed, 373 insertions(+)
  create mode 100644 drivers/clk/qcom/videocc-qcs615.c
  create mode 100644 include/dt-bindings/clock/qcom,qcs615-videocc.h
 
@@ -46,10 +46,10 @@ index a1486d649bb7..be4d40b6f3b4 100644
  obj-$(CONFIG_QDU_ECPRICC_1000) += ecpricc-qdu1000.o
 diff --git a/drivers/clk/qcom/videocc-qcs615.c b/drivers/clk/qcom/videocc-qcs615.c
 new file mode 100644
-index 000000000000..7761a5bc27ab
+index 000000000000..d12467d7c75d
 --- /dev/null
 +++ b/drivers/clk/qcom/videocc-qcs615.c
-@@ -0,0 +1,333 @@
+@@ -0,0 +1,334 @@
 +// SPDX-License-Identifier: GPL-2.0-only
 +/*
 + * Copyright (c) 2024, Qualcomm Innovation Center, Inc. All rights reserved.
@@ -112,6 +112,7 @@ index 000000000000..7761a5bc27ab
 +	.vco_table = video_cc_pll0_vco,
 +	.num_vco = ARRAY_SIZE(video_cc_pll0_vco),
 +	.regs = clk_alpha_pll_regs[CLK_ALPHA_PLL_TYPE_DEFAULT],
++	.flags = SUPPORTS_DYNAMIC_UPDATE,
 +	.clkr = {
 +		.hw.init = &(const struct clk_init_data) {
 +			.name = "video_pll0",

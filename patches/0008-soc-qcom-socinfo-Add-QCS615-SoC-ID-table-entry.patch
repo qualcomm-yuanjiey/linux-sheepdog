@@ -1,7 +1,7 @@
-From 8dfde8c2113451a043c1ef62c45d21c3f4af7fd3 Mon Sep 17 00:00:00 2001
+From 4a19f309709eb6e6058dc3f26b35ae0a08dc5df6 Mon Sep 17 00:00:00 2001
 From: Lijuan Gao <quic_lijuang@quicinc.com>
 Date: Wed, 14 Aug 2024 16:45:26 +0800
-Subject: [PATCH 08/41] soc: qcom: socinfo: Add QCS615 SoC ID table entry
+Subject: [PATCH 08/45] soc: qcom: socinfo: Add QCS615 SoC ID table entry
 
 Add SoC Info support for the QCS615 platform.
 

@@ -1,7 +1,7 @@
-From 0c197c5ddc67443f1371617159b9034a55530360 Mon Sep 17 00:00:00 2001
+From f2c845ff441f67769f41d50060bbeb86652098d4 Mon Sep 17 00:00:00 2001
 From: Kyle Deng <quic_chunkaid@quicinc.com>
 Date: Wed, 11 Sep 2024 16:03:07 +0800
-Subject: [PATCH 34/41] MPROC:Add QCS615 AOSS/SMEM/SMP2P support
+Subject: [PATCH 31/45] MPROC:Add QCS615 AOSS/SMEM/SMP2P support
 
 Add support for Mproc node for the qcs615 platform.
 
@@ -25,10 +25,10 @@ index 7afdb60edb22..ac20bb9b1792 100644
            - qcom,sm8150-aoss-qmp
            - qcom,sm8250-aoss-qmp
 diff --git a/arch/arm64/boot/dts/qcom/qcs615.dtsi b/arch/arm64/boot/dts/qcom/qcs615.dtsi
-index 9e819a6433c4..2f58c2265b90 100644
+index 68aa56bce699..edea2dc5f69a 100644
 --- a/arch/arm64/boot/dts/qcom/qcs615.dtsi
 +++ b/arch/arm64/boot/dts/qcom/qcs615.dtsi
-@@ -843,6 +843,105 @@ frame@17c2d000 {
+@@ -789,6 +789,105 @@ frame@17c2d000 {
  			};
  		};
  

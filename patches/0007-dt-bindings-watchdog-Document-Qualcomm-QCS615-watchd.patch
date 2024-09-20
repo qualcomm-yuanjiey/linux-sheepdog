@@ -1,7 +1,7 @@
-From ae8cec3df8e91f7d88df8a52075d810e665d3ef5 Mon Sep 17 00:00:00 2001
+From df1d30dd7ed4d5f2729e0f671ae98e48e39e5c03 Mon Sep 17 00:00:00 2001
 From: Lijuan Gao <quic_lijuang@quicinc.com>
 Date: Fri, 6 Sep 2024 14:25:28 +0800
-Subject: [PATCH 07/41] dt-bindings: watchdog: Document Qualcomm QCS615
+Subject: [PATCH 07/45] dt-bindings: watchdog: Document Qualcomm QCS615
  watchdog
 
 Add devicetree binding for watchdog present on Qualcomm
