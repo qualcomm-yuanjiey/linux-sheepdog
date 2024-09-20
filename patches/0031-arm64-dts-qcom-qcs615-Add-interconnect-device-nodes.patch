@@ -1,0 +1,93 @@
+From 586e136b258007144a923f72c99ec354ec69694d Mon Sep 17 00:00:00 2001
+From: Swetha Chintavatla <quic_chintava@quicinc.com>
+Date: Thu, 29 Aug 2024 17:19:46 +0530
+Subject: [PATCH 31/42] arm64: dts: qcom: qcs615: Add interconnect device nodes
+
+Add interconnect device nodes for qcs615 platform. This will allow the
+consumers to get the interconnect path and set bandwidth constraints on
+NoC.
+
+Signed-off-by: Swetha Chintavatla <quic_chintava@quicinc.com>
+---
+ arch/arm64/boot/dts/qcom/qcs615.dtsi | 58 ++++++++++++++++++++++++++++
+ 1 file changed, 58 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/qcom/qcs615.dtsi b/arch/arm64/boot/dts/qcom/qcs615.dtsi
+index 7544d2136b68..667d6a63f6f9 100644
+--- a/arch/arm64/boot/dts/qcom/qcs615.dtsi
++++ b/arch/arm64/boot/dts/qcom/qcs615.dtsi
+@@ -342,6 +342,60 @@ &cluster_sleep_1
+ 		};
+ 	};
+ 
++	aggre1_noc: interconnect-aggre1-noc {
++		compatible = "qcom,qcs615-aggre1-noc";
++		#interconnect-cells = <2>;
++		qcom,bcm-voters = <&apps_bcm_voter>;
++	};
++
++	camnoc_virt: interconnect-camnoc-virt {
++		compatible = "qcom,qcs615-camnoc-virt";
++		#interconnect-cells = <2>;
++		qcom,bcm-voters = <&apps_bcm_voter>;
++	};
++
++	config_noc: interconnect-config-noc {
++		compatible = "qcom,qcs615-config-noc";
++		#interconnect-cells = <2>;
++		qcom,bcm-voters = <&apps_bcm_voter>;
++	};
++
++	dc_noc: interconnect-dc-noc {
++		compatible = "qcom,qcs615-dc-noc";
++		#interconnect-cells = <2>;
++		qcom,bcm-voters = <&apps_bcm_voter>;
++	};
++
++	gem_noc: interconnect-gem-noc {
++		compatible = "qcom,qcs615-gem-noc";
++		#interconnect-cells = <2>;
++		qcom,bcm-voters = <&apps_bcm_voter>;
++	};
++
++	ipa_virt: interconnect-ipa-virt {
++		compatible = "qcom,qcs615-ipa-virt";
++		#interconnect-cells = <2>;
++		qcom,bcm-voters = <&apps_bcm_voter>;
++	};
++
++	mc_virt: interconnect-mc-virt {
++		compatible = "qcom,qcs615-mc-virt";
++		#interconnect-cells = <2>;
++		qcom,bcm-voters = <&apps_bcm_voter>;
++	};
++
++	mmss_noc: interconnect-mmss-noc {
++		compatible = "qcom,qcs615-mmss-noc";
++		#interconnect-cells = <2>;
++		qcom,bcm-voters = <&apps_bcm_voter>;
++	};
++
++	system_noc: interconnect-system-noc {
++		compatible = "qcom,qcs615-system-noc";
++		#interconnect-cells = <2>;
++		qcom,bcm-voters = <&apps_bcm_voter>;
++	};
++
+ 	reserved-memory {
+ 		#address-cells = <2>;
+ 		#size-cells = <2>;
+@@ -721,6 +775,10 @@ rpmhcc: clock-controller {
+ 				#clock-cells = <1>;
+ 			};
+ 
++			apps_bcm_voter: bcm_voter {
++				compatible = "qcom,bcm-voter";
++			};
++
+ 			rpmhpd: power-controller {
+ 				compatible = "qcom,qcs615-rpmhpd";
+ 				#power-domain-cells = <1>;
+-- 
+2.34.1
+

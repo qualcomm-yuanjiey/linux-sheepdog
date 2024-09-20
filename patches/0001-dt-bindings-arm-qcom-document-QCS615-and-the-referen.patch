@@ -1,11 +1,12 @@
-From d0adccbe55c278998bcfa76288dfc515a50731f1 Mon Sep 17 00:00:00 2001
+From 66f4a50a6bc3e997631ebc4f00b8b70ab986596c Mon Sep 17 00:00:00 2001
 From: Lijuan Gao <quic_lijuang@quicinc.com>
-Date: Wed, 14 Aug 2024 16:24:25 +0800
-Subject: [PATCH 02/45] dt-bindings: arm: qcom: document QCS615 and the
+Date: Wed, 28 Aug 2024 10:02:12 +0800
+Subject: [PATCH 01/42] dt-bindings: arm: qcom: document QCS615 and the
  reference board
 
 Document the QCS615 SoC and its reference board QCS615 RIDE.
 
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Signed-off-by: Lijuan Gao <quic_lijuang@quicinc.com>
 ---
  Documentation/devicetree/bindings/arm/qcom.yaml | 6 ++++++

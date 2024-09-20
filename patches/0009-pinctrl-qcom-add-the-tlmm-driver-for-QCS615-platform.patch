@@ -1,7 +1,7 @@
-From 4373a0b0841b1362b2d5c9fece88346cd21a3af9 Mon Sep 17 00:00:00 2001
+From 2140f594a307a3f11fe1d9363570d39c407b7009 Mon Sep 17 00:00:00 2001
 From: Lijuan Gao <quic_lijuang@quicinc.com>
 Date: Tue, 3 Sep 2024 10:43:10 +0800
-Subject: [PATCH 12/45] pinctrl: qcom: add the tlmm driver for QCS615 platforms
+Subject: [PATCH 09/42] pinctrl: qcom: add the tlmm driver for QCS615 platform
 
 Add support for QCS615 TLMM configuration and control via the
 pinctrl framework.
@@ -10,8 +10,8 @@ Signed-off-by: Lijuan Gao <quic_lijuang@quicinc.com>
 ---
  drivers/pinctrl/qcom/Kconfig.msm      |    7 +
  drivers/pinctrl/qcom/Makefile         |    1 +
- drivers/pinctrl/qcom/pinctrl-qcs615.c | 1087 +++++++++++++++++++++++++
- 3 files changed, 1095 insertions(+)
+ drivers/pinctrl/qcom/pinctrl-qcs615.c | 1107 +++++++++++++++++++++++++
+ 3 files changed, 1115 insertions(+)
  create mode 100644 drivers/pinctrl/qcom/pinctrl-qcs615.c
 
 diff --git a/drivers/pinctrl/qcom/Kconfig.msm b/drivers/pinctrl/qcom/Kconfig.msm
@@ -46,10 +46,10 @@ index eb04297b6388..249f46f339ac 100644
  obj-$(CONFIG_PINCTRL_MDM9615)	+= pinctrl-mdm9615.o
 diff --git a/drivers/pinctrl/qcom/pinctrl-qcs615.c b/drivers/pinctrl/qcom/pinctrl-qcs615.c
 new file mode 100644
-index 000000000000..65add6e37b99
+index 000000000000..8380e22b2faa
 --- /dev/null
 +++ b/drivers/pinctrl/qcom/pinctrl-qcs615.c
-@@ -0,0 +1,1087 @@
+@@ -0,0 +1,1107 @@
 +// SPDX-License-Identifier: GPL-2.0-only
 +/*
 + * Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
@@ -61,99 +61,108 @@ index 000000000000..65add6e37b99
 +
 +#include "pinctrl-msm.h"
 +
-+#define SOUTH 0xD00000
-+#define EAST 0x100000
-+#define WEST 0x500000
-+#define REG_SIZE 0x1000
-+#define PINGROUP(id, base, f1, f2, f3, f4, f5, f6, f7, f8, f9)        \
-+	{                                                             \
-+		.grp = PINCTRL_PINGROUP("gpio" #id,                   \
-+					gpio##id##_pins,              \
-+					ARRAY_SIZE(gpio##id##_pins)), \
-+		.ctl_reg = base + REG_SIZE * id,                      \
-+		.io_reg = base + 0x4 + REG_SIZE * id,                 \
-+		.intr_cfg_reg = base + 0x8 + REG_SIZE * id,           \
-+		.intr_status_reg = base + 0xc + REG_SIZE * id,        \
-+		.intr_target_reg = base + 0x8 + REG_SIZE * id,        \
-+		.mux_bit = 2,                                         \
-+		.pull_bit = 0,                                        \
-+		.drv_bit = 6,                                         \
-+		.egpio_enable = 12,                                   \
-+		.egpio_present = 11,                                  \
-+		.oe_bit = 9,                                          \
-+		.in_bit = 0,                                          \
-+		.out_bit = 1,                                         \
-+		.intr_enable_bit = 0,                                 \
-+		.intr_status_bit = 0,                                 \
-+		.intr_target_bit = 5,                                 \
-+		.intr_target_kpss_val = 3,                            \
-+		.intr_raw_status_bit = 4,                             \
-+		.intr_polarity_bit = 1,                               \
-+		.intr_detection_bit = 2,                              \
-+		.intr_detection_width = 2,                            \
-+		.funcs = (int[]){                                     \
-+			msm_mux_gpio, /* gpio mode */                 \
-+			msm_mux_##f1,                                 \
-+			msm_mux_##f2,                                 \
-+			msm_mux_##f3,                                 \
-+			msm_mux_##f4,                                 \
-+			msm_mux_##f5,                                 \
-+			msm_mux_##f6,                                 \
-+			msm_mux_##f7,                                 \
-+			msm_mux_##f8,                                 \
-+			msm_mux_##f9,                                 \
-+		},                                                    \
-+		.nfuncs = 10,                                         \
++enum {
++	SOUTH,
++	EAST,
++	WEST
++};
++
++static const char * const qcs615_tiles[] = {
++	[SOUTH] = "south",
++	[EAST] = "east",
++	[WEST] = "west"
++};
++
++#define PINGROUP(id, _tile, f1, f2, f3, f4, f5, f6, f7, f8, f9)	\
++	{						\
++		.grp = PINCTRL_PINGROUP("gpio" #id,	\
++			gpio##id##_pins,		\
++			ARRAY_SIZE(gpio##id##_pins)),	\
++		.funcs = (int[]){			\
++			msm_mux_gpio, /* gpio mode */	\
++			msm_mux_##f1,			\
++			msm_mux_##f2,			\
++			msm_mux_##f3,			\
++			msm_mux_##f4,			\
++			msm_mux_##f5,			\
++			msm_mux_##f6,			\
++			msm_mux_##f7,			\
++			msm_mux_##f8,			\
++			msm_mux_##f9			\
++		},					\
++		.nfuncs = 10,				\
++		.ctl_reg = 0x1000 * id,		\
++		.io_reg = 0x1000 * id + 0x4,		\
++		.intr_cfg_reg = 0x1000 * id + 0x8,	\
++		.intr_status_reg = 0x1000 * id + 0xc,	\
++		.intr_target_reg = 0x1000 * id + 0x8,	\
++		.tile = _tile,			\
++		.mux_bit = 2,			\
++		.pull_bit = 0,			\
++		.drv_bit = 6,			\
++		.oe_bit = 9,			\
++		.in_bit = 0,			\
++		.out_bit = 1,			\
++		.intr_enable_bit = 0,		\
++		.intr_status_bit = 0,		\
++		.intr_target_bit = 5,		\
++		.intr_target_kpss_val = 3,	\
++		.intr_raw_status_bit = 4,	\
++		.intr_polarity_bit = 1,		\
++		.intr_detection_bit = 2,	\
++		.intr_detection_width = 2,	\
 +	}
 +
-+#define SDC_QDSD_PINGROUP(pg_name, ctl, pull, drv)                   \
-+	{                                                            \
-+		.grp = PINCTRL_PINGROUP(#pg_name,                    \
-+					pg_name##_pins,              \
-+					ARRAY_SIZE(pg_name##_pins)), \
-+		.ctl_reg = ctl,                                      \
-+		.io_reg = 0,                                         \
-+		.intr_cfg_reg = 0,                                   \
-+		.intr_status_reg = 0,                                \
-+		.intr_target_reg = 0,                                \
-+		.mux_bit = -1,                                       \
-+		.pull_bit = pull,                                    \
-+		.drv_bit = drv,                                      \
-+		.oe_bit = -1,                                        \
-+		.in_bit = -1,                                        \
-+		.out_bit = -1,                                       \
-+		.intr_enable_bit = -1,                               \
-+		.intr_status_bit = -1,                               \
-+		.intr_target_bit = -1,                               \
-+		.intr_raw_status_bit = -1,                           \
-+		.intr_polarity_bit = -1,                             \
-+		.intr_detection_bit = -1,                            \
-+		.intr_detection_width = -1,                          \
++#define SDC_QDSD_PINGROUP(pg_name, _tile, ctl, pull, drv)	\
++	{						\
++		.grp = PINCTRL_PINGROUP(#pg_name,	\
++			pg_name##_pins,			\
++			ARRAY_SIZE(pg_name##_pins)),	\
++		.ctl_reg = ctl,				\
++		.io_reg = 0,				\
++		.intr_cfg_reg = 0,			\
++		.intr_status_reg = 0,			\
++		.intr_target_reg = 0,			\
++		.tile = _tile,				\
++		.mux_bit = -1,				\
++		.pull_bit = pull,			\
++		.drv_bit = drv,				\
++		.oe_bit = -1,				\
++		.in_bit = -1,				\
++		.out_bit = -1,				\
++		.intr_enable_bit = -1,			\
++		.intr_status_bit = -1,			\
++		.intr_target_bit = -1,			\
++		.intr_raw_status_bit = -1,		\
++		.intr_polarity_bit = -1,		\
++		.intr_detection_bit = -1,		\
++		.intr_detection_width = -1,		\
 +	}
 +
-+#define UFS_RESET(pg_name, offset)                                   \
-+	{                                                            \
-+		.grp = PINCTRL_PINGROUP(#pg_name,                    \
-+					pg_name##_pins,              \
-+					ARRAY_SIZE(pg_name##_pins)), \
-+		.ctl_reg = offset,                                   \
-+		.io_reg = offset + 0x4,                              \
-+		.intr_cfg_reg = 0,                                   \
-+		.intr_status_reg = 0,                                \
-+		.intr_target_reg = 0,                                \
-+		.mux_bit = -1,                                       \
-+		.pull_bit = 3,                                       \
-+		.drv_bit = 0,                                        \
-+		.oe_bit = -1,                                        \
-+		.in_bit = -1,                                        \
-+		.out_bit = 0,                                        \
-+		.intr_enable_bit = -1,                               \
-+		.intr_status_bit = -1,                               \
-+		.intr_target_bit = -1,                               \
-+		.intr_raw_status_bit = -1,                           \
-+		.intr_polarity_bit = -1,                             \
-+		.intr_detection_bit = -1,                            \
-+		.intr_detection_width = -1,                          \
++#define UFS_RESET(pg_name, offset)			\
++	{						\
++		.grp = PINCTRL_PINGROUP(#pg_name,	\
++			pg_name##_pins,			\
++			ARRAY_SIZE(pg_name##_pins)),	\
++		.ctl_reg = offset,			\
++		.io_reg = offset + 0x4,			\
++		.intr_cfg_reg = 0,			\
++		.intr_status_reg = 0,			\
++		.intr_target_reg = 0,			\
++		.tile = WEST,				\
++		.mux_bit = -1,				\
++		.pull_bit = 3,				\
++		.drv_bit = 0,				\
++		.oe_bit = -1,				\
++		.in_bit = -1,				\
++		.out_bit = 0,				\
++		.intr_enable_bit = -1,			\
++		.intr_status_bit = -1,			\
++		.intr_target_bit = -1,			\
++		.intr_raw_status_bit = -1,		\
++		.intr_polarity_bit = -1,		\
++		.intr_detection_bit = -1,		\
++		.intr_detection_width = -1,		\
 +	}
 +
 +static const struct pinctrl_pin_desc qcs615_pins[] = {
@@ -450,8 +459,8 @@ index 000000000000..65add6e37b99
 +	msm_mux_emac_phy_intr,
 +	msm_mux_forced_usb,
 +	msm_mux_gcc_gp,
-+	msm_mux_gps_tx,
 +	msm_mux_gp_pdm,
++	msm_mux_gps_tx,
 +	msm_mux_hs0_mi2s,
 +	msm_mux_hs1_mi2s,
 +	msm_mux_jitter_bist,
@@ -487,8 +496,8 @@ index 000000000000..65add6e37b99
 +	msm_mux_qup0,
 +	msm_mux_qup1,
 +	msm_mux_rgmii,
-+	msm_mux_sp_cmu,
 +	msm_mux_sd_write_protect,
++	msm_mux_sp_cmu,
 +	msm_mux_ter_mi2s,
 +	msm_mux_tgu_ch,
 +	msm_mux_uim1,
@@ -541,8 +550,9 @@ index 000000000000..65add6e37b99
 +};
 +
 +static const char *const atest_char_groups[] = {
-+	"gpio84",  "gpio85",  "gpio86",  "gpio87", 	"gpio115",
-+	"gpio117", "gpio118", "gpio119", "gpio120", "gpio121",
++	"gpio84",  "gpio85",  "gpio86",  "gpio87",
++	"gpio115", "gpio117", "gpio118", "gpio119",
++	"gpio120", "gpio121",
 +};
 +
 +static const char *const atest_tsens_groups[] = {
@@ -550,12 +560,13 @@ index 000000000000..65add6e37b99
 +};
 +
 +static const char *const atest_usb_groups[] = {
-+	"gpio7", "gpio10", "gpio11", "gpio54", "gpio55",
-+	"gpio67", "gpio68", "gpio76", "gpio75", "gpio77",
++	"gpio7",  "gpio10", "gpio11", "gpio54",
++	"gpio55", "gpio67", "gpio68", "gpio76",
++	"gpio75", "gpio77",
 +};
 +
 +static const char *const cam_mclk_groups[] = {
-+	"gpio28", "gpio29",	"gpio30", "gpio31",
++	"gpio28", "gpio29", "gpio30", "gpio31",
 +};
 +
 +static const char *const cci_async_groups[] = {
@@ -567,7 +578,8 @@ index 000000000000..65add6e37b99
 +};
 +
 +static const char *const cci_timer_groups[] = {
-+	"gpio37", "gpio38", "gpio39", "gpio41", "gpio42",
++	"gpio37", "gpio38", "gpio39", "gpio41",
++	"gpio42",
 +};
 +
 +static const char *const copy_gp_groups[] = {
@@ -620,15 +632,18 @@ index 000000000000..65add6e37b99
 +};
 +
 +static const char *const gcc_gp_groups[] = {
-+	"gpio21", "gpio22", "gpio57", "gpio58", "gpio59", "gpio78",
-+};
-+
-+static const char *const gps_tx_groups[] = {
-+	"gpio53", "gpio54", "gpio56", "gpio57", "gpio59", "gpio60",
++	"gpio21", "gpio22", "gpio57", "gpio58",
++	"gpio59", "gpio78",
 +};
 +
 +static const char *const gp_pdm_groups[] = {
-+	"gpio8", "gpio54", "gpio63", "gpio66", "gpio79", "gpio95",
++	"gpio8", "gpio54", "gpio63", "gpio66",
++	"gpio79", "gpio95",
++};
++
++static const char *const gps_tx_groups[] = {
++	"gpio53", "gpio54", "gpio56", "gpio57",
++	"gpio59", "gpio60",
 +};
 +
 +static const char *const hs0_mi2s_groups[] = {
@@ -664,7 +679,8 @@ index 000000000000..65add6e37b99
 +};
 +
 +static const char *const mdp_vsync_groups[] = {
-+	"gpio81", "gpio82", "gpio83", "gpio90", "gpio97", "gpio98",
++	"gpio81", "gpio82", "gpio83", "gpio90",
++	"gpio97", "gpio98",
 +};
 +
 +static const char *const mdp_vsync0_out_groups[] = {
@@ -700,11 +716,13 @@ index 000000000000..65add6e37b99
 +};
 +
 +static const char *const nav_pps_in_groups[] = {
-+	"gpio53", "gpio56", "gpio57", "gpio59", "gpio60",
++	"gpio53", "gpio56", "gpio57", "gpio59",
++	"gpio60",
 +};
 +
 +static const char *const nav_pps_out_groups[] = {
-+	"gpio53", "gpio56", "gpio57", "gpio59", "gpio60",
++	"gpio53", "gpio56", "gpio57", "gpio59",
++	"gpio60",
 +};
 +
 +static const char *const pa_indicator_or_groups[] = {
@@ -796,12 +814,12 @@ index 000000000000..65add6e37b99
 +	"gpio112", "gpio113", "gpio114",
 +};
 +
-+static const char *const sp_cmu_groups[] = {
-+	"gpio64",
-+};
-+
 +static const char *const sd_write_protect_groups[] = {
 +	"gpio24",
++};
++
++static const char *const sp_cmu_groups[] = {
++	"gpio64",
 +};
 +
 +static const char *const ter_mi2s_groups[] = {
@@ -877,8 +895,8 @@ index 000000000000..65add6e37b99
 +	MSM_PIN_FUNCTION(emac_phy_intr),
 +	MSM_PIN_FUNCTION(forced_usb),
 +	MSM_PIN_FUNCTION(gcc_gp),
-+	MSM_PIN_FUNCTION(gps_tx),
 +	MSM_PIN_FUNCTION(gp_pdm),
++	MSM_PIN_FUNCTION(gps_tx),
 +	MSM_PIN_FUNCTION(hs0_mi2s),
 +	MSM_PIN_FUNCTION(hs1_mi2s),
 +	MSM_PIN_FUNCTION(jitter_bist),
@@ -914,8 +932,8 @@ index 000000000000..65add6e37b99
 +	MSM_PIN_FUNCTION(qup0),
 +	MSM_PIN_FUNCTION(qup1),
 +	MSM_PIN_FUNCTION(rgmii),
-+	MSM_PIN_FUNCTION(sp_cmu),
 +	MSM_PIN_FUNCTION(sd_write_protect),
++	MSM_PIN_FUNCTION(sp_cmu),
 +	MSM_PIN_FUNCTION(ter_mi2s),
 +	MSM_PIN_FUNCTION(tgu_ch),
 +	MSM_PIN_FUNCTION(uim1),
@@ -1064,14 +1082,14 @@ index 000000000000..65add6e37b99
 +	[120] = PINGROUP(120, SOUTH, m_voc, qdss_gpio, atest_char, _, _, _, _, _, _),
 +	[121] = PINGROUP(121, SOUTH, mclk1, atest_char, _, _, _, _, _, _, _),
 +	[122] = PINGROUP(122, SOUTH, mclk2, _, _, _, _, _, _, _, _),
-+	[123] = UFS_RESET(ufs_reset, 0x59f000),
-+	[124] = SDC_QDSD_PINGROUP(sdc1_rclk, 0x59a000, 15, 0),
-+	[125] = SDC_QDSD_PINGROUP(sdc1_clk, 0x59a000, 13, 6),
-+	[126] = SDC_QDSD_PINGROUP(sdc1_cmd, 0x59a000, 11, 3),
-+	[127] = SDC_QDSD_PINGROUP(sdc1_data, 0x59a000, 9, 0),
-+	[128] = SDC_QDSD_PINGROUP(sdc2_clk, 0xd98000, 14, 6),
-+	[129] = SDC_QDSD_PINGROUP(sdc2_cmd, 0xd98000, 11, 3),
-+	[130] = SDC_QDSD_PINGROUP(sdc2_data, 0xd98000, 9, 0),
++	[123] = UFS_RESET(ufs_reset, 0x9f000),
++	[124] = SDC_QDSD_PINGROUP(sdc1_rclk, WEST, 0x9a000, 15, 0),
++	[125] = SDC_QDSD_PINGROUP(sdc1_clk, WEST, 0x9a000, 13, 6),
++	[126] = SDC_QDSD_PINGROUP(sdc1_cmd, WEST, 0x9a000, 11, 3),
++	[127] = SDC_QDSD_PINGROUP(sdc1_data, WEST, 0x9a000, 9, 0),
++	[128] = SDC_QDSD_PINGROUP(sdc2_clk, SOUTH, 0x98000, 14, 6),
++	[129] = SDC_QDSD_PINGROUP(sdc2_cmd, SOUTH, 0x98000, 11, 3),
++	[130] = SDC_QDSD_PINGROUP(sdc2_data, SOUTH, 0x98000, 9, 0),
 +};
 +
 +static const struct msm_gpio_wakeirq_map qcs615_pdc_map[] = {
@@ -1096,7 +1114,9 @@ index 000000000000..65add6e37b99
 +	.nfunctions = ARRAY_SIZE(qcs615_functions),
 +	.groups = qcs615_groups,
 +	.ngroups = ARRAY_SIZE(qcs615_groups),
-+	.ngpios = 124,
++	.ngpios = 123,
++	.tiles = qcs615_tiles,
++	.ntiles = ARRAY_SIZE(qcs615_tiles),
 +	.wakeirq_map = qcs615_pdc_map,
 +	.nwakeirq_map = ARRAY_SIZE(qcs615_pdc_map),
 +};

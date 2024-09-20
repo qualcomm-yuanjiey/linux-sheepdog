@@ -1,7 +1,7 @@
-From 03adbc6d0e1efadfa49569464caf7cc58ba0fd28 Mon Sep 17 00:00:00 2001
+From 70729e895968bcfd29619f91a37a1f7194042bf5 Mon Sep 17 00:00:00 2001
 From: Song Xue <quic_songxue@quicinc.com>
 Date: Wed, 4 Sep 2024 10:54:21 +0800
-Subject: [PATCH 29/45] soc: qcom: llcc: Add configuration data for QCS615
+Subject: [PATCH 33/42] soc: qcom: llcc: Add configuration data for QCS615
 
 Add LLCC configuration data for QCS615 SoC which controls
 LLCC behaviour.

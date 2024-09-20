@@ -1,10 +1,9 @@
-From 313c3aec63c9c17970a129adfda3610f013d8032 Mon Sep 17 00:00:00 2001
+From 6e378912ff9dbaf2857fbc9300e5ace3afdb4014 Mon Sep 17 00:00:00 2001
 From: Lijuan Gao <quic_lijuang@quicinc.com>
-Date: Fri, 6 Sep 2024 14:15:36 +0800
-Subject: [PATCH 05/45] dt-bindings: mfd: qcom,tcsr: Add compatible for QCS615
+Date: Thu, 19 Sep 2024 18:27:10 +0800
+Subject: [PATCH 04/42] dt-bindings: mfd: qcom,tcsr: Add compatible for qcs615
 
-Document the qcom,qcs615-tcsr compatible, tcsr will provide various
-control and status functions for their peripherals.
+Document the qcom,qcs615-tcsr compatible.
 
 Signed-off-by: Lijuan Gao <quic_lijuang@quicinc.com>
 ---
@@ -12,7 +11,7 @@ Signed-off-by: Lijuan Gao <quic_lijuang@quicinc.com>
  1 file changed, 1 insertion(+)
 
 diff --git a/Documentation/devicetree/bindings/mfd/qcom,tcsr.yaml b/Documentation/devicetree/bindings/mfd/qcom,tcsr.yaml
-index c6bd14ec5aa0..1b09a57fc633 100644
+index 7d0b0b403150..6734a6c99f8f 100644
 --- a/Documentation/devicetree/bindings/mfd/qcom,tcsr.yaml
 +++ b/Documentation/devicetree/bindings/mfd/qcom,tcsr.yaml
 @@ -21,6 +21,7 @@ properties:
@@ -20,9 +19,9 @@ index c6bd14ec5aa0..1b09a57fc633 100644
            - qcom,qcm2290-tcsr
            - qcom,qcs404-tcsr
 +          - qcom,qcs615-tcsr
+           - qcom,sa8775p-tcsr
            - qcom,sc7180-tcsr
            - qcom,sc7280-tcsr
-           - qcom,sc8280xp-tcsr
 -- 
 2.34.1
 

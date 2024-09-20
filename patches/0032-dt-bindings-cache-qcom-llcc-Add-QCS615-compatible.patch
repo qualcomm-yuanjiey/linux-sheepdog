@@ -1,7 +1,7 @@
-From 9677de7aba43c7f977a3db0ab1cc669b037315b9 Mon Sep 17 00:00:00 2001
+From 8022c09e11f1ccfa7a289a8bf14559555bd5889d Mon Sep 17 00:00:00 2001
 From: Song Xue <quic_songxue@quicinc.com>
 Date: Wed, 4 Sep 2024 12:25:19 +0800
-Subject: [PATCH 28/45] dt-bindings: cache: qcom,llcc: Add QCS615 compatible
+Subject: [PATCH 32/42] dt-bindings: cache: qcom,llcc: Add QCS615 compatible
 
 Add the compatible for QCS615 platforms.
 

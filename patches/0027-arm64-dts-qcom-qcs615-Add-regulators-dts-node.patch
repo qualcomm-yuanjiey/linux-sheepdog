@@ -1,18 +1,18 @@
-From 38e3d6e21812ac2a57d32bed42d78279fe3bed11 Mon Sep 17 00:00:00 2001
-From: Tingguo Cheng <quic_tingguoc@quicinc.com>
-Date: Thu, 5 Sep 2024 17:26:26 +0800
-Subject: [PATCH 27/45] arm64: dts: qcom: qcs615: Add regulators dts node
+From 117419b796f2e1a3ec265cdf8ecdf117f7aada97 Mon Sep 17 00:00:00 2001
+From: Taniya Das <quic_tdas@quicinc.com>
+Date: Thu, 19 Sep 2024 22:10:07 +0800
+Subject: [PATCH 27/42] arm64: dts: qcom: qcs615: Add regulators dts node
 
 Add device tree node for RPMh regulators on PMICs
 for Qualcomm QCS615 platform.
 
 Signed-off-by: Tingguo Cheng <quic_tingguoc@quicinc.com>
 ---
- arch/arm64/boot/dts/qcom/qcs615-ride.dts | 169 +++++++++++++++++++++++
- 1 file changed, 169 insertions(+)
+ arch/arm64/boot/dts/qcom/qcs615-ride.dts | 168 +++++++++++++++++++++++
+ 1 file changed, 168 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/qcom/qcs615-ride.dts b/arch/arm64/boot/dts/qcom/qcs615-ride.dts
-index 2ca064307e7f..49996dc140dd 100644
+index 95137646a5e7..09b6b3a39776 100644
 --- a/arch/arm64/boot/dts/qcom/qcs615-ride.dts
 +++ b/arch/arm64/boot/dts/qcom/qcs615-ride.dts
 @@ -4,6 +4,8 @@
@@ -24,7 +24,7 @@ index 2ca064307e7f..49996dc140dd 100644
  #include "qcs615.dtsi"
  / {
  	model = "Qualcomm Technologies, Inc. QCS615 Ride";
-@@ -26,6 +28,173 @@ xo_board_clk: xo-board-clk {
+@@ -33,6 +35,172 @@ xo_board_clk: xo-board-clk {
  	};
  };
  
@@ -194,10 +194,9 @@ index 2ca064307e7f..49996dc140dd 100644
 +		};
 +	};
 +};
-+
- &rpmhcc {
- 	clocks = <&xo_board_clk>;
- };
+ 
+ &gcc {
+ 	clocks = <&rpmhcc RPMH_CXO_CLK>,
 -- 
 2.34.1
 

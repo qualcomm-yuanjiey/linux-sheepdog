@@ -1,7 +1,7 @@
-From 93c9cea90f9d6c2f7864708364a4e75819be20fa Mon Sep 17 00:00:00 2001
+From ad743e6de16846b8bbc6d1737e7f3e3b7d97a07e Mon Sep 17 00:00:00 2001
 From: Lijuan Gao <quic_lijuang@quicinc.com>
-Date: Tue, 3 Sep 2024 10:39:38 +0800
-Subject: [PATCH 10/45] arm64: dts: qcom: add base QCS615 RIDE dts
+Date: Wed, 28 Aug 2024 10:02:16 +0800
+Subject: [PATCH 12/42] arm64: dts: qcom: add base QCS615 RIDE dts
 
 Add initial support for Qualcomm QCS615 RIDE board and enable
 the QCS615 RIDE board to shell with dcc console.
@@ -9,8 +9,8 @@ the QCS615 RIDE board to shell with dcc console.
 Signed-off-by: Lijuan Gao <quic_lijuang@quicinc.com>
 ---
  arch/arm64/boot/dts/qcom/Makefile        |  1 +
- arch/arm64/boot/dts/qcom/qcs615-ride.dts | 39 ++++++++++++++++++++++++
- 2 files changed, 40 insertions(+)
+ arch/arm64/boot/dts/qcom/qcs615-ride.dts | 46 ++++++++++++++++++++++++
+ 2 files changed, 47 insertions(+)
  create mode 100644 arch/arm64/boot/dts/qcom/qcs615-ride.dts
 
 diff --git a/arch/arm64/boot/dts/qcom/Makefile b/arch/arm64/boot/dts/qcom/Makefile
@@ -27,10 +27,10 @@ index ae002c7cf126..30a1c679bbb7 100644
  dtb-$(CONFIG_ARCH_QCOM)	+= qdu1000-idp.dtb
 diff --git a/arch/arm64/boot/dts/qcom/qcs615-ride.dts b/arch/arm64/boot/dts/qcom/qcs615-ride.dts
 new file mode 100644
-index 000000000000..2ca064307e7f
+index 000000000000..e6cf648f6058
 --- /dev/null
 +++ b/arch/arm64/boot/dts/qcom/qcs615-ride.dts
-@@ -0,0 +1,39 @@
+@@ -0,0 +1,46 @@
 +// SPDX-License-Identifier: BSD-3-Clause
 +/*
 + * Copyright (c) 2024, Qualcomm Innovation Center, Inc. All rights reserved.
@@ -41,9 +41,10 @@ index 000000000000..2ca064307e7f
 +/ {
 +	model = "Qualcomm Technologies, Inc. QCS615 Ride";
 +	compatible = "qcom,qcs615-ride", "qcom,qcs615";
++	chassis-type = "embedded";
 +
 +	aliases {
-+                serial0 = &uart2;
++                serial0 = &uart0;
 +        };
 +
 +	chosen {
@@ -51,6 +52,12 @@ index 000000000000..2ca064307e7f
 +	};
 +
 +	clocks {
++		sleep_clk: sleep-clk {
++			compatible = "fixed-clock";
++			clock-frequency = <32000>;
++			#clock-cells = <0>;
++		};
++
 +		xo_board_clk: xo-board-clk {
 +			compatible = "fixed-clock";
 +			clock-frequency = <38400000>;
@@ -59,16 +66,16 @@ index 000000000000..2ca064307e7f
 +	};
 +};
 +
-+&rpmhcc {
-+	clocks = <&xo_board_clk>;
-+};
-+
 +&qupv3_id_0 {
 +        status = "okay";
 +};
 +
-+&uart2 {
++&uart0 {
 +        status = "okay";
++};
++
++&watchdog {
++	clocks = <&sleep_clk>;
 +};
 -- 
 2.34.1

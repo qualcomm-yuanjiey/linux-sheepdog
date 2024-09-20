@@ -1,16 +1,16 @@
-From f2c845ff441f67769f41d50060bbeb86652098d4 Mon Sep 17 00:00:00 2001
+From 7ca7e51eab198d8fd2a78b22d5ae9f2083cf2261 Mon Sep 17 00:00:00 2001
 From: Kyle Deng <quic_chunkaid@quicinc.com>
-Date: Wed, 11 Sep 2024 16:03:07 +0800
-Subject: [PATCH 31/45] MPROC:Add QCS615 AOSS/SMEM/SMP2P support
+Date: Thu, 19 Sep 2024 22:22:54 +0800
+Subject: [PATCH 35/42] MPROC:Add QCS615 AOSS/SMEM/SMP2P support
 
 Add support for Mproc node for the qcs615 platform.
 
 Signed-off-by: Kyle Deng <quic_chunkaid@quicinc.com>
 ---
  .../bindings/soc/qcom/qcom,aoss-qmp.yaml      |  1 +
- arch/arm64/boot/dts/qcom/qcs615.dtsi          | 99 +++++++++++++++++++
+ arch/arm64/boot/dts/qcom/qcs615.dtsi          | 98 +++++++++++++++++++
  drivers/soc/qcom/qcom_aoss.c                  |  1 +
- 3 files changed, 101 insertions(+)
+ 3 files changed, 100 insertions(+)
 
 diff --git a/Documentation/devicetree/bindings/soc/qcom/qcom,aoss-qmp.yaml b/Documentation/devicetree/bindings/soc/qcom/qcom,aoss-qmp.yaml
 index 7afdb60edb22..ac20bb9b1792 100644
@@ -25,10 +25,10 @@ index 7afdb60edb22..ac20bb9b1792 100644
            - qcom,sm8150-aoss-qmp
            - qcom,sm8250-aoss-qmp
 diff --git a/arch/arm64/boot/dts/qcom/qcs615.dtsi b/arch/arm64/boot/dts/qcom/qcs615.dtsi
-index 68aa56bce699..edea2dc5f69a 100644
+index 5d2081555efd..4afe12120d72 100644
 --- a/arch/arm64/boot/dts/qcom/qcs615.dtsi
 +++ b/arch/arm64/boot/dts/qcom/qcs615.dtsi
-@@ -789,6 +789,105 @@ frame@17c2d000 {
+@@ -539,6 +539,12 @@ uart0: serial@880000 {
  			};
  		};
  
@@ -38,12 +38,13 @@ index 68aa56bce699..edea2dc5f69a 100644
 +			hwlocks = <&tcsr_mutex 3>;
 +		};
 +
-+		apss_shared: mailbox@17c00000 {
-+			compatible = "qcom,sm8150-apss-shared";
-+			reg = <0x0 0x17c00000 0x0 0x1000>;
-+			#mbox-cells = <1>;
-+		};
-+
+ 		tcsr_mutex: hwlock@1f40000 {
+ 			compatible = "qcom,tcsr-mutex";
+ 			reg = <0x0 0x01f40000 0x0 0x20000>;
+@@ -597,6 +603,16 @@ pdc: interrupt-controller@b220000 {
+ 			interrupt-controller;
+ 		};
+ 
 +		aoss_qmp: power-controller@c300000 {
 +			compatible = "qcom,sm6150-aoss-qmp", "qcom,aoss-qmp";
 +			reg = <0x0 0x0c300000 0x0 0x400>;
@@ -54,9 +55,13 @@ index 68aa56bce699..edea2dc5f69a 100644
 +			#power-domain-cells = <1>;
 +		};
 +
-+		apcs: syscon@17c0000c {
-+			compatible = "syscon";
-+			reg = <0x0 0x17c0000c 0x0 0x4>;
+ 		sram@c3f0000 {
+ 			compatible = "qcom,rpmh-stats";
+ 			reg = <0x0 0x0c3f0000 0x0 0x400>;
+@@ -673,7 +689,78 @@ apps_smmu: iommu@15000000 {
+ 					<GIC_SPI 339 IRQ_TYPE_LEVEL_HIGH>,
+ 					<GIC_SPI 340 IRQ_TYPE_LEVEL_HIGH>,
+ 					<GIC_SPI 341 IRQ_TYPE_LEVEL_HIGH>;
 +		};
 +
 +		qcom_smp2p_adsp: qcom,smp2p-adsp@1799000c {
@@ -92,7 +97,7 @@ index 68aa56bce699..edea2dc5f69a 100644
 +				qcom,entry-name = "rdbg";
 +				#qcom,smem-state-cells = <1>;
 +			};
-+
+ 
 +			smp2p_rdbg2_in: qcom,smp2p-rdbg2-in {
 +				qcom,entry-name = "rdbg";
 +				interrupt-controller;
@@ -129,11 +134,27 @@ index 68aa56bce699..edea2dc5f69a 100644
 +				interrupt-controller;
 +				#interrupt-cells = <2>;
 +			};
+ 		};
+ 
+ 		intc: interrupt-controller@17a00000 {
+@@ -687,6 +774,17 @@ intc: interrupt-controller@17a00000 {
+ 			redistributor-stride = <0x0 0x20000>;
+ 		};
+ 
++		apss_shared: mailbox@17c00000 {
++			compatible = "qcom,sm8150-apss-shared";
++			reg = <0x0 0x17c00000 0x0 0x1000>;
++			#mbox-cells = <1>;
 +		};
 +
- 		llcc: system-cache-controller@9200000 {
- 			compatible = "qcom,qcs615-llcc";
- 			reg = <0x0 0x9200000 0x0 0x50000>, <0x0 0x9600000 0x0 0x50000>;
++		apcs: syscon@17c0000c {
++			compatible = "syscon";
++			reg = <0x0 0x17c0000c 0x0 0x4>;
++		};
++
+ 		watchdog: watchdog@17c10000 {
+ 			compatible = "qcom,apss-wdt-qcs615", "qcom,kpss-wdt";
+ 			reg = <0x0 0x17c10000 0x0 0x1000>;
 diff --git a/drivers/soc/qcom/qcom_aoss.c b/drivers/soc/qcom/qcom_aoss.c
 index 60af26667bce..6894b787dc2f 100644
 --- a/drivers/soc/qcom/qcom_aoss.c

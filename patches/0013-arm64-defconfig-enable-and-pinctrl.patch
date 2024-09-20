@@ -1,7 +1,7 @@
-From 32f8a86cdd7bb08eccfc4bd7f3894643decedce4 Mon Sep 17 00:00:00 2001
+From 704d16c5f918c822ea3dc9727793570f4004f2ae Mon Sep 17 00:00:00 2001
 From: Lijuan Gao <quic_lijuang@quicinc.com>
 Date: Tue, 3 Sep 2024 10:45:24 +0800
-Subject: [PATCH 13/45] arm64: defconfig: enable and pinctrl
+Subject: [PATCH 13/42] arm64: defconfig: enable and pinctrl
 
 The serial engine depends on some global clock controller and pinctrl, but
 as the serial console driver is only available as built-in, so the global
@@ -14,10 +14,10 @@ Signed-off-by: Lijuan Gao <quic_lijuang@quicinc.com>
  1 file changed, 1 insertion(+)
 
 diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
-index 8067bf051377..9f54ae18ac57 100644
+index 5fdbfea7a5b2..561b63734472 100644
 --- a/arch/arm64/configs/defconfig
 +++ b/arch/arm64/configs/defconfig
-@@ -606,6 +606,7 @@ CONFIG_PINCTRL_MSM8996=y
+@@ -607,6 +607,7 @@ CONFIG_PINCTRL_MSM8996=y
  CONFIG_PINCTRL_MSM8998=y
  CONFIG_PINCTRL_QCM2290=y
  CONFIG_PINCTRL_QCS404=y

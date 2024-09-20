@@ -1,7 +1,7 @@
-From ecba8222327b5fccadf3ee721824065e6a9f9f39 Mon Sep 17 00:00:00 2001
+From 91294ccdef1ebaa33f1e2ba840520bd7f022a140 Mon Sep 17 00:00:00 2001
 From: Tingguo Cheng <quic_tingguoc@quicinc.com>
 Date: Wed, 4 Sep 2024 15:20:35 +0800
-Subject: [PATCH 25/45] pmdomain: qcom: rpmhpd: Add qcs615 power domains
+Subject: [PATCH 25/42] pmdomain: qcom: rpmhpd: Add qcs615 power domains
 
 Add support for the power-domains on qcs615 platform.
 
@@ -11,10 +11,10 @@ Signed-off-by: Tingguo Cheng <quic_tingguoc@quicinc.com>
  1 file changed, 12 insertions(+)
 
 diff --git a/drivers/pmdomain/qcom/rpmhpd.c b/drivers/pmdomain/qcom/rpmhpd.c
-index d2cb4271a1ca..bd72c79a5420 100644
+index 65505e1e2219..2ff1a255f272 100644
 --- a/drivers/pmdomain/qcom/rpmhpd.c
 +++ b/drivers/pmdomain/qcom/rpmhpd.c
-@@ -623,7 +623,19 @@ static const struct rpmhpd_desc x1e80100_desc = {
+@@ -624,7 +624,19 @@ static const struct rpmhpd_desc x1e80100_desc = {
  	.num_pds = ARRAY_SIZE(x1e80100_rpmhpds),
  };
  

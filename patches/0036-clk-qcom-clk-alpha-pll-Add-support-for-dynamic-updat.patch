@@ -1,7 +1,7 @@
-From f103b5071e80db28e1c9917d6da30881e74c87f5 Mon Sep 17 00:00:00 2001
+From 6de1728ddf003e04a314595ac9e04ff58aa8b94b Mon Sep 17 00:00:00 2001
 From: Taniya Das <quic_tdas@quicinc.com>
 Date: Thu, 12 Sep 2024 12:43:46 +0530
-Subject: [PATCH 32/45] clk: qcom: clk-alpha-pll: Add support for dynamic
+Subject: [PATCH 36/42] clk: qcom: clk-alpha-pll: Add support for dynamic
  update for Slewing PLLs
 
 Signed-off-by: Taniya Das <quic_tdas@quicinc.com>
@@ -11,10 +11,10 @@ Signed-off-by: Taniya Das <quic_tdas@quicinc.com>
  2 files changed, 216 insertions(+)
 
 diff --git a/drivers/clk/qcom/clk-alpha-pll.c b/drivers/clk/qcom/clk-alpha-pll.c
-index 019713c38f25..3cf6fcb4ca59 100644
+index f9105443d7db..40352cde4819 100644
 --- a/drivers/clk/qcom/clk-alpha-pll.c
 +++ b/drivers/clk/qcom/clk-alpha-pll.c
-@@ -2758,3 +2758,218 @@ const struct clk_ops clk_alpha_pll_regera_ops = {
+@@ -2756,3 +2756,218 @@ const struct clk_ops clk_alpha_pll_regera_ops = {
  	.set_rate = clk_zonda_pll_set_rate,
  };
  EXPORT_SYMBOL_GPL(clk_alpha_pll_regera_ops);

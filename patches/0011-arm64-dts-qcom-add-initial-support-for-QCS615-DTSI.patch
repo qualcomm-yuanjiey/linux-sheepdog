@@ -1,46 +1,36 @@
-From d1e1601f44877c46b4fd230a393d508d50fac0f9 Mon Sep 17 00:00:00 2001
+From 777d6f6b8524e23b9ac5306b600962af6439aee6 Mon Sep 17 00:00:00 2001
 From: Lijuan Gao <quic_lijuang@quicinc.com>
-Date: Tue, 3 Sep 2024 10:34:12 +0800
-Subject: [PATCH 09/45] arm64: dts: qcom: add initial support for QCS615 DTSI
+Date: Wed, 28 Aug 2024 10:02:15 +0800
+Subject: [PATCH 11/42] arm64: dts: qcom: add initial support for QCS615 DTSI
 
 Add initial DTSI for QCS615 SoC. It includes base description
-of CPUs, interrupt-controller, reserved-memory, apps_rsc, gcc,
-qup and cpu idle on Qualcomm QCS615 platform.
+of CPUs, interrupt-controller, cpu idle, tcsr, sram, qfprom, tlmm,
+smem and watchdog on Qualcomm QCS615 platform.
 
 Signed-off-by: Lijuan Gao <quic_lijuang@quicinc.com>
 ---
- arch/arm64/boot/dts/qcom/qcs615.dtsi | 683 +++++++++++++++++++++++++++
- 1 file changed, 683 insertions(+)
+ arch/arm64/boot/dts/qcom/qcs615.dtsi | 641 +++++++++++++++++++++++++++
+ 1 file changed, 641 insertions(+)
  create mode 100644 arch/arm64/boot/dts/qcom/qcs615.dtsi
 
 diff --git a/arch/arm64/boot/dts/qcom/qcs615.dtsi b/arch/arm64/boot/dts/qcom/qcs615.dtsi
 new file mode 100644
-index 000000000000..dd567f6546f0
+index 000000000000..47a2d14c9ad4
 --- /dev/null
 +++ b/arch/arm64/boot/dts/qcom/qcs615.dtsi
-@@ -0,0 +1,683 @@
+@@ -0,0 +1,641 @@
 +// SPDX-License-Identifier: BSD-3-Clause
 +/*
 + * Copyright (c) 2024, Qualcomm Innovation Center, Inc. All rights reserved.
 + */
 +
 +#include <dt-bindings/interrupt-controller/arm-gic.h>
-+#include <dt-bindings/clock/qcom,rpmh.h>
-+#include <dt-bindings/clock/qcom,qcs615-gcc.h>
 +#include <dt-bindings/soc/qcom,rpmh-rsc.h>
 +
 +/ {
 +	interrupt-parent = <&intc>;
 +	#address-cells = <2>;
 +	#size-cells = <2>;
-+
-+	clocks {
-+		sleep_clk: sleep-clk {
-+			compatible = "fixed-clock";
-+			clock-frequency = <32000>;
-+			#clock-cells = <0>;
-+		};
-+	};
 +
 +	cpus {
 +		#address-cells = <2>;
@@ -61,12 +51,6 @@ index 000000000000..dd567f6546f0
 +			      cache-level = <2>;
 +			      cache-unified;
 +			      next-level-cache = <&l3_0>;
-+
-+				l3_0: l3-cache {
-+				      compatible = "cache";
-+				      cache-level = <3>;
-+				      cache-unified;
-+				};
 +			};
 +		};
 +
@@ -216,21 +200,26 @@ index 000000000000..dd567f6546f0
 +					cpu = <&cpu5>;
 +				};
 +
-+			};
-+
-+			cluster1 {
-+				core0 {
++				core6 {
 +					cpu = <&cpu6>;
 +				};
 +
-+				core1 {
++				core7 {
 +					cpu = <&cpu7>;
 +				};
 +			};
 +		};
++
++		l3_0: l3-cache {
++			compatible = "cache";
++			cache-level = <3>;
++			cache-unified;
++		};
 +	};
 +
 +	idle-states {
++		entry-method = "psci";
++
 +		little_cpu_sleep_0: cpu-sleep-0-0 {
 +			compatible = "arm,idle-state";
 +			idle-state-name = "silver-power-collapse";
@@ -289,7 +278,7 @@ index 000000000000..dd567f6546f0
 +			min-residency-us = <8467>;
 +		};
 +
-+		system_sleep: domain-sleep {
++		cluster_sleep_2: cluster-sleep-2 {
 +			compatible = "domain-idle-state";
 +			arm,psci-suspend-param = <0x4100b344>;
 +			entry-latency-us = <3638>;
@@ -365,7 +354,9 @@ index 000000000000..dd567f6546f0
 +
 +		cluster_pd: power-domain-cluster {
 +			#power-domain-cells = <0>;
-+			domain-idle-states = <&cluster_sleep_0 &cluster_sleep_1 &system_sleep>;
++			domain-idle-states = <&cluster_sleep_0
++					      &cluster_sleep_1
++					      &cluster_sleep_2>;
 +		};
 +	};
 +
@@ -469,34 +460,37 @@ index 000000000000..dd567f6546f0
 +		#address-cells = <2>;
 +		#size-cells = <2>;
 +
-+		apps_rsc: rsc@18200000 {
-+			abel = "apps_rsc";
-+			compatible = "qcom,rpmh-rsc";
-+			reg = <0x0 0x18200000 0x0 0x10000>,
-+			      <0x0 0x18210000 0x0 0x10000>,
-+			      <0x0 0x18220000 0x0 0x10000>;
-+			reg-names = "drv-0", "drv-1", "drv-2";
-+			qcom,drv-count = <3>;
-+			interrupts = <GIC_SPI 3 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 4 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 5 IRQ_TYPE_LEVEL_HIGH>;
-+			power-domains = <&cluster_pd>;
++		qfprom: efuse@780000 {
++			compatible = "qcom,qcs615-qfprom", "qcom,qfprom";
++			reg = <0x0 0x00780000 0x0 0x7000>;
++			#address-cells = <1>;
++			#size-cells = <1>;
++		};
 +
-+			qcom,drv-id = <2>;
-+			qcom,tcs-offset = <0xd00>;
-+			qcom,tcs-config = <ACTIVE_TCS    2>,
-+					  <SLEEP_TCS     3>,
-+					  <WAKE_TCS      3>,
-+					  <CONTROL_TCS   1>;
++		qupv3_id_0: geniqup@8c0000 {
++			compatible = "qcom,geni-se-qup";
++			reg = <0x0 0x8c0000 0x0 0x6000>;
++			ranges;
++			clocks = <&gcc GCC_QUPV3_WRAP_0_M_AHB_CLK>,
++				 <&gcc GCC_QUPV3_WRAP_0_S_AHB_CLK>;
++			clock-names = "m-ahb",
++				      "s-ahb";
++			#address-cells = <2>;
++			#size-cells = <2>;
++			status = "disabled";
 +
-+			rpmhcc: clock-controller {
-+				compatible = "qcom,qcs615-rpmh-clk";
-+				#clock-cells = <1>;
-+				clock-names = "xo";
-+			};
-+
-+			apps_bcm_voter: bcm_voter {
-+				compatible = "qcom,bcm-voter";
++			uart0: serial@880000 {
++				compatible = "qcom,geni-debug-uart";
++				reg = <0x0 0x880000 0x0 0x4000>;
++				reg-names = "se_phys";
++				clocks = <&gcc GCC_QUPV3_WRAP0_S0_CLK>;
++				clock-names = "se";
++				interrupts = <GIC_SPI 601 IRQ_TYPE_LEVEL_HIGH>;
++				pinctrl-0 = <&qup3_uart0_active>;
++				pinctrl-1 = <&qup3_uart0_sleep>;
++				pinctrl-names = "default",
++						"sleep";
++				status = "disabled";
 +			};
 +		};
 +
@@ -511,25 +505,35 @@ index 000000000000..dd567f6546f0
 +			reg = <0x0 0x1fc0000 0x0 0x30000>;
 +		};
 +
-+		gcc: clock-controller@100000 {
-+			compatible = "qcom,qcs615-gcc", "syscon";
-+			reg = <0x0 0x100000 0x0 0x1f0000>;
-+			reg-name = "cc_base";
-+			#clock-cells = <1>;
-+			#reset-cells = <1>;
-+			clocks = <&rpmhcc RPMH_CXO_CLK>,
-+				 <&rpmhcc RPMH_CXO_CLK_A>,
-+				 <&sleep_clk>;
-+			clock-names = "bi_tcxo",
-+				      "bi_tcxo_ao",
-+				      "sleep_clk";
-+			protected-clocks = <GCC_SDR_CORE_CLK>,
-+					   <GCC_SDR_WR0_MEM_CLK>,
-+					   <GCC_SDR_WR1_MEM_CLK>,
-+					   <GCC_SDR_WR2_MEM_CLK>,
-+					   <GCC_SDR_CSR_HCLK>,
-+					   <GCC_SDR_PRI_MI2S_CLK>,
-+					   <GCC_SDR_SEC_MI2S_CLK>;
++		tlmm: pinctrl@3100000 {
++			compatible = "qcom,qcs615-tlmm";
++			reg = <0x0 0x03100000 0x0 0x300000>,
++			      <0x0 0x03500000 0x0 0x300000>,
++			      <0x0 0x03d00000 0x0 0x300000>;
++			reg-names = "east",
++				    "west",
++				    "south";
++			interrupts = <GIC_SPI 208 IRQ_TYPE_LEVEL_HIGH>;
++			gpio-ranges = <&tlmm 0 0 123>;
++			gpio-controller;
++			#gpio-cells = <2>;
++			interrupt-controller;
++			#interrupt-cells = <2>;
++			wakeup-parent = <&pdc>;
++
++			qup3_uart0_active: qup3-uart0-active {
++				pins ="gpio16", "gpio17";
++				function = "qup0";
++				drive-strength = <2>;
++				bias-disable;
++			};
++
++			qup3_uart0_sleep: qup3-uart0-sleep {
++				pins = "gpio16", "gpio17";
++				function = "gpio";
++				drive-strength = <2>;
++				bias-disable;
++			};
 +		};
 +
 +		pdc: interrupt-controller@b220000 {
@@ -545,76 +549,6 @@ index 000000000000..dd567f6546f0
 +		sram@c3f0000 {
 +			compatible = "qcom,rpmh-stats";
 +			reg = <0x0 0x0c3f0000 0x0 0x400>;
-+                };
-+
-+		qfprom: efuse@780000 {
-+			compatible = "qcom,qcs615-qfprom", "qcom,qfprom";
-+			reg = <0x0 0x00780000 0x0 0x7000>;
-+			#address-cells = <1>;
-+			#size-cells = <1>;
-+		};
-+
-+                tlmm: pinctrl@3000000 {
-+                        compatible = "qcom,qcs615-tlmm";
-+                        reg = <0x0 0x03000000 0x0 0xdc2000>,
-+			      <0x0 0x17c000f0 0x0 0x50>;
-+			reg-names = "pinctrl", "spi_cfg";
-+                        interrupts = <GIC_SPI 208 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 209 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 210 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 211 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 212 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 213 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 214 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 215 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 216 IRQ_TYPE_LEVEL_HIGH>;
-+			gpio-controller;
-+			#gpio-cells = <2>;
-+			interrupt-controller;
-+			#interrupt-cells = <2>;
-+			gpio-ranges = <&tlmm 0 0 124>;
-+			wakeup-parent = <&pdc>;
-+
-+			qup3_uart2_active: qup3-uart2-active {
-+				pins ="gpio16", "gpio17";
-+				function = "qup0";
-+				drive-strength = <2>;
-+				bias-disable;
-+			};
-+
-+			qup3_uart2_sleep: qup3-uart2-sleep {
-+				pins = "gpio16", "gpio17";
-+				function = "gpio";
-+				drive-strength = <2>;
-+				bias-disable;
-+			};
-+		};
-+
-+		qupv3_id_0: geniqup@8c0000 {
-+			compatible = "qcom,geni-se-qup";
-+			reg = <0x0 0x8c0000 0x0 0x6000>;
-+			ranges;
-+			clocks = <&gcc GCC_QUPV3_WRAP_0_M_AHB_CLK>,
-+				 <&gcc GCC_QUPV3_WRAP_0_S_AHB_CLK>;
-+			clock-names = "m-ahb",
-+				      "s-ahb";
-+			#address-cells = <2>;
-+			#size-cells = <2>;
-+			status = "disabled";
-+
-+			uart2: serial@880000 {
-+				compatible = "qcom,geni-debug-uart";
-+				reg = <0x0 0x880000 0x0 0x4000>;
-+				reg-names = "se_phys";
-+				clocks = <&gcc GCC_QUPV3_WRAP0_S0_CLK>;
-+				clock-names = "se";
-+				interrupts = <GIC_SPI 601 IRQ_TYPE_LEVEL_HIGH>;
-+				pinctrl-0 = <&qup3_uart2_active>;
-+				pinctrl-1 = <&qup3_uart2_sleep>;
-+				pinctrl-names = "default",
-+						"sleep";
-+				status = "disabled";
-+			};
 +		};
 +
 +		intc: interrupt-controller@17a00000 {
@@ -628,10 +562,9 @@ index 000000000000..dd567f6546f0
 +			redistributor-stride = <0x0 0x20000>;
 +		};
 +
-+		watchdog@17c10000 {
++		watchdog: watchdog@17c10000 {
 +			compatible = "qcom,apss-wdt-qcs615", "qcom,kpss-wdt";
 +			reg = <0x0 0x17c10000 0x0 0x1000>;
-+			clocks = <&sleep_clk>;
 +			interrupts = <GIC_SPI 0 IRQ_TYPE_LEVEL_HIGH>;
 +		};
 +
@@ -691,6 +624,31 @@ index 000000000000..dd567f6546f0
 +				interrupts = <GIC_SPI 14 IRQ_TYPE_LEVEL_HIGH>;
 +				status = "disabled";
 +			};
++		};
++
++		apps_rsc: rsc@18200000 {
++			compatible = "qcom,rpmh-rsc";
++			reg = <0x0 0x18200000 0x0 0x10000>,
++			      <0x0 0x18210000 0x0 0x10000>,
++			      <0x0 0x18220000 0x0 0x10000>;
++			reg-names = "drv-0",
++				    "drv-1",
++				    "drv-2";
++
++			interrupts = <GIC_SPI 3 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 4 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 5 IRQ_TYPE_LEVEL_HIGH>;
++
++			qcom,drv-id = <2>;
++			qcom,tcs-offset = <0xd00>;
++			qcom,tcs-config = <ACTIVE_TCS    2>,
++					  <SLEEP_TCS     3>,
++					  <WAKE_TCS      3>,
++					  <CONTROL_TCS   1>;
++
++			label = "apps_rsc";
++			power-domains = <&cluster_pd>;
++
 +		};
 +	};
 +
