@@ -1,17 +1,16 @@
-From 9061964e18741858ac26971864a48e111eaa38c6 Mon Sep 17 00:00:00 2001
+From f86e1c00a46de555df4b1cbf11baa5e1ce256bc4 Mon Sep 17 00:00:00 2001
 From: Taniya Das <quic_tdas@quicinc.com>
 Date: Thu, 29 Aug 2024 22:42:43 +0530
-Subject: [PATCH 17/42] clk: qcom: gcc: Add support for QCS615 GCC clocks
+Subject: [PATCH 17/53] clk: qcom: gcc: Add support for QCS615 GCC clocks
 
 Add the global clock controller support for QCS615 SoC.
 
 Signed-off-by: Taniya Das <quic_tdas@quicinc.com>
 ---
- drivers/clk/qcom/Kconfig                    |    7 +
- drivers/clk/qcom/Makefile                   |    1 +
- drivers/clk/qcom/gcc-qcs615.c               | 3024 +++++++++++++++++++
- include/dt-bindings/clock/qcom,qcs615-gcc.h |   36 +-
- 4 files changed, 3054 insertions(+), 14 deletions(-)
+ drivers/clk/qcom/Kconfig      |    7 +
+ drivers/clk/qcom/Makefile     |    1 +
+ drivers/clk/qcom/gcc-qcs615.c | 3026 +++++++++++++++++++++++++++++++++
+ 3 files changed, 3034 insertions(+)
  create mode 100644 drivers/clk/qcom/gcc-qcs615.c
 
 diff --git a/drivers/clk/qcom/Kconfig b/drivers/clk/qcom/Kconfig
@@ -46,10 +45,10 @@ index 2b378667a63f..a46ce0723602 100644
  obj-$(CONFIG_QDU_ECPRICC_1000) += ecpricc-qdu1000.o
 diff --git a/drivers/clk/qcom/gcc-qcs615.c b/drivers/clk/qcom/gcc-qcs615.c
 new file mode 100644
-index 000000000000..4afe15d7eb1b
+index 000000000000..0a2d3e8b26e8
 --- /dev/null
 +++ b/drivers/clk/qcom/gcc-qcs615.c
-@@ -0,0 +1,3024 @@
+@@ -0,0 +1,3026 @@
 +// SPDX-License-Identifier: GPL-2.0-only
 +/*
 + * Copyright (c) 2024, Qualcomm Innovation Center, Inc. All rights reserved.
@@ -2984,6 +2983,8 @@ index 000000000000..4afe15d7eb1b
 +	[GCC_USB20_SEC_BCR] = { 0xa6000 },
 +	[GCC_USB3PHY_PHY_PRIM_SP0_BCR] = { 0x50008 },
 +	[GCC_USB3_PHY_PRIM_SP0_BCR] = { 0x50000 },
++	[GCC_SDCC1_BCR] = { 0x12000 },
++	[GCC_SDCC2_BCR] = { 0x14000 },
 +};
 +
 +
@@ -3074,59 +3075,6 @@ index 000000000000..4afe15d7eb1b
 +
 +MODULE_DESCRIPTION("QTI GCC QCS615 Driver");
 +MODULE_LICENSE("GPL");
-diff --git a/include/dt-bindings/clock/qcom,qcs615-gcc.h b/include/dt-bindings/clock/qcom,qcs615-gcc.h
-index 4ea963c630d8..292c367380df 100644
---- a/include/dt-bindings/clock/qcom,qcs615-gcc.h
-+++ b/include/dt-bindings/clock/qcom,qcs615-gcc.h
-@@ -176,20 +176,21 @@
- #define GCC_UFS_PHY_UNIPRO_CORE_HW_CTL_CLK			166
- 
- /* GCC Resets */
--#define GCC_QUSB2PHY_PRIM_BCR					0
--#define GCC_QUSB2PHY_SEC_BCR					1
--#define GCC_USB30_PRIM_BCR					2
--#define GCC_USB2_PHY_SEC_BCR					3
--#define GCC_USB3_DP_PHY_SEC_BCR					4
--#define GCC_USB3PHY_PHY_SEC_BCR					5
--#define GCC_PCIE_0_BCR						6
--#define GCC_PCIE_0_PHY_BCR					7
--#define GCC_PCIE_PHY_BCR					8
--#define GCC_PCIE_PHY_COM_BCR					9
--#define GCC_UFS_PHY_BCR						10
--#define GCC_USB20_SEC_BCR					11
--#define GCC_USB3_PHY_PRIM_SP0_BCR				12
--#define GCC_USB3PHY_PHY_PRIM_SP0_BCR				13
-+#define GCC_EMAC_BCR						0
-+#define GCC_QUSB2PHY_PRIM_BCR					1
-+#define GCC_QUSB2PHY_SEC_BCR					2
-+#define GCC_USB30_PRIM_BCR					3
-+#define GCC_USB2_PHY_SEC_BCR					4
-+#define GCC_USB3_DP_PHY_SEC_BCR					5
-+#define GCC_USB3PHY_PHY_SEC_BCR					6
-+#define GCC_PCIE_0_BCR						7
-+#define GCC_PCIE_0_PHY_BCR					8
-+#define GCC_PCIE_PHY_BCR					9
-+#define GCC_PCIE_PHY_COM_BCR					10
-+#define GCC_UFS_PHY_BCR						11
-+#define GCC_USB20_SEC_BCR					12
-+#define GCC_USB3_PHY_PRIM_SP0_BCR				13
-+#define GCC_USB3PHY_PHY_PRIM_SP0_BCR				14
- 
- /* GCC power domains */
- #define EMAC_GDSC						0
-@@ -197,5 +198,12 @@
- #define UFS_PHY_GDSC						2
- #define USB20_SEC_GDSC						3
- #define USB30_PRIM_GDSC						4
-+#define HLOS1_VOTE_AGGRE_NOC_MMU_AUDIO_TBU_GDSC			5
-+#define	HLOS1_VOTE_AGGRE_NOC_MMU_TBU1_GDSC			6
-+#define	HLOS1_VOTE_AGGRE_NOC_MMU_TBU2_GDSC			7
-+#define	HLOS1_VOTE_AGGRE_NOC_MMU_PCIE_TBU_GDSC			8
-+#define	HLOS1_VOTE_MMNOC_MMU_TBU_HF0_GDSC			9
-+#define	HLOS1_VOTE_MMNOC_MMU_TBU_SF_GDSC			10
-+#define	HLOS1_VOTE_MMNOC_MMU_TBU_HF1_GDSC			11
- 
- #endif
 -- 
 2.34.1
 

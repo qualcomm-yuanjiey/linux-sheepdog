@@ -1,15 +1,15 @@
-From 1b2d38523f078c142ff2fd8b6817d21f61cb4a9d Mon Sep 17 00:00:00 2001
+From 2d4a1af85a7eb696f067dc6d64900a3774619b3f Mon Sep 17 00:00:00 2001
 From: Taniya Das <quic_tdas@quicinc.com>
 Date: Thu, 29 Aug 2024 22:40:58 +0530
-Subject: [PATCH 16/42] dt-bindings: clock: qcom: Add QCS615 GCC clocks
+Subject: [PATCH 16/53] dt-bindings: clock: qcom: Add QCS615 GCC clocks
 
 Add device tree bindings for global clock controller on QCS615 SoCs.
 
 Signed-off-by: Taniya Das <quic_tdas@quicinc.com>
 ---
  .../bindings/clock/qcom,qcs615-gcc.yaml       |  59 +++++
- include/dt-bindings/clock/qcom,qcs615-gcc.h   | 201 ++++++++++++++++++
- 2 files changed, 260 insertions(+)
+ include/dt-bindings/clock/qcom,qcs615-gcc.h   | 211 ++++++++++++++++++
+ 2 files changed, 270 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/clock/qcom,qcs615-gcc.yaml
  create mode 100644 include/dt-bindings/clock/qcom,qcs615-gcc.h
 
@@ -80,10 +80,10 @@ index 000000000000..fecc694cd71b
 +...
 diff --git a/include/dt-bindings/clock/qcom,qcs615-gcc.h b/include/dt-bindings/clock/qcom,qcs615-gcc.h
 new file mode 100644
-index 000000000000..4ea963c630d8
+index 000000000000..9704091636b8
 --- /dev/null
 +++ b/include/dt-bindings/clock/qcom,qcs615-gcc.h
-@@ -0,0 +1,201 @@
+@@ -0,0 +1,211 @@
 +/* SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause) */
 +/*
 + * Copyright (c) 2024, Qualcomm Innovation Center, Inc. All rights reserved.
@@ -262,20 +262,23 @@ index 000000000000..4ea963c630d8
 +#define GCC_UFS_PHY_UNIPRO_CORE_HW_CTL_CLK			166
 +
 +/* GCC Resets */
-+#define GCC_QUSB2PHY_PRIM_BCR					0
-+#define GCC_QUSB2PHY_SEC_BCR					1
-+#define GCC_USB30_PRIM_BCR					2
-+#define GCC_USB2_PHY_SEC_BCR					3
-+#define GCC_USB3_DP_PHY_SEC_BCR					4
-+#define GCC_USB3PHY_PHY_SEC_BCR					5
-+#define GCC_PCIE_0_BCR						6
-+#define GCC_PCIE_0_PHY_BCR					7
-+#define GCC_PCIE_PHY_BCR					8
-+#define GCC_PCIE_PHY_COM_BCR					9
-+#define GCC_UFS_PHY_BCR						10
-+#define GCC_USB20_SEC_BCR					11
-+#define GCC_USB3_PHY_PRIM_SP0_BCR				12
-+#define GCC_USB3PHY_PHY_PRIM_SP0_BCR				13
++#define GCC_EMAC_BCR                                            0
++#define GCC_QUSB2PHY_PRIM_BCR                                   1
++#define GCC_QUSB2PHY_SEC_BCR                                    2
++#define GCC_USB30_PRIM_BCR                                      3
++#define GCC_USB2_PHY_SEC_BCR                                    4
++#define GCC_USB3_DP_PHY_SEC_BCR                                 5
++#define GCC_USB3PHY_PHY_SEC_BCR                                 6
++#define GCC_PCIE_0_BCR                                          7
++#define GCC_PCIE_0_PHY_BCR                                      8
++#define GCC_PCIE_PHY_BCR                                        9
++#define GCC_PCIE_PHY_COM_BCR                                    10
++#define GCC_UFS_PHY_BCR                                         11
++#define GCC_USB20_SEC_BCR                                       12
++#define GCC_USB3_PHY_PRIM_SP0_BCR                               13
++#define GCC_USB3PHY_PHY_PRIM_SP0_BCR                            14
++#define GCC_SDCC1_BCR                                           15
++#define GCC_SDCC2_BCR                                           16
 +
 +/* GCC power domains */
 +#define EMAC_GDSC						0
@@ -283,6 +286,13 @@ index 000000000000..4ea963c630d8
 +#define UFS_PHY_GDSC						2
 +#define USB20_SEC_GDSC						3
 +#define USB30_PRIM_GDSC						4
++#define HLOS1_VOTE_AGGRE_NOC_MMU_AUDIO_TBU_GDSC			5
++#define HLOS1_VOTE_AGGRE_NOC_MMU_TBU1_GDSC			6
++#define HLOS1_VOTE_AGGRE_NOC_MMU_TBU2_GDSC			7
++#define HLOS1_VOTE_AGGRE_NOC_MMU_PCIE_TBU_GDSC			8
++#define HLOS1_VOTE_MMNOC_MMU_TBU_HF0_GDSC			9
++#define HLOS1_VOTE_MMNOC_MMU_TBU_SF_GDSC			10
++#define HLOS1_VOTE_MMNOC_MMU_TBU_HF1_GDSC			11
 +
 +#endif
 -- 

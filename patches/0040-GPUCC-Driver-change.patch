@@ -1,15 +1,15 @@
-From 0896f543582820a00b0c8af68fcd4c71762d90d9 Mon Sep 17 00:00:00 2001
+From 3a3c4461fc40cbe24478e915f3566f12ad72a61c Mon Sep 17 00:00:00 2001
 From: Taniya Das <quic_tdas@quicinc.com>
 Date: Mon, 9 Sep 2024 15:02:03 +0530
-Subject: [PATCH 39/42] GPUCC Driver change
+Subject: [PATCH 40/53] GPUCC Driver change
 
 Signed-off-by: Taniya Das <quic_tdas@quicinc.com>
 ---
  drivers/clk/qcom/Kconfig                      |   8 +
  drivers/clk/qcom/Makefile                     |   1 +
- drivers/clk/qcom/gpucc-qcs615.c               | 526 ++++++++++++++++++
+ drivers/clk/qcom/gpucc-qcs615.c               | 523 ++++++++++++++++++
  include/dt-bindings/clock/qcom,qcs615-gpucc.h |  39 ++
- 4 files changed, 574 insertions(+)
+ 4 files changed, 571 insertions(+)
  create mode 100644 drivers/clk/qcom/gpucc-qcs615.c
  create mode 100644 include/dt-bindings/clock/qcom,qcs615-gpucc.h
 
@@ -46,10 +46,10 @@ index cbda30868efe..a1486d649bb7 100644
  obj-$(CONFIG_QDU_ECPRICC_1000) += ecpricc-qdu1000.o
 diff --git a/drivers/clk/qcom/gpucc-qcs615.c b/drivers/clk/qcom/gpucc-qcs615.c
 new file mode 100644
-index 000000000000..a8f3e8034321
+index 000000000000..fd7dbf24e81d
 --- /dev/null
 +++ b/drivers/clk/qcom/gpucc-qcs615.c
-@@ -0,0 +1,526 @@
+@@ -0,0 +1,523 @@
 +// SPDX-License-Identifier: GPL-2.0-only
 +/*
 + * Copyright (c) 2024, Qualcomm Innovation Center, Inc. All rights reserved.
@@ -120,7 +120,6 @@ index 000000000000..a8f3e8034321
 +	.vco_table = gpu_cc_pll0_vco,
 +	.num_vco = ARRAY_SIZE(gpu_cc_pll0_vco),
 +	.regs = clk_alpha_pll_regs[CLK_ALPHA_PLL_TYPE_DEFAULT],
-+	.flags = SUPPORTS_DYNAMIC_UPDATE,
 +	.clkr = {
 +		.hw.init = &(const struct clk_init_data) {
 +			.name = "gpu_cc_pll0",
@@ -152,7 +151,6 @@ index 000000000000..a8f3e8034321
 +	.vco_table = gpu_cc_pll1_vco,
 +	.num_vco = ARRAY_SIZE(gpu_cc_pll1_vco),
 +	.regs = clk_alpha_pll_regs[CLK_ALPHA_PLL_TYPE_DEFAULT],
-+	.flags = SUPPORTS_DYNAMIC_UPDATE,
 +	.clkr = {
 +		.hw.init = &(const struct clk_init_data) {
 +			.name = "gpu_cc_pll1",
@@ -309,7 +307,7 @@ index 000000000000..a8f3e8034321
 +
 +static struct clk_branch gpu_cc_cx_gfx3d_slv_clk = {
 +	.halt_reg = 0x10a8,
-+	.halt_check = BRANCH_HALT,
++	.halt_check = BRANCH_HALT_DELAY,
 +	.clkr = {
 +		.enable_reg = 0x10a8,
 +		.enable_mask = BIT(0),
@@ -454,12 +452,12 @@ index 000000000000..a8f3e8034321
 +	.gds_hw_ctrl = 0x1540,
 +	.en_rest_wait_val = 0x2,
 +	.en_few_wait_val = 0x2,
-+	.clk_dis_wait_val = 0x2,
++	.clk_dis_wait_val = 0x8,
 +	.pd = {
 +		.name = "cx_gdsc",
 +	},
 +	.pwrsts = PWRSTS_OFF_ON,
-+	.flags = POLL_CFG_GDSCR | RETAIN_FF_ENABLE,
++	.flags = POLL_CFG_GDSCR,
 +};
 +
 +static struct gdsc gx_gdsc = {
@@ -471,7 +469,7 @@ index 000000000000..a8f3e8034321
 +		.name = "gx_gdsc",
 +	},
 +	.pwrsts = PWRSTS_OFF_ON,
-+	.flags = POLL_CFG_GDSCR | RETAIN_FF_ENABLE,
++	.flags = POLL_CFG_GDSCR,
 +};
 +
 +static struct clk_regmap *gpu_cc_qcs615_clocks[] = {
@@ -534,8 +532,7 @@ index 000000000000..a8f3e8034321
 +static void configure_crc(struct regmap *regmap)
 +{
 +	/* Recommended WAKEUP/SLEEP settings for the gpu_cc_cx_gmu_clk */
-+	regmap_update_bits(regmap, gpu_cc_cx_gmu_clk.clkr.enable_reg,
-+							0xff, 0xff);
++	regmap_update_bits(regmap, gpu_cc_cx_gmu_clk.clkr.enable_reg, 0xff0, 0xff0);
 +	/*
 +	 * After POR, Clock Ramp Controller(CRC) will be in bypass mode.
 +	 * Software needs to do the following operation to enable the CRC

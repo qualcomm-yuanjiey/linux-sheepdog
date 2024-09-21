@@ -1,49 +1,23 @@
-From 6de1728ddf003e04a314595ac9e04ff58aa8b94b Mon Sep 17 00:00:00 2001
+From d1b769f5344f8b92b5be6f1ddd9c15c22e6ff3eb Mon Sep 17 00:00:00 2001
 From: Taniya Das <quic_tdas@quicinc.com>
 Date: Thu, 12 Sep 2024 12:43:46 +0530
-Subject: [PATCH 36/42] clk: qcom: clk-alpha-pll: Add support for dynamic
+Subject: [PATCH 37/53] clk: qcom: clk-alpha-pll: Add support for dynamic
  update for Slewing PLLs
 
 Signed-off-by: Taniya Das <quic_tdas@quicinc.com>
 ---
- drivers/clk/qcom/clk-alpha-pll.c | 215 +++++++++++++++++++++++++++++++
+ drivers/clk/qcom/clk-alpha-pll.c | 177 +++++++++++++++++++++++++++++++
  drivers/clk/qcom/clk-alpha-pll.h |   1 +
- 2 files changed, 216 insertions(+)
+ 2 files changed, 178 insertions(+)
 
 diff --git a/drivers/clk/qcom/clk-alpha-pll.c b/drivers/clk/qcom/clk-alpha-pll.c
-index f9105443d7db..40352cde4819 100644
+index 03cc7aa09248..e09eb08c4823 100644
 --- a/drivers/clk/qcom/clk-alpha-pll.c
 +++ b/drivers/clk/qcom/clk-alpha-pll.c
-@@ -2756,3 +2756,218 @@ const struct clk_ops clk_alpha_pll_regera_ops = {
+@@ -2758,3 +2758,180 @@ const struct clk_ops clk_alpha_pll_regera_ops = {
  	.set_rate = clk_zonda_pll_set_rate,
  };
  EXPORT_SYMBOL_GPL(clk_alpha_pll_regera_ops);
-+
-+static int clk_alpha_pll_dynamic_update(struct clk_alpha_pll *pll)
-+{
-+	int ret;
-+
-+	/* Latch the input to the PLL */
-+	regmap_update_bits(pll->clkr.regmap, PLL_MODE(pll),
-+				PLL_UPDATE, PLL_UPDATE);
-+
-+	/* Wait for 2 reference cycle before checking ACK bit */
-+	udelay(1);
-+
-+	ret = wait_for_pll_update_ack_set(pll);
-+	if (ret)
-+		return ret;
-+
-+	/* Return latch input to 0 */
-+	regmap_update_bits(pll->clkr.regmap, PLL_MODE(pll),
-+				PLL_UPDATE, (u32)~PLL_UPDATE);
-+
-+	ret = wait_for_pll_enable_lock(pll);
-+	if (ret)
-+		return ret;
-+
-+	return 0;
-+}
 +
 +static int clk_alpha_pll_slew_update(struct clk_alpha_pll *pll)
 +{
@@ -64,9 +38,7 @@ index f9105443d7db..40352cde4819 100644
 +	mb();
 +	udelay(1);
 +
-+	ret = wait_for_pll_enable_lock(pll);
-+
-+	return ret;
++	return wait_for_pll_enable_lock(pll);
 +}
 +
 +static int clk_alpha_pll_slew_set_rate(struct clk_hw *hw, unsigned long rate,
@@ -112,12 +84,8 @@ index f9105443d7db..40352cde4819 100644
 +	/* Ensure that the write above goes through before proceeding. */
 +	mb();
 +
-+	if (clk_hw_is_enabled(hw)) {
-+		if (pll->flags & SUPPORTS_DYNAMIC_UPDATE)
-+			clk_alpha_pll_dynamic_update(pll);
-+		else
-+			clk_alpha_pll_slew_update(pll);
-+	}
++	if (clk_hw_is_enabled(hw))
++		return clk_alpha_pll_slew_update(pll);
 +
 +	return 0;
 +}
@@ -175,9 +143,6 @@ index f9105443d7db..40352cde4819 100644
 +				PLL_VCO_MASK << PLL_VCO_SHIFT,
 +				vco->val << PLL_VCO_SHIFT);
 +
-+	regmap_update_bits(pll->clkr.regmap, PLL_USER_CTL(pll),
-+				PLL_ALPHA_EN, PLL_ALPHA_EN);
-+
 +	/* Bringup the pll at calibration frequency */
 +	rc = clk_alpha_pll_enable(hw);
 +	if (rc) {
@@ -206,10 +171,7 @@ index f9105443d7db..40352cde4819 100644
 +	regmap_update_bits(pll->clkr.regmap, PLL_USER_CTL(pll),
 +				PLL_ALPHA_EN, PLL_ALPHA_EN);
 +
-+	if (pll->flags & SUPPORTS_DYNAMIC_UPDATE)
-+		return clk_alpha_pll_dynamic_update(pll);
-+	else
-+		return clk_alpha_pll_slew_update(pll);
++	return clk_alpha_pll_slew_update(pll);
 +}
 +
 +static int clk_alpha_pll_slew_enable(struct clk_hw *hw)

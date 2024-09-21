@@ -1,7 +1,7 @@
-From 7ca7e51eab198d8fd2a78b22d5ae9f2083cf2261 Mon Sep 17 00:00:00 2001
+From 6c2707146cf515ed62912e1154b049efef037cb7 Mon Sep 17 00:00:00 2001
 From: Kyle Deng <quic_chunkaid@quicinc.com>
 Date: Thu, 19 Sep 2024 22:22:54 +0800
-Subject: [PATCH 35/42] MPROC:Add QCS615 AOSS/SMEM/SMP2P support
+Subject: [PATCH 35/53] MPROC:Add QCS615 AOSS/SMEM/SMP2P support
 
 Add support for Mproc node for the qcs615 platform.
 
@@ -25,10 +25,10 @@ index 7afdb60edb22..ac20bb9b1792 100644
            - qcom,sm8150-aoss-qmp
            - qcom,sm8250-aoss-qmp
 diff --git a/arch/arm64/boot/dts/qcom/qcs615.dtsi b/arch/arm64/boot/dts/qcom/qcs615.dtsi
-index 5d2081555efd..4afe12120d72 100644
+index 05742cbaab8f..1c67a633a667 100644
 --- a/arch/arm64/boot/dts/qcom/qcs615.dtsi
 +++ b/arch/arm64/boot/dts/qcom/qcs615.dtsi
-@@ -539,6 +539,12 @@ uart0: serial@880000 {
+@@ -547,6 +547,12 @@ uart0: serial@880000 {
  			};
  		};
  
@@ -41,7 +41,7 @@ index 5d2081555efd..4afe12120d72 100644
  		tcsr_mutex: hwlock@1f40000 {
  			compatible = "qcom,tcsr-mutex";
  			reg = <0x0 0x01f40000 0x0 0x20000>;
-@@ -597,6 +603,16 @@ pdc: interrupt-controller@b220000 {
+@@ -605,6 +611,16 @@ pdc: interrupt-controller@b220000 {
  			interrupt-controller;
  		};
  
@@ -58,7 +58,7 @@ index 5d2081555efd..4afe12120d72 100644
  		sram@c3f0000 {
  			compatible = "qcom,rpmh-stats";
  			reg = <0x0 0x0c3f0000 0x0 0x400>;
-@@ -673,7 +689,78 @@ apps_smmu: iommu@15000000 {
+@@ -681,7 +697,78 @@ apps_smmu: iommu@15000000 {
  					<GIC_SPI 339 IRQ_TYPE_LEVEL_HIGH>,
  					<GIC_SPI 340 IRQ_TYPE_LEVEL_HIGH>,
  					<GIC_SPI 341 IRQ_TYPE_LEVEL_HIGH>;
@@ -137,7 +137,7 @@ index 5d2081555efd..4afe12120d72 100644
  		};
  
  		intc: interrupt-controller@17a00000 {
-@@ -687,6 +774,17 @@ intc: interrupt-controller@17a00000 {
+@@ -695,6 +782,17 @@ intc: interrupt-controller@17a00000 {
  			redistributor-stride = <0x0 0x20000>;
  		};
  

@@ -1,7 +1,7 @@
-From 65e7a3deceda99571fe2889bc4fce0954c8ed1d2 Mon Sep 17 00:00:00 2001
+From 96b113240e3a5d670d5bbf5809cc40c69bd4cf8a Mon Sep 17 00:00:00 2001
 From: Song Xue <quic_songxue@quicinc.com>
 Date: Thu, 19 Sep 2024 22:14:29 +0800
-Subject: [PATCH 34/42] arm64: dts: qcom: qcs615: Add LLCC support for qcs615
+Subject: [PATCH 34/53] arm64: dts: qcom: qcs615: Add LLCC support for qcs615
 
 Add LLCC system cache controller entry to support LLCC on qcs615.
 
@@ -11,10 +11,10 @@ Signed-off-by: Song Xue <quic_songxue@quicinc.com>
  1 file changed, 6 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/qcom/qcs615.dtsi b/arch/arm64/boot/dts/qcom/qcs615.dtsi
-index 667d6a63f6f9..5d2081555efd 100644
+index 7d66b3119519..05742cbaab8f 100644
 --- a/arch/arm64/boot/dts/qcom/qcs615.dtsi
 +++ b/arch/arm64/boot/dts/qcom/qcs615.dtsi
-@@ -581,6 +581,12 @@ qup3_uart0_sleep: qup3-uart0-sleep {
+@@ -589,6 +589,12 @@ qup3_uart0_sleep: qup3-uart0-sleep {
  			};
  		};
  
