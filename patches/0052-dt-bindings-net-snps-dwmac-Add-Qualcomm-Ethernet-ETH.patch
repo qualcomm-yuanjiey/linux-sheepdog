@@ -1,7 +1,7 @@
-From ed2c81f333f961fc6dadb6f36c6be51fe41b9052 Mon Sep 17 00:00:00 2001
+From a3cdd417ff3e639e8a8b6c4fdb2d494e65b3cea9 Mon Sep 17 00:00:00 2001
 From: Yijie Yang <quic_yijiyang@quicinc.com>
 Date: Fri, 20 Sep 2024 16:46:07 +0800
-Subject: [PATCH 52/53] dt-bindings: net: snps,dwmac: Add Qualcomm Ethernet
+Subject: [PATCH 52/56] dt-bindings: net: snps,dwmac: Add Qualcomm Ethernet
  ETHQOS compatibles
 
 Add Qualcomm Ethernet ETHQOS compatible checks

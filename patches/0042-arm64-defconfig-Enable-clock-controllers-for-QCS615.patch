@@ -1,7 +1,7 @@
-From 15106537f1f340e08a0026bbfaa3a7f36c056531 Mon Sep 17 00:00:00 2001
+From 8351edcd627e7a98c572f167f2f1bef4d1aa3889 Mon Sep 17 00:00:00 2001
 From: Taniya Das <quic_tdas@quicinc.com>
 Date: Mon, 9 Sep 2024 15:42:33 +0530
-Subject: [PATCH 42/53] arm64: defconfig: Enable clock controllers for QCS615
+Subject: [PATCH 42/56] arm64: defconfig: Enable clock controllers for QCS615
 
 Enable multimedia clock controllers for QCS615.
 

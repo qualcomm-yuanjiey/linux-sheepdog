@@ -1,7 +1,7 @@
-From 51197873a7c7d063ec19f35b52d255db7e4b68aa Mon Sep 17 00:00:00 2001
+From 6ab4218d05001dda0899d5183120bc699aa31769 Mon Sep 17 00:00:00 2001
 From: Taniya Das <quic_tdas@quicinc.com>
 Date: Fri, 6 Sep 2024 12:18:31 +0530
-Subject: [PATCH 38/53] Camera Changes
+Subject: [PATCH 38/56] Camera Changes
 
 Signed-off-by: Taniya Das <quic_tdas@quicinc.com>
 ---

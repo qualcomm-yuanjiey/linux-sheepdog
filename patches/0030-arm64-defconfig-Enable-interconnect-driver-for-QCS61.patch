@@ -1,7 +1,7 @@
-From 7d1f9151945376c61fe94c7735ac46c11b4910ce Mon Sep 17 00:00:00 2001
+From aa4df39836edc4665787bcd088b6fadb4e4dfa1d Mon Sep 17 00:00:00 2001
 From: Swetha Chintavatla <quic_chintava@quicinc.com>
 Date: Wed, 28 Aug 2024 17:27:42 +0530
-Subject: [PATCH 30/53] arm64: defconfig: Enable interconnect driver for QCS615
+Subject: [PATCH 30/56] arm64: defconfig: Enable interconnect driver for QCS615
 
 Enable interconnect driver on QCS615 platform so that consumers
 can obtain their interconnect path handles properly.

@@ -1,7 +1,7 @@
-From 6a9f7ce7e0aede01c9aed7c5219f5ae4588f04a8 Mon Sep 17 00:00:00 2001
+From 729a7e0ac2ae70f2cefdaa6abfeeaafa23599004 Mon Sep 17 00:00:00 2001
 From: Swetha Chintavatla <quic_chintava@quicinc.com>
 Date: Thu, 19 Sep 2024 17:02:53 +0530
-Subject: [PATCH 31/53] arm64: dts: qcom: qcs615: Add interconnect device nodes
+Subject: [PATCH 31/56] arm64: dts: qcom: qcs615: Add interconnect device nodes
 
 Add interconnect device nodes for qcs615 platform. This will allow the
 consumers to get the interconnect path and set bandwidth constraints on
@@ -9,11 +9,11 @@ NoC.
 
 Signed-off-by: Swetha Chintavatla <quic_chintava@quicinc.com>
 ---
- arch/arm64/boot/dts/qcom/qcs615.dtsi | 62 ++++++++++++++++++++++++++++
- 1 file changed, 62 insertions(+)
+ arch/arm64/boot/dts/qcom/qcs615.dtsi | 66 ++++++++++++++++++++++++++++
+ 1 file changed, 66 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/qcom/qcs615.dtsi b/arch/arm64/boot/dts/qcom/qcs615.dtsi
-index 7544d2136b68..7d66b3119519 100644
+index 7544d2136b68..7b278cf6c2d9 100644
 --- a/arch/arm64/boot/dts/qcom/qcs615.dtsi
 +++ b/arch/arm64/boot/dts/qcom/qcs615.dtsi
 @@ -8,6 +8,8 @@
@@ -99,6 +99,17 @@ index 7544d2136b68..7d66b3119519 100644
  		gcc: clock-controller@100000 {
  			compatible = "qcom,qcs615-gcc";
  			reg = <0 0x00100000 0 0x1f0000>;
+@@ -714,6 +776,10 @@ apps_rsc: rsc@18200000 {
+ 			label = "apps_rsc";
+ 			power-domains = <&cluster_pd>;
+ 
++			apps_bcm_voter: bcm_voter {
++				compatible = "qcom,bcm-voter";
++			};
++
+ 			rpmhcc: clock-controller {
+ 				compatible = "qcom,qcs615-rpmh-clk";
+ 				clock-names = "xo";
 -- 
 2.34.1
 

@@ -1,7 +1,7 @@
-From 40f72dc90eb19038f204c184294c709180e9229a Mon Sep 17 00:00:00 2001
+From fdb74a0710fb370bbcecbb1ee8bd7e8eb796d11c Mon Sep 17 00:00:00 2001
 From: Taniya Das <quic_tdas@quicinc.com>
 Date: Fri, 20 Sep 2024 12:41:13 +0800
-Subject: [PATCH 43/53] arm64: dts: qcom: add support for clock controllers
+Subject: [PATCH 43/56] arm64: dts: qcom: add support for clock controllers
 
 Add multimedia clock controllers for QCS615.
 
@@ -11,7 +11,7 @@ Signed-off-by: Taniya Das <quic_tdas@quicinc.com>
  1 file changed, 50 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/qcom/qcs615.dtsi b/arch/arm64/boot/dts/qcom/qcs615.dtsi
-index 1c67a633a667..34b09b1bbff0 100644
+index 531280e5766b..79e51ae5ac5b 100644
 --- a/arch/arm64/boot/dts/qcom/qcs615.dtsi
 +++ b/arch/arm64/boot/dts/qcom/qcs615.dtsi
 @@ -3,7 +3,11 @@

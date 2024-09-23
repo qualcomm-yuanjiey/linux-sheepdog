@@ -1,7 +1,7 @@
-From b36eca5a3480b74fae1b692afee62d9b40f88c87 Mon Sep 17 00:00:00 2001
+From cdea4776a8c3dd178ba309989130cae8c55406a4 Mon Sep 17 00:00:00 2001
 From: lliu6 <quic_lliu6@quicinc.com>
 Date: Fri, 20 Sep 2024 12:55:04 +0800
-Subject: [PATCH 46/53] arm64: defconfig: Enable SX150X
+Subject: [PATCH 46/56] arm64: defconfig: Enable SX150X
 
 Enable SX150X pinctrl driver.
 

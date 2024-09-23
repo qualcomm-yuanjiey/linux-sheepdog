@@ -1,7 +1,7 @@
-From 35135244cc01bd81517aef93514dff4b00af5fcf Mon Sep 17 00:00:00 2001
+From d35075b243854f88dd2ccf84c66bfca5ad164dce Mon Sep 17 00:00:00 2001
 From: lliu6 <quic_lliu6@quicinc.com>
 Date: Fri, 20 Sep 2024 12:47:59 +0800
-Subject: [PATCH 47/53] arm64: dts: qcom: qcs615: Add display mdss and dsi
+Subject: [PATCH 47/56] arm64: dts: qcom: qcs615: Add display mdss and dsi
  configuration
 
 Add display mdss and dsi configuration for QCS615 SoC.
@@ -125,7 +125,7 @@ index ec37b196a903..df2f48791d48 100644
  	regulators-0 {
  		compatible = "qcom,pm8150-rpmh-regulators";
 diff --git a/arch/arm64/boot/dts/qcom/qcs615.dtsi b/arch/arm64/boot/dts/qcom/qcs615.dtsi
-index 1064b1db0bc0..a46515805e29 100644
+index ef428f5c4bd1..de4d982c8139 100644
 --- a/arch/arm64/boot/dts/qcom/qcs615.dtsi
 +++ b/arch/arm64/boot/dts/qcom/qcs615.dtsi
 @@ -1300,14 +1300,214 @@ dispcc: clock-controller@af00000 {

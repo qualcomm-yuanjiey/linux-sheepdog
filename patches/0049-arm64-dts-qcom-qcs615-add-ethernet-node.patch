@@ -1,7 +1,7 @@
-From c191a72d2f9381164a8125f7495ef4319fea7464 Mon Sep 17 00:00:00 2001
+From 92c322128023d54b9c153d38232a0a3f87bb1bde Mon Sep 17 00:00:00 2001
 From: Yijie Yang <quic_yijiyang@quicinc.com>
 Date: Thu, 19 Sep 2024 16:27:51 +0800
-Subject: [PATCH 49/53] arm64: dts: qcom: qcs615: add ethernet node
+Subject: [PATCH 49/56] arm64: dts: qcom: qcs615: add ethernet node
 
 Add ethqos ethernet controller node for QCS615 SoC.
 
@@ -11,7 +11,7 @@ Signed-off-by: Yijie Yang <quic_yijiyang@quicinc.com>
  1 file changed, 29 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/qcom/qcs615.dtsi b/arch/arm64/boot/dts/qcom/qcs615.dtsi
-index a46515805e29..db8b5ed0cd34 100644
+index de4d982c8139..a865a5ecb211 100644
 --- a/arch/arm64/boot/dts/qcom/qcs615.dtsi
 +++ b/arch/arm64/boot/dts/qcom/qcs615.dtsi
 @@ -536,6 +536,35 @@ dc_noc: interconnect@9160000 {
