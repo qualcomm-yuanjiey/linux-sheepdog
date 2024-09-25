@@ -190,25 +190,30 @@ def sync_code():
 
 def make_ramdisk(kernel_components):
     ramdisk_url = config["DEVICE"]["ramdisk_url"]
+    ramdisk_adds = config["DEVICE"]["ramdisk_add"]
+    ramdisk_adds = [f"{compile_path}/modules_dir", ramdisk_adds]
+
     try:
         if not os.access('./clean_ramdisk.gz', os.F_OK):
             exec_shell_cmd(f"wget -O ./clean_ramdisk.gz {ramdisk_url}")
         shutil.copy("clean_ramdisk.gz", kernel_components['ramdisk'])
 
-        modules_install_dir = f'{compile_path}/modules_dir/lib/modules'
-        if os.path.exists(modules_install_dir):
-            os.chdir(f'{compile_path}/modules_dir')
-        else:
-            logging.warning(f'{modules_install_dir} not exists')
-            logging.warning('skip package modules into ramdisk')
-            return
-        
-        #Fixme: Because dash can't catch error in pipeline, so this cmd error can't catch correctly.
-        cmd = f"find ./lib/modules | cpio -o -H newc -R +0:+0 | pigz -9 >> {kernel_components['ramdisk']}"
-        exec_shell_cmd(cmd)
+        for ramdisk_add in ramdisk_adds:
+            if not os.path.isabs(ramdisk_add):
+                ramdisk_add = os.path.abspath(ramdisk_add)
+            if os.path.exists(ramdisk_add):
+                os.chdir(ramdisk_add)
+            else:
+                logging.warning(f"{ramdisk_add} not exists")
+                return
 
-        shutil.rmtree(modules_install_dir)
-        os.chdir(f'{workspace}')
+            # Fixme: Because dash can't catch error in pipeline, so this cmd error can't catch correctly.
+            cmd = f"find ./ | cpio -o -H newc -R +0:+0 | pigz -9 >> {kernel_components['ramdisk']}"
+            exec_shell_cmd(cmd)
+
+            os.chdir(f"{workspace}")
+
+        shutil.rmtree(ramdisk_adds[0])
     except Exception as e:
         os.chdir(f'{workspace}')
         exit_with_msg(str(e.args[0]), e.args[1])
