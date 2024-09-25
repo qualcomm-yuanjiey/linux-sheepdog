@@ -1,0 +1,35 @@
+From f6283dacaa395ee9d02ac7fad574017c778650cf Mon Sep 17 00:00:00 2001
+From: Song Xue <quic_songxue@quicinc.com>
+Date: Wed, 4 Sep 2024 12:25:19 +0800
+Subject: [PATCH 34/62] dt-bindings: cache: qcom,llcc: Add QCS615 compatible
+
+Add the compatible for QCS615 platforms.
+
+Signed-off-by: Song Xue <quic_songxue@quicinc.com>
+---
+ Documentation/devicetree/bindings/cache/qcom,llcc.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/Documentation/devicetree/bindings/cache/qcom,llcc.yaml b/Documentation/devicetree/bindings/cache/qcom,llcc.yaml
+index 68ea5f70b75f..51dadf661fc8 100644
+--- a/Documentation/devicetree/bindings/cache/qcom,llcc.yaml
++++ b/Documentation/devicetree/bindings/cache/qcom,llcc.yaml
+@@ -20,6 +20,7 @@ description: |
+ properties:
+   compatible:
+     enum:
++      - qcom,qcs615-llcc
+       - qcom,qdu1000-llcc
+       - qcom,sa8775p-llcc
+       - qcom,sc7180-llcc
+@@ -67,6 +68,7 @@ allOf:
+         compatible:
+           contains:
+             enum:
++              - qcom,qcs615-llcc
+               - qcom,sc7180-llcc
+               - qcom,sm6350-llcc
+     then:
+-- 
+2.34.1
+

@@ -1,0 +1,30 @@
+From 6ac266ca550b68f2204d718834a3cd31630443d4 Mon Sep 17 00:00:00 2001
+From: Xin Liu <quic_liuxin@quicinc.com>
+Date: Mon, 23 Sep 2024 16:12:30 +0800
+Subject: [PATCH 56/62] drivers: phy: qualcomm: qmp-ufs qcs615 compatible
+
+Add qcs615 compatible and data.
+
+Signed-off-by: Xin Liu <quic_liuxin@quicinc.com>
+Signed-off-by: Sayali Lokhande <quic_sayalil@quicinc.com>
+---
+ drivers/phy/qualcomm/phy-qcom-qmp-ufs.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/drivers/phy/qualcomm/phy-qcom-qmp-ufs.c b/drivers/phy/qualcomm/phy-qcom-qmp-ufs.c
+index d964bdfe8700..82e9c84ebc55 100644
+--- a/drivers/phy/qualcomm/phy-qcom-qmp-ufs.c
++++ b/drivers/phy/qualcomm/phy-qcom-qmp-ufs.c
+@@ -2010,6 +2010,9 @@ static const struct of_device_id qmp_ufs_of_match_table[] = {
+ 	}, {
+ 		.compatible = "qcom,msm8998-qmp-ufs-phy",
+ 		.data = &sdm845_ufsphy_cfg,
++	}, {
++		.compatible = "qcom,qcs615-qmp-ufs-phy",
++		.data = &sm6115_ufsphy_cfg,
+ 	}, {
+ 		.compatible = "qcom,sa8775p-qmp-ufs-phy",
+ 		.data = &sa8775p_ufsphy_cfg,
+-- 
+2.34.1
+

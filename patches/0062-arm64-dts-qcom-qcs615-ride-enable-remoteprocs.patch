@@ -1,0 +1,36 @@
+From ea6b3e789d0c2a887533ac9b72a538f5557b3541 Mon Sep 17 00:00:00 2001
+From: Lijuan Gao <quic_lijuang@quicinc.com>
+Date: Tue, 24 Sep 2024 10:21:06 +0800
+Subject: [PATCH 62/62] arm64: dts: qcom: qcs615-ride: enable remoteprocs
+
+Enable all remoteproc nodes on the qcs615-ride board and point to the
+appropriate firmware files.
+
+Signed-off-by: Lijuan Gao <quic_lijuang@quicinc.com>
+---
+ arch/arm64/boot/dts/qcom/qcs615-ride.dts | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/qcom/qcs615-ride.dts b/arch/arm64/boot/dts/qcom/qcs615-ride.dts
+index ac23ee2cc234..79b79edcb653 100644
+--- a/arch/arm64/boot/dts/qcom/qcs615-ride.dts
++++ b/arch/arm64/boot/dts/qcom/qcs615-ride.dts
+@@ -419,6 +419,15 @@ &qupv3_id_0 {
+         status = "okay";
+ };
+ 
++&remoteproc_adsp {
++	firmware-name = "qcom/qcs615/adsp.mbn";
++	status = "okay";
++};
++
++&remoteproc_cdsp {
++	firmware-name = "qcom/qcs615/cdsp.mbn";
++	status = "okay";
++};
+ 
+ &rpmhcc {
+ 	clocks = <&xo_board_clk>;
+-- 
+2.34.1
+

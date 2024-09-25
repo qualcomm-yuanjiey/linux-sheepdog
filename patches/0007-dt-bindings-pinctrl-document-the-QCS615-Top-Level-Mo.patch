@@ -1,7 +1,7 @@
-From 42235caa3d5bf6018ea933feb049c09e844ea581 Mon Sep 17 00:00:00 2001
+From d207c60eb15d183dd29e57203b2d16163cf7bff7 Mon Sep 17 00:00:00 2001
 From: Lijuan Gao <quic_lijuang@quicinc.com>
 Date: Fri, 30 Aug 2024 14:52:34 +0800
-Subject: [PATCH 07/56] dt-bindings: pinctrl: document the QCS615 Top Level
+Subject: [PATCH 07/62] dt-bindings: pinctrl: document the QCS615 Top Level
  Mode Multiplexer
 
 Document the Top Level Mode Multiplexer on the QCS615 Platform.

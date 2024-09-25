@@ -1,7 +1,7 @@
-From 79280ca8aa921b7b15f96f20d823d69868dc5fb4 Mon Sep 17 00:00:00 2001
+From 5c7b1e726540c9fa6cead8821ef2f0431c9f08d9 Mon Sep 17 00:00:00 2001
 From: Taniya Das <quic_tdas@quicinc.com>
 Date: Thu, 29 Aug 2024 22:40:58 +0530
-Subject: [PATCH 16/56] dt-bindings: clock: qcom: Add QCS615 GCC clocks
+Subject: [PATCH 16/62] dt-bindings: clock: qcom: Add QCS615 GCC clocks
 
 Add device tree bindings for global clock controller on QCS615 SoCs.
 

@@ -1,7 +1,7 @@
-From aa50009918f302adc50c8a94926e30807df77e7d Mon Sep 17 00:00:00 2001
+From 94511bd5ee7a8fb84f54334f47cbb0f73e026559 Mon Sep 17 00:00:00 2001
 From: Taniya Das <quic_tdas@quicinc.com>
 Date: Thu, 29 Aug 2024 22:42:43 +0530
-Subject: [PATCH 17/56] clk: qcom: gcc: Add support for QCS615 GCC clocks
+Subject: [PATCH 17/62] clk: qcom: gcc: Add support for QCS615 GCC clocks
 
 Add the global clock controller support for QCS615 SoC.
 

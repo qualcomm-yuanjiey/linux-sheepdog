@@ -1,7 +1,7 @@
-From 9cda71cb3da143b52efbe875959aa96918631bcd Mon Sep 17 00:00:00 2001
+From e1c306f952ad783c09852e528c6d23f03a19255b Mon Sep 17 00:00:00 2001
 From: Qingqing Zhou <quic_qqzhou@quicinc.com>
 Date: Thu, 19 Sep 2024 12:26:24 +0530
-Subject: [PATCH 23/56] iommu/arm-smmu: Workaround the SMMU_IDR2 value
+Subject: [PATCH 23/62] iommu/arm-smmu: Workaround the SMMU_IDR2 value
 
 On Talos, some smmu clients meet with smmu context fault
 issue, the fault iovas are all 0xfffffe000, clients use

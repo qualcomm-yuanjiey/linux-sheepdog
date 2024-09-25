@@ -1,0 +1,50 @@
+From aabc51fadce1d0c3b0955ca70ec5b58845dc640c Mon Sep 17 00:00:00 2001
+From: Yijie Yang <quic_yijiyang@quicinc.com>
+Date: Fri, 20 Sep 2024 16:46:07 +0800
+Subject: [PATCH 54/62] dt-bindings: net: snps,dwmac: Add Qualcomm Ethernet
+ ETHQOS compatibles
+
+Add Qualcomm Ethernet ETHQOS compatible checks
+in snps,dwmac YAML binding document.
+
+Signed-off-by: Yijie Yang <quic_yijiyang@quicinc.com>
+---
+ Documentation/devicetree/bindings/net/qcom,ethqos.yaml | 1 +
+ Documentation/devicetree/bindings/net/snps,dwmac.yaml  | 2 ++
+ 2 files changed, 3 insertions(+)
+
+diff --git a/Documentation/devicetree/bindings/net/qcom,ethqos.yaml b/Documentation/devicetree/bindings/net/qcom,ethqos.yaml
+index 6672327358bc..6aa8f534c068 100644
+--- a/Documentation/devicetree/bindings/net/qcom,ethqos.yaml
++++ b/Documentation/devicetree/bindings/net/qcom,ethqos.yaml
+@@ -20,6 +20,7 @@ properties:
+   compatible:
+     enum:
+       - qcom,qcs404-ethqos
++      - qcom,qcs615-ethqos
+       - qcom,sa8775p-ethqos
+       - qcom,sc8280xp-ethqos
+       - qcom,sm8150-ethqos
+diff --git a/Documentation/devicetree/bindings/net/snps,dwmac.yaml b/Documentation/devicetree/bindings/net/snps,dwmac.yaml
+index 4e2ba1bf788c..4dd2cf5e0805 100644
+--- a/Documentation/devicetree/bindings/net/snps,dwmac.yaml
++++ b/Documentation/devicetree/bindings/net/snps,dwmac.yaml
+@@ -67,6 +67,7 @@ properties:
+         - loongson,ls2k-dwmac
+         - loongson,ls7a-dwmac
+         - qcom,qcs404-ethqos
++        - qcom,qcs615-ethqos
+         - qcom,sa8775p-ethqos
+         - qcom,sc8280xp-ethqos
+         - qcom,sm8150-ethqos
+@@ -619,6 +620,7 @@ allOf:
+                 - ingenic,x1830-mac
+                 - ingenic,x2000-mac
+                 - qcom,qcs404-ethqos
++                - qcom,qcs615-ethqos
+                 - qcom,sa8775p-ethqos
+                 - qcom,sc8280xp-ethqos
+                 - qcom,sm8150-ethqos
+-- 
+2.34.1
+
