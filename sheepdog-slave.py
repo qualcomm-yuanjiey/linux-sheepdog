@@ -202,6 +202,7 @@ def make_ramdisk(kernel_components):
         cmd = f"find ./lib/modules | cpio -o -H newc -R +0:+0 | pigz -9 >> {kernel_components['ramdisk']}"
         exec_shell_cmd(cmd)
         os.chdir(f"{workspace}")
+        shutil.rmtree(f"{compile_path}/modules_dir")
 
         for ramdisk_add in ramdisk_adds:
             if not os.path.isabs(ramdisk_add):
@@ -218,7 +219,6 @@ def make_ramdisk(kernel_components):
 
             os.chdir(f"{workspace}")
 
-        shutil.rmtree(ramdisk_adds[0])
     except Exception as e:
         os.chdir(f'{workspace}')
         exit_with_msg(str(e.args[0]), e.args[1])
