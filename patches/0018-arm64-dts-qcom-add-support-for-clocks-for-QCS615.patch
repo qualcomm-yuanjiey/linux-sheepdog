@@ -1,7 +1,7 @@
-From 2d1746bea99f68dcf028b9dc23724fb690dc069e Mon Sep 17 00:00:00 2001
+From 231ec0470b7c3f1f1797a806f4cc594eb59c3ee6 Mon Sep 17 00:00:00 2001
 From: Taniya Das <quic_tdas@quicinc.com>
 Date: Thu, 19 Sep 2024 18:57:19 +0800
-Subject: [PATCH 18/62] arm64: dts: qcom: add support for clocks for QCS615
+Subject: [PATCH 18/63] arm64: dts: qcom: add support for clocks for QCS615
 
 Signed-off-by: Taniya Das <quic_tdas@quicinc.com>
 ---

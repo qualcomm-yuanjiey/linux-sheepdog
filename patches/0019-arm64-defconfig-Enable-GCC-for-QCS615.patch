@@ -1,7 +1,7 @@
-From a2709678e624887d02b2d75594691a77c26242ed Mon Sep 17 00:00:00 2001
+From 0be166e557c5562501ebd102de89c106fcb4e5a3 Mon Sep 17 00:00:00 2001
 From: Taniya Das <quic_tdas@quicinc.com>
 Date: Fri, 30 Aug 2024 00:09:17 +0530
-Subject: [PATCH 19/62] arm64: defconfig: Enable GCC for QCS615
+Subject: [PATCH 19/63] arm64: defconfig: Enable GCC for QCS615
 
 Enable clock controller for QCS615.
 
