@@ -190,13 +190,18 @@ def sync_code():
 
 def make_ramdisk(kernel_components):
     ramdisk_url = config["DEVICE"]["ramdisk_url"]
-    ramdisk_adds = config["DEVICE"]["ramdisk_add"]
-    ramdisk_adds = [f"{compile_path}/modules_dir", ramdisk_adds]
+    ramdisk_adds = config["DEVICE"]["ramdisk_add"].split()
+    # ramdisk_adds = [f"{compile_path}/modules_dir", ramdisk_adds]
 
     try:
         if not os.access('./clean_ramdisk.gz', os.F_OK):
             exec_shell_cmd(f"wget -O ./clean_ramdisk.gz {ramdisk_url}")
         shutil.copy("clean_ramdisk.gz", kernel_components['ramdisk'])
+
+        os.chdir(f"{compile_path}/modules_dir")
+        cmd = f"find ./lib/modules | cpio -o -H newc -R +0:+0 | pigz -9 >> {kernel_components['ramdisk']}"
+        exec_shell_cmd(cmd)
+        os.chdir(f"{workspace}")
 
         for ramdisk_add in ramdisk_adds:
             if not os.path.isabs(ramdisk_add):
@@ -208,7 +213,7 @@ def make_ramdisk(kernel_components):
                 return
 
             # Fixme: Because dash can't catch error in pipeline, so this cmd error can't catch correctly.
-            cmd = f"find ./ | cpio -o -H newc -R +0:+0 | pigz -9 >> {kernel_components['ramdisk']}"
+            cmd = f"find . | cpio -o -H newc -R +0:+0 | pigz -9 >> {kernel_components['ramdisk']}"
             exec_shell_cmd(cmd)
 
             os.chdir(f"{workspace}")
