@@ -1,7 +1,7 @@
 From d67d4d2d707ed4490e459db8f7a746f3ddef62e3 Mon Sep 17 00:00:00 2001
 From: Lijuan Gao <quic_lijuang@quicinc.com>
 Date: Wed, 28 Aug 2024 10:02:15 +0800
-Subject: [PATCH 11/63] arm64: dts: qcom: add initial support for QCS615 DTSI
+Subject: [PATCH 11/65] arm64: dts: qcom: add initial support for QCS615 DTSI
 
 Add initial DTSI for QCS615 SoC. It includes base description
 of CPUs, interrupt-controller, cpu idle, tcsr, sram, qfprom, tlmm,

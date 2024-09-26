@@ -1,7 +1,7 @@
 From 6686c7560341bbe70601fe551d2ac35f2a25c084 Mon Sep 17 00:00:00 2001
 From: lliu6 <quic_lliu6@quicinc.com>
 Date: Fri, 20 Sep 2024 12:47:59 +0800
-Subject: [PATCH 50/63] arm64: dts: qcom: qcs615: Add display mdss and dsi
+Subject: [PATCH 50/65] arm64: dts: qcom: qcs615: Add display mdss and dsi
  configuration
 
 Add display mdss and dsi configuration for QCS615 SoC.

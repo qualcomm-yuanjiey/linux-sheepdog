@@ -1,7 +1,7 @@
 From 503c58eb1f86011aa8ac26b37e84e9d59705383b Mon Sep 17 00:00:00 2001
 From: Taniya Das <quic_tdas@quicinc.com>
 Date: Thu, 19 Sep 2024 22:10:07 +0800
-Subject: [PATCH 28/63] arm64: dts: qcom: qcs615: Add regulators dts node
+Subject: [PATCH 28/65] arm64: dts: qcom: qcs615: Add regulators dts node
 
 Add device tree node for RPMh regulators on PMICs
 for Qualcomm QCS615 platform.

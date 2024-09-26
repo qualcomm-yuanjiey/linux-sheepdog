@@ -1,7 +1,7 @@
 From 3faca42439ccf645d04ddbd7c0d8452b18b208d4 Mon Sep 17 00:00:00 2001
 From: Xin Liu <quic_liuxin@quicinc.com>
 Date: Mon, 23 Sep 2024 17:37:47 +0800
-Subject: [PATCH 58/63] arm64: dts: qcom: qcs615: add UFS nodes
+Subject: [PATCH 58/65] arm64: dts: qcom: qcs615: add UFS nodes
 
 Add nodes for the UFS and its PHY on qcs615 platforms.
 

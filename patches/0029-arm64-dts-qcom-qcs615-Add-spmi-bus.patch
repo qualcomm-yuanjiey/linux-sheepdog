@@ -1,7 +1,7 @@
 From 3ef5b52b969c1b7c3bb2b424823a118eb05ce067 Mon Sep 17 00:00:00 2001
 From: Tingguo Cheng <quic_tingguoc@quicinc.com>
 Date: Thu, 5 Sep 2024 17:36:56 +0800
-Subject: [PATCH 29/63] arm64: dts: qcom: qcs615: Add spmi bus
+Subject: [PATCH 29/65] arm64: dts: qcom: qcs615: Add spmi bus
 
 Add spmi/arb bus controller dts node for Qualcomm qcs615
 platform.

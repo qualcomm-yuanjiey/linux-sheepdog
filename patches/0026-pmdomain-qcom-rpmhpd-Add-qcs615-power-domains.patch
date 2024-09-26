@@ -1,7 +1,7 @@
 From c15bd9452a2e79d25337ad77d4ea2848ef4df955 Mon Sep 17 00:00:00 2001
 From: Tingguo Cheng <quic_tingguoc@quicinc.com>
 Date: Wed, 4 Sep 2024 15:20:35 +0800
-Subject: [PATCH 26/63] pmdomain: qcom: rpmhpd: Add qcs615 power domains
+Subject: [PATCH 26/65] pmdomain: qcom: rpmhpd: Add qcs615 power domains
 
 Add support for the power-domains on qcs615 platform.
 
