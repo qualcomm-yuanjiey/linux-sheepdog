@@ -1,7 +1,7 @@
 From 7da68a226bd4b4943aec30b036a93a29d54c6e7c Mon Sep 17 00:00:00 2001
 From: Yijie Yang <quic_yijiyang@quicinc.com>
 Date: Sun, 29 Sep 2024 11:19:54 +0800
-Subject: [PATCH 61/61] arm64: dts: qcom: qcs615-ride: add missing reserved
+Subject: [PATCH 61/63] arm64: dts: qcom: qcs615-ride: add missing reserved
  memory
 
 Signed-off-by: Yijie Yang <quic_yijiyang@quicinc.com>

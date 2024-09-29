@@ -1,7 +1,7 @@
 From 3d75f18e5f69579d07756b2c40e95d703795686c Mon Sep 17 00:00:00 2001
 From: Lijuan Gao <quic_lijuang@quicinc.com>
 Date: Thu, 26 Sep 2024 14:54:46 +0800
-Subject: [PATCH 21/61] arm64: dts: qcom: add base QCS615 RIDE dts
+Subject: [PATCH 21/63] arm64: dts: qcom: add base QCS615 RIDE dts
 
 Add initial support for Qualcomm QCS615 RIDE board and enable
 the QCS615 RIDE board to shell with uart console.

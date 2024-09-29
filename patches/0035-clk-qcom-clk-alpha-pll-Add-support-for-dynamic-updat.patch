@@ -1,7 +1,7 @@
 From c2affec5d84394ad3a9bedb0f48b98ebd8c3f9c7 Mon Sep 17 00:00:00 2001
 From: Taniya Das <quic_tdas@quicinc.com>
 Date: Thu, 12 Sep 2024 12:43:46 +0530
-Subject: [PATCH 35/61] clk: qcom: clk-alpha-pll: Add support for dynamic
+Subject: [PATCH 35/63] clk: qcom: clk-alpha-pll: Add support for dynamic
  update for Slewing PLLs
 
 Signed-off-by: Taniya Das <quic_tdas@quicinc.com>

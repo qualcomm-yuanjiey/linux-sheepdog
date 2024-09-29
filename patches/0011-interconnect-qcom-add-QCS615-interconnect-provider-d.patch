@@ -1,7 +1,7 @@
 From 67b78b9b9dbd2cb4913c5010d63d61ada8a1fe17 Mon Sep 17 00:00:00 2001
 From: Raviteja Laggyshetty <quic_rlaggysh@quicinc.com>
 Date: Tue, 24 Sep 2024 14:39:58 +0000
-Subject: [PATCH 11/61] interconnect: qcom: add QCS615 interconnect provider
+Subject: [PATCH 11/63] interconnect: qcom: add QCS615 interconnect provider
  driver
 
 Add driver for the Qualcomm interconnect buses found in QCS615

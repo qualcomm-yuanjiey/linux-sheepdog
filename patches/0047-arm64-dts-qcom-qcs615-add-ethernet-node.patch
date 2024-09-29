@@ -1,7 +1,7 @@
 From 26c19dc9e8ebfa1cdcb53aa350a7ea35fde1d7ed Mon Sep 17 00:00:00 2001
 From: Yijie Yang <quic_yijiyang@quicinc.com>
 Date: Thu, 26 Sep 2024 17:50:30 +0800
-Subject: [PATCH 47/61] arm64: dts: qcom: qcs615: add ethernet node
+Subject: [PATCH 47/63] arm64: dts: qcom: qcs615: add ethernet node
 
 Add ethqos ethernet controller node for QCS615 SoC.
 

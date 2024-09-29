@@ -1,7 +1,7 @@
 From a345adfd562c8a16d35dacdf58cd396edce32073 Mon Sep 17 00:00:00 2001
 From: Lijuan Gao <quic_lijuang@quicinc.com>
 Date: Thu, 26 Sep 2024 14:54:45 +0800
-Subject: [PATCH 20/61] arm64: dts: qcom: add initial support for QCS615 DTSI
+Subject: [PATCH 20/63] arm64: dts: qcom: add initial support for QCS615 DTSI
 
 Add initial DTSI for QCS615 SoC.
 

@@ -1,7 +1,7 @@
 From 6a91ba0bf669aeb98e958547397a1de8c0d54100 Mon Sep 17 00:00:00 2001
 From: jie zhang <quic_jiezh@quicinc.com>
 Date: Thu, 26 Sep 2024 18:15:06 +0800
-Subject: [PATCH 60/61] drm/msm/a6xx: Add support for A612
+Subject: [PATCH 60/63] drm/msm/a6xx: Add support for A612
 
 Add support for Adreno 612 found on qcs615 platform.
 

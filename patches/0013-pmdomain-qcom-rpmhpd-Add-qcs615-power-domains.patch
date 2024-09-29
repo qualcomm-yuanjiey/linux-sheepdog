@@ -1,7 +1,7 @@
 From f7f28f1a04854bfa2bbb98126577a081b0f8ea6f Mon Sep 17 00:00:00 2001
 From: Tingguo Cheng <quic_tingguoc@quicinc.com>
 Date: Fri, 20 Sep 2024 12:08:43 +0800
-Subject: [PATCH 13/61] pmdomain: qcom: rpmhpd: Add qcs615 power domains
+Subject: [PATCH 13/63] pmdomain: qcom: rpmhpd: Add qcs615 power domains
 
 Add support for power domains exposed by RPMh on the qcs615 platform.
 Only CX/CX_AO are exposed by RPMh. Consumers such as VDD_MX, EBI, LPI_
