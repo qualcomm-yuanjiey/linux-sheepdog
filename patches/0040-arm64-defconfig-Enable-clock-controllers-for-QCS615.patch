@@ -1,0 +1,32 @@
+From 735c86e87760490e83d9e03fae027ef5d143e1f3 Mon Sep 17 00:00:00 2001
+From: Taniya Das <quic_tdas@quicinc.com>
+Date: Mon, 9 Sep 2024 15:42:33 +0530
+Subject: [PATCH 40/61] arm64: defconfig: Enable clock controllers for QCS615
+
+Enable multimedia clock controllers for QCS615.
+
+Signed-off-by: Taniya Das <quic_tdas@quicinc.com>
+---
+ arch/arm64/configs/defconfig | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
+index c066fe3a32c3..76f3a6ee93e9 100644
+--- a/arch/arm64/configs/defconfig
++++ b/arch/arm64/configs/defconfig
+@@ -1323,8 +1323,12 @@ CONFIG_MSM_GCC_8998=y
+ CONFIG_MSM_MMCC_8998=m
+ CONFIG_QCM_GCC_2290=y
+ CONFIG_QCM_DISPCC_2290=m
++CONFIG_QCS_DISPCC_615=y
++CONFIG_QCS_CAMCC_615=y
+ CONFIG_QCS_GCC_404=y
+ CONFIG_QCS_GCC_615=y
++CONFIG_QCS_GPUCC_615=y
++CONFIG_QCS_VIDEOCC_615=y
+ CONFIG_QDU_GCC_1000=y
+ CONFIG_SC_CAMCC_8280XP=m
+ CONFIG_SC_DISPCC_7280=m
+-- 
+2.34.1
+
