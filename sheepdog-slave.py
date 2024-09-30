@@ -2,7 +2,7 @@
 
 import sys, os, datetime, logging, configparser, argparse
 import subprocess, multiprocessing
-import glob, git, shutil, re
+import glob, git, shutil, re, gzip
 
 
 def file_is_exist(file_path):
@@ -188,39 +188,60 @@ def sync_code():
         return
     sync_kernel()
 
+
+def unpack_ramdisk(ramdisk, dest_dir):
+
+    if os.path.exists(dest_dir):
+        shutil.rmtree(dest_dir)
+    os.mkdir(dest_dir)
+
+    logging.info("Unpacking ramdisk...")
+    exec_shell_cmd(f"gzip -dc {ramdisk} | cpio -divD {dest_dir}")
+    logging.info("Unpacking ramdisk finished")
+
+
+def pack_ramdisk(src_dir, dest_dir):
+    os.chdir(src_dir)
+
+    cmd = f"find . | cpio -o -H newc -R +0:+0 | pigz -9 >> {dest_dir}/ramdisk.gz"
+    exec_shell_cmd(cmd)
+
+    os.chdir(workspace)
+
+
 def make_ramdisk(kernel_components):
     ramdisk_url = config["DEVICE"]["ramdisk_url"]
     ramdisk_adds = config["DEVICE"]["ramdisk_add"].split()
     # ramdisk_adds = [f"{compile_path}/modules_dir", ramdisk_adds]
+    clean_ramdisk = f"{workspace}/clean_ramdisk.gz"
+    tmp_ramdisk_dir = "/tmp/ramdisk"
 
     try:
-        if not os.access('./clean_ramdisk.gz', os.F_OK):
-            exec_shell_cmd(f"wget -O ./clean_ramdisk.gz {ramdisk_url}")
-        shutil.copy("clean_ramdisk.gz", kernel_components['ramdisk'])
+        if not os.access(clean_ramdisk, os.F_OK):
+            exec_shell_cmd(f"wget -O {clean_ramdisk} {ramdisk_url}")
 
-        os.chdir(f"{compile_path}/modules_dir")
-        cmd = f"find ./lib/modules | cpio -o -H newc -R +0:+0 | pigz -9 >> {kernel_components['ramdisk']}"
+        unpack_ramdisk(clean_ramdisk, tmp_ramdisk_dir)
+
+        cmd = f"rsync -avHAX {compile_path}/modules_dir/ {tmp_ramdisk_dir}/"
         exec_shell_cmd(cmd)
-        os.chdir(f"{workspace}")
+
         shutil.rmtree(f"{compile_path}/modules_dir")
 
         for ramdisk_add in ramdisk_adds:
             if not os.path.isabs(ramdisk_add):
                 ramdisk_add = os.path.abspath(ramdisk_add)
-            if os.path.exists(ramdisk_add):
-                os.chdir(ramdisk_add)
-            else:
+
+            if not os.path.exists(ramdisk_add):
                 logging.warning(f"{ramdisk_add} not exists")
                 return
 
             # Fixme: Because dash can't catch error in pipeline, so this cmd error can't catch correctly.
-            cmd = f"find . | cpio -o -H newc -R +0:+0 | pigz -9 >> {kernel_components['ramdisk']}"
+            cmd = f"rsync -avHAX {ramdisk_add}/ {tmp_ramdisk_dir}/"
             exec_shell_cmd(cmd)
 
-            os.chdir(f"{workspace}")
+        pack_ramdisk(tmp_ramdisk_dir, workspace)
 
     except Exception as e:
-        os.chdir(f'{workspace}')
         exit_with_msg(str(e.args[0]), e.args[1])
 
 def build_boot_image(kernel_components):
@@ -468,7 +489,7 @@ def compile():
             exit(0)
         exec_shell_cmd(f"make {make_options} Image.gz dtbs modules")
         exec_shell_cmd(
-            f"make {make_options} modules_install INSTALL_MOD_PATH=./modules_dir INSTALL_MOD_STRIP=1"
+            f"make {make_options} modules_install INSTALL_MOD_PATH=./modules_dir/usr INSTALL_MOD_STRIP=1"
         )
     except Exception as e:
         exit_with_msg(str(e.args[0]), e.args[1])
