@@ -1,7 +1,7 @@
-From 32f8595243ced765080bd3731e90660b852bfc43 Mon Sep 17 00:00:00 2001
+From 53386e984e5ae9fcd82937679991fd7cf60fbfdb Mon Sep 17 00:00:00 2001
 From: Taniya Das <quic_tdas@quicinc.com>
 Date: Mon, 9 Sep 2024 15:02:03 +0530
-Subject: [PATCH 38/63] GPUCC Driver change
+Subject: [PATCH 38/64] GPUCC Driver change
 
 Signed-off-by: Taniya Das <quic_tdas@quicinc.com>
 ---

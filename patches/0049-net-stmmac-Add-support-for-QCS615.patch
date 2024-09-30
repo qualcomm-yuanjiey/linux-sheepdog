@@ -1,7 +1,7 @@
-From 4ffc9b909348b98f5c886797c5576097c5f9323e Mon Sep 17 00:00:00 2001
+From 7447716946e25a97b8d54b9904426bb34b55fa52 Mon Sep 17 00:00:00 2001
 From: Yijie Yang <quic_yijiyang@quicinc.com>
 Date: Thu, 19 Sep 2024 16:47:19 +0800
-Subject: [PATCH 49/63] net: stmmac: Add support for QCS615
+Subject: [PATCH 49/64] net: stmmac: Add support for QCS615
 
 This adds compatible for ethernet controller found in QCS615 SoC.
 

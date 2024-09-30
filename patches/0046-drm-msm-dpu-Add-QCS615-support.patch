@@ -1,7 +1,7 @@
-From 992cea42bb27072bf1df153daddf59b1029ea2e7 Mon Sep 17 00:00:00 2001
+From fc485d0080c669836a65258800e86bdcaccdcadc Mon Sep 17 00:00:00 2001
 From: lliu6 <quic_lliu6@quicinc.com>
 Date: Fri, 20 Sep 2024 13:04:24 +0800
-Subject: [PATCH 46/63] drm/msm/dpu: Add QCS615 support
+Subject: [PATCH 46/64] drm/msm/dpu: Add QCS615 support
 
 Add support for the display hardware used on the Qualcomm QCS615 platform.
 

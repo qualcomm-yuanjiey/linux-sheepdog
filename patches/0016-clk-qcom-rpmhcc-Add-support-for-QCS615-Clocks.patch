@@ -1,7 +1,7 @@
-From 4ff6c7879f784cfad96de11c0d3ffb6679adede2 Mon Sep 17 00:00:00 2001
+From b3268864dd7e727b6a85427bea9e33f338783904 Mon Sep 17 00:00:00 2001
 From: Taniya Das <quic_tdas@quicinc.com>
 Date: Fri, 20 Sep 2024 16:08:16 +0530
-Subject: [PATCH 07/63] clk: qcom: rpmhcc: Add support for QCS615 Clocks
+Subject: [PATCH 16/64] clk: qcom: rpmhcc: Add support for QCS615 Clocks
 
 Add the RPMHCC clocks required for QCS615 SoC.
 

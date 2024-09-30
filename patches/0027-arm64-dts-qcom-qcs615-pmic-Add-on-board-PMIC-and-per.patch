@@ -1,7 +1,7 @@
-From fee96e27022c804df8047b0ef44daf3078cdc695 Mon Sep 17 00:00:00 2001
+From 52533473eaab447fac3728b2345aecdc11d2b6c9 Mon Sep 17 00:00:00 2001
 From: Tingguo Cheng <quic_tingguoc@quicinc.com>
 Date: Wed, 25 Sep 2024 15:45:43 +0800
-Subject: [PATCH 32/63] arm64: dts: qcom: qcs615-pmic: Add on-board PMIC and
+Subject: [PATCH 27/64] arm64: dts: qcom: qcs615-pmic: Add on-board PMIC and
  peripherals
 
 Create a new file qcs615-pmic.dtsi to add on-board PMIC and peripherals. The

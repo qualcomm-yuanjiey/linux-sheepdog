@@ -1,7 +1,7 @@
-From 20b953e939fc04fdbb6c98bc37e84cc44a8a1b49 Mon Sep 17 00:00:00 2001
+From b6bf7cdb48f48ca4ee47f23f52b629ca4914011f Mon Sep 17 00:00:00 2001
 From: Taniya Das <quic_tdas@quicinc.com>
 Date: Mon, 9 Sep 2024 15:40:08 +0530
-Subject: [PATCH 39/63] VideoCC Drivers
+Subject: [PATCH 39/64] VideoCC Drivers
 
 Signed-off-by: Taniya Das <quic_tdas@quicinc.com>
 ---

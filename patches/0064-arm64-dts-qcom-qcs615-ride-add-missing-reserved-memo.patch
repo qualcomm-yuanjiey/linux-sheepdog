@@ -1,7 +1,7 @@
-From 7da68a226bd4b4943aec30b036a93a29d54c6e7c Mon Sep 17 00:00:00 2001
+From 4fd9f728fae83b0c11d9a85f13a13232658dfe79 Mon Sep 17 00:00:00 2001
 From: Yijie Yang <quic_yijiyang@quicinc.com>
 Date: Sun, 29 Sep 2024 11:19:54 +0800
-Subject: [PATCH 61/63] arm64: dts: qcom: qcs615-ride: add missing reserved
+Subject: [PATCH 64/64] arm64: dts: qcom: qcs615-ride: add missing reserved
  memory
 
 Signed-off-by: Yijie Yang <quic_yijiyang@quicinc.com>
@@ -10,10 +10,10 @@ Signed-off-by: Yijie Yang <quic_yijiyang@quicinc.com>
  1 file changed, 71 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/qcom/qcs615.dtsi b/arch/arm64/boot/dts/qcom/qcs615.dtsi
-index 23922b512f85..1379900f753e 100644
+index e257cee8124a..b0278784d840 100644
 --- a/arch/arm64/boot/dts/qcom/qcs615.dtsi
 +++ b/arch/arm64/boot/dts/qcom/qcs615.dtsi
-@@ -406,6 +406,27 @@ reserved-memory {
+@@ -407,6 +407,27 @@ reserved-memory {
  		#size-cells = <2>;
  		ranges;
  
@@ -41,7 +41,7 @@ index 23922b512f85..1379900f753e 100644
  		smem_region: smem@86000000 {
  			compatible = "qcom,smem";
  			reg = <0x0 0x86000000 0x0 0x200000>;
-@@ -413,6 +434,31 @@ smem_region: smem@86000000 {
+@@ -414,6 +435,31 @@ smem_region: smem@86000000 {
  			hwlocks = <&tcsr_mutex 3>;
  		};
  
@@ -73,7 +73,7 @@ index 23922b512f85..1379900f753e 100644
  		rproc_cdsp_mem: rproc-cdsp@93b00000 {
  			reg = <0x0 0x93b00000 0x0 0x1e00000>;
  			no-map;
-@@ -422,6 +468,31 @@ rproc_adsp_mem: rproc-adsp@95900000 {
+@@ -423,6 +469,31 @@ rproc_adsp_mem: rproc-adsp@95900000 {
  			reg = <0x0 0x95900000 0x0 0x1e00000>;
  			no-map;
  		};

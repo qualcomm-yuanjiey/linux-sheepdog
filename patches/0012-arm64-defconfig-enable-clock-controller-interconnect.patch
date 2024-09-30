@@ -1,7 +1,7 @@
-From 20593e1cc99973aa1e2cae43a6bdb34417a70903 Mon Sep 17 00:00:00 2001
+From fb9f4ce3153a4ac818f636702ce594457577c6ad Mon Sep 17 00:00:00 2001
 From: Lijuan Gao <quic_lijuang@quicinc.com>
 Date: Thu, 26 Sep 2024 14:54:47 +0800
-Subject: [PATCH 22/63] arm64: defconfig: enable clock controller, interconnect
+Subject: [PATCH 12/64] arm64: defconfig: enable clock controller, interconnect
  and pinctrl for QCS615
 
 Enable clock controller, interconnect and pinctrl for Qualcomm

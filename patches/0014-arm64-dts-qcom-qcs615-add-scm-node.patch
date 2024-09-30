@@ -1,7 +1,7 @@
-From 0c6a66f974bf4ccdc26c3c0ea54610ac0f867bb4 Mon Sep 17 00:00:00 2001
+From 2fc7d30b7171bba10bad2a2699ad3eedec8b6943 Mon Sep 17 00:00:00 2001
 From: Qingqing Zhou <quic_qqzhou@quicinc.com>
 Date: Thu, 26 Sep 2024 18:24:26 +0800
-Subject: [PATCH 25/63] arm64: dts: qcom: qcs615: add scm node
+Subject: [PATCH 14/64] arm64: dts: qcom: qcs615: add scm node
 
 Add the scm node for QCS615 platform.
 
@@ -11,7 +11,7 @@ Signed-off-by: Qingqing Zhou <quic_qqzhou@quicinc.com>
  1 file changed, 7 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/qcom/qcs615.dtsi b/arch/arm64/boot/dts/qcom/qcs615.dtsi
-index 2cb81126d5e5..f921041a6399 100644
+index ac4c4c751da1..027c5125f36b 100644
 --- a/arch/arm64/boot/dts/qcom/qcs615.dtsi
 +++ b/arch/arm64/boot/dts/qcom/qcs615.dtsi
 @@ -278,6 +278,13 @@ memory@80000000 {

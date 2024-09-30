@@ -1,7 +1,7 @@
-From 595a6979987e80f047f4511439dc3052c00b46e8 Mon Sep 17 00:00:00 2001
+From 1f1e93d026e8ffed592aa4bd5818b9a6487ec7f4 Mon Sep 17 00:00:00 2001
 From: Renjiang Han <quic_renjiang@quicinc.com>
 Date: Mon, 29 Jul 2024 10:40:11 +0530
-Subject: [PATCH 62/63] arm64: dts: qcom: enable video feature with QCS615
+Subject: [PATCH 61/64] arm64: dts: qcom: enable video feature with QCS615
 
 add video devicetree for the Talos
 
@@ -12,10 +12,10 @@ Signed-off-by: Renjiang Han <quic_renjiang@quicinc.com>
  1 file changed, 73 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/qcom/qcs615.dtsi b/arch/arm64/boot/dts/qcom/qcs615.dtsi
-index 1379900f753e..1ecf10bc2de9 100644
+index 23922b512f85..1d714316664c 100644
 --- a/arch/arm64/boot/dts/qcom/qcs615.dtsi
 +++ b/arch/arm64/boot/dts/qcom/qcs615.dtsi
-@@ -1525,6 +1525,79 @@ usb_dwc3: usb@4e00000 {
+@@ -1454,6 +1454,79 @@ usb_dwc3: usb@4e00000 {
  
  		};
  
