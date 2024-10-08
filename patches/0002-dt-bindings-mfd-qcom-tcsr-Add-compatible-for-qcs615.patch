@@ -1,7 +1,7 @@
-From f452eb5242fd5d032fc484deaefabf12c371d8f1 Mon Sep 17 00:00:00 2001
+From dd23a4ad5100a550f1442f233866f58866799828 Mon Sep 17 00:00:00 2001
 From: lijuang <quic_lijuang@quicinc.com>
 Date: Fri, 20 Sep 2024 15:26:05 +0800
-Subject: [PATCH 02/64] dt-bindings: mfd: qcom,tcsr: Add compatible for qcs615
+Subject: [PATCH 02/65] dt-bindings: mfd: qcom,tcsr: Add compatible for qcs615
 
 Document the qcom,qcs615-tcsr compatible.
 

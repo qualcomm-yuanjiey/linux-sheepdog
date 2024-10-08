@@ -1,0 +1,65 @@
+From df0230b07760d4a4b309e959d33b7a57b58977b8 Mon Sep 17 00:00:00 2001
+From: Qingqing Zhou <quic_qqzhou@quicinc.com>
+Date: Sat, 5 Oct 2024 19:31:49 +0530
+Subject: [PATCH 23/65] firmware: qcom: scm: Return -EOPNOTSUPP for unsupported
+ SHM bridge enabling
+
+Currently for enabling shm bridge, QTEE will return 0 and put error 4 into
+result[0] to qcom_scm for unsupported platform, tzmem will consider this
+as an unknown error not the unsupported case on the platform.
+
+Error log:
+[    0.177224] qcom_scm firmware:scm: error (____ptrval____): Failed to enable the TrustZone memory allocator
+[    0.177244] qcom_scm firmware:scm: probe with driver qcom_scm failed with error 4
+
+Change the function call qcom_scm_shm_bridge_enable() to remap this
+result[0] into the unsupported error and then tzmem can consider this as
+unsupported case instead of reporting an error.
+
+Signed-off-by: Qingqing Zhou <quic_qqzhou@quicinc.com>
+Co-developed-by: Kuldeep Singh <quic_kuldsing@quicinc.com>
+Signed-off-by: Kuldeep Singh <quic_kuldsing@quicinc.com>
+---
+ drivers/firmware/qcom/qcom_scm.c | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/firmware/qcom/qcom_scm.c b/drivers/firmware/qcom/qcom_scm.c
+index 10986cb11ec0..620313359042 100644
+--- a/drivers/firmware/qcom/qcom_scm.c
++++ b/drivers/firmware/qcom/qcom_scm.c
+@@ -111,6 +111,10 @@ enum qcom_scm_qseecom_tz_cmd_info {
+ 	QSEECOM_TZ_CMD_INFO_VERSION		= 3,
+ };
+ 
++enum qcom_scm_shm_bridge_result {
++	SHMBRIDGE_RESULT_NOTSUPP	= 4,
++};
++
+ #define QSEECOM_MAX_APP_NAME_SIZE		64
+ 
+ /* Each bit configures cold/warm boot address for one of the 4 CPUs */
+@@ -1361,6 +1365,8 @@ EXPORT_SYMBOL_GPL(qcom_scm_lmh_dcvsh_available);
+ 
+ int qcom_scm_shm_bridge_enable(void)
+ {
++	int ret;
++
+ 	struct qcom_scm_desc desc = {
+ 		.svc = QCOM_SCM_SVC_MP,
+ 		.cmd = QCOM_SCM_MP_SHM_BRIDGE_ENABLE,
+@@ -1373,7 +1379,11 @@ int qcom_scm_shm_bridge_enable(void)
+ 					  QCOM_SCM_MP_SHM_BRIDGE_ENABLE))
+ 		return -EOPNOTSUPP;
+ 
+-	return qcom_scm_call(__scm->dev, &desc, &res) ?: res.result[0];
++	ret = qcom_scm_call(__scm->dev, &desc, &res);
++	if (!ret && res.result[0] == SHMBRIDGE_RESULT_NOTSUPP)
++		return -EOPNOTSUPP;
++
++	return ret ?: res.result[0];
+ }
+ EXPORT_SYMBOL_GPL(qcom_scm_shm_bridge_enable);
+ 
+-- 
+2.34.1
+

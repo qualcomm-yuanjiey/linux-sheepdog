@@ -1,0 +1,100 @@
+From a58517fa95f8e9e48c56e35f68087f0f9abe2cf5 Mon Sep 17 00:00:00 2001
+From: Renjiang Han <quic_renjiang@quicinc.com>
+Date: Mon, 29 Jul 2024 10:40:11 +0530
+Subject: [PATCH 62/65] arm64: dts: qcom: enable video feature with QCS615
+
+add video devicetree for the Talos
+
+Change-Id: I80017997005878145a22fc8f38c0ffb653938aee
+Signed-off-by: Renjiang Han <quic_renjiang@quicinc.com>
+---
+ arch/arm64/boot/dts/qcom/qcs615.dtsi | 73 ++++++++++++++++++++++++++++
+ 1 file changed, 73 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/qcom/qcs615.dtsi b/arch/arm64/boot/dts/qcom/qcs615.dtsi
+index 23922b512f85..1d714316664c 100644
+--- a/arch/arm64/boot/dts/qcom/qcs615.dtsi
++++ b/arch/arm64/boot/dts/qcom/qcs615.dtsi
+@@ -1454,6 +1454,79 @@ usb_dwc3: usb@4e00000 {
+ 
+ 		};
+ 
++		venus: video-codec@aa00000 {
++			compatible = "qcom,qcs615-venus";
++			reg = <0x0 0xaa00000 0x0 0x100000>;
++			interrupts = <GIC_SPI 174 IRQ_TYPE_LEVEL_HIGH>;
++
++			clocks = <&videocc VIDEO_CC_VENUS_CTL_CORE_CLK>,
++				 <&videocc VIDEO_CC_VENUS_AHB_CLK>,
++				 <&videocc VIDEO_CC_VENUS_CTL_AXI_CLK>,
++				 <&videocc VIDEO_CC_VCODEC0_CORE_CLK>,
++				 <&videocc VIDEO_CC_VCODEC0_AXI_CLK>;
++			clock-names = "core", "iface", "bus",
++				"vcodec0_core", "vcodec0_bus";
++
++			power-domains = <&videocc VENUS_GDSC>,
++					<&videocc VCODEC0_GDSC>,
++					<&rpmhpd RPMHPD_CX>;
++			power-domain-names = "venus", "vcodec0", "cx";
++
++			operating-points-v2 = <&venus_opp_table>;
++
++			interconnects = <&mmss_noc MASTER_VIDEO_P0 0 &mc_virt SLAVE_EBI1 0>,
++					<&gem_noc MASTER_APPSS_PROC 0 &config_noc SLAVE_VENUS_CFG 0>;
++			interconnect-names = "video-mem", "cpu-cfg";
++
++			iommus = <&apps_smmu 0xe40 0x20>,
++				 <&apps_smmu 0xe44 0x20>;
++
++			memory-region = <&pil_video_mem>;
++
++			status = "okay";
++			video-decoder {
++				compatible = "venus-decoder";
++			};
++
++			video-encoder {
++				compatible = "venus-encoder";
++			};
++
++			venus_opp_table: opp-table {
++				compatible = "operating-points-v2";
++
++				opp-133330000 {
++					opp-hz = /bits/ 64 <133330000>;
++					required-opps = <&rpmhpd_opp_low_svs>;
++				};
++
++				opp-240000000 {
++					opp-hz = /bits/ 64 <240000000>;
++					required-opps = <&rpmhpd_opp_svs>;
++				};
++
++				opp-300000000 {
++					opp-hz = /bits/ 64 <300000000>;
++					required-opps = <&rpmhpd_opp_svs_l1>;
++				};
++
++				opp-380000000 {
++					opp-hz = /bits/ 64 <380000000>;
++					required-opps = <&rpmhpd_opp_nom>;
++				};
++
++				opp-410000000 {
++					opp-hz = /bits/ 64 <410000000>;
++					required-opps = <&rpmhpd_opp_turbo>;
++				};
++
++				opp-460000000 {
++					opp-hz = /bits/ 64 <460000000>;
++					required-opps = <&rpmhpd_opp_turbo_l1>;
++				};
++			};
++		};
++
+ 		videocc: clock-controller@ab00000 {
+ 			compatible = "qcom,qcs615-videocc";
+ 			reg = <0 0xab00000 0 0x10000>;
+-- 
+2.34.1
+
