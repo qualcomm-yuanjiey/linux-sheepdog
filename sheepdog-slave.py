@@ -214,12 +214,17 @@ def make_ramdisk(kernel_components):
     ramdisk_adds = config["DEVICE"]["ramdisk_add"].split()
     # ramdisk_adds = [f"{compile_path}/modules_dir", ramdisk_adds]
     clean_ramdisk = f"{workspace}/clean_ramdisk.gz"
+    dest_dir = workspace
+    dest_ramdisk = f"{dest_dir}/ramdisk.gz"
     tmp_ramdisk_dir = "/tmp/ramdisk"
 
-    try:
-        if not os.access(clean_ramdisk, os.F_OK):
-            exec_shell_cmd(f"wget -O {clean_ramdisk} {ramdisk_url}")
+    if not os.access(clean_ramdisk, os.F_OK):
+        exec_shell_cmd(f"wget -O {clean_ramdisk} {ramdisk_url}")
 
+    if os.path.exists(dest_ramdisk):
+        os.remove(dest_ramdisk)
+
+    try:
         unpack_ramdisk(clean_ramdisk, tmp_ramdisk_dir)
 
         cmd = f"rsync -avHA {compile_path}/modules_dir/ {tmp_ramdisk_dir}/"
@@ -239,7 +244,7 @@ def make_ramdisk(kernel_components):
             cmd = f"rsync -avHA {ramdisk_add}/ {tmp_ramdisk_dir}/"
             exec_shell_cmd(cmd)
 
-        pack_ramdisk(tmp_ramdisk_dir, workspace)
+        pack_ramdisk(tmp_ramdisk_dir, dest_dir)
 
     except Exception as e:
         exit_with_msg(str(e.args[0]), e.args[1])
