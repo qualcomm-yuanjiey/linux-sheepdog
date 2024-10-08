@@ -222,7 +222,7 @@ def make_ramdisk(kernel_components):
 
         unpack_ramdisk(clean_ramdisk, tmp_ramdisk_dir)
 
-        cmd = f"rsync -avHAX {compile_path}/modules_dir/ {tmp_ramdisk_dir}/"
+        cmd = f"rsync -avHA {compile_path}/modules_dir/ {tmp_ramdisk_dir}/"
         exec_shell_cmd(cmd)
 
         shutil.rmtree(f"{compile_path}/modules_dir")
@@ -236,7 +236,7 @@ def make_ramdisk(kernel_components):
                 return
 
             # Fixme: Because dash can't catch error in pipeline, so this cmd error can't catch correctly.
-            cmd = f"rsync -avHAX {ramdisk_add}/ {tmp_ramdisk_dir}/"
+            cmd = f"rsync -avHA {ramdisk_add}/ {tmp_ramdisk_dir}/"
             exec_shell_cmd(cmd)
 
         pack_ramdisk(tmp_ramdisk_dir, workspace)
