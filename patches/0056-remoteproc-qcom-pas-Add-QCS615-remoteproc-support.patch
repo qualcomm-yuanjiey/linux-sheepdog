@@ -1,7 +1,7 @@
-From 606f773453060b594d8991807e13ec5c4d7da003 Mon Sep 17 00:00:00 2001
+From dacf0f4ecb9d97e8276d621e4961f6d83972106a Mon Sep 17 00:00:00 2001
 From: Lijuan Gao <quic_lijuang@quicinc.com>
 Date: Mon, 23 Sep 2024 18:12:51 +0800
-Subject: [PATCH 57/65] remoteproc: qcom: pas: Add QCS615 remoteproc support
+Subject: [PATCH 56/64] remoteproc: qcom: pas: Add QCS615 remoteproc support
 
 Add support for PIL loading on ADSP and CDSP on QCS615 platform.
 

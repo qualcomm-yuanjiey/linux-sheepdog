@@ -1,7 +1,7 @@
-From 11e3cbf2bf7c15ba086133eafb124777d162e74e Mon Sep 17 00:00:00 2001
+From 0831572d62c45b4c3d30558f1f5ac0f5d7d28702 Mon Sep 17 00:00:00 2001
 From: Yijie Yang <quic_yijiyang@quicinc.com>
 Date: Sun, 29 Sep 2024 11:19:54 +0800
-Subject: [PATCH 65/65] arm64: dts: qcom: qcs615-ride: add missing reserved
+Subject: [PATCH 64/64] arm64: dts: qcom: qcs615-ride: add missing reserved
  memory
 
 Signed-off-by: Yijie Yang <quic_yijiyang@quicinc.com>
@@ -10,7 +10,7 @@ Signed-off-by: Yijie Yang <quic_yijiyang@quicinc.com>
  1 file changed, 71 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/qcom/qcs615.dtsi b/arch/arm64/boot/dts/qcom/qcs615.dtsi
-index e257cee8124a..b0278784d840 100644
+index 36fc0f626b24..f6e52b05c4ab 100644
 --- a/arch/arm64/boot/dts/qcom/qcs615.dtsi
 +++ b/arch/arm64/boot/dts/qcom/qcs615.dtsi
 @@ -407,6 +407,27 @@ reserved-memory {

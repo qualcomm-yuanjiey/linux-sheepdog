@@ -1,7 +1,7 @@
-From 7db8040081d413e00306762295a8faa65f689863 Mon Sep 17 00:00:00 2001
+From dfa06df8625ffb0057ffebc95bb64f6932fc132e Mon Sep 17 00:00:00 2001
 From: lijuang <quic_lijuang@quicinc.com>
 Date: Thu, 26 Sep 2024 18:17:12 +0800
-Subject: [PATCH 58/65] arm64: dts: qcom: qcs615: add ADSP and CDSP nodes
+Subject: [PATCH 57/64] arm64: dts: qcom: qcs615: add ADSP and CDSP nodes
 
 Add nodes for remoteprocs: ADSP and CDSP for QCS615 SoC.
 
@@ -11,7 +11,7 @@ Signed-off-by: Lijuan Gao <quic_lijuang@quicinc.com>
  1 file changed, 96 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/qcom/qcs615.dtsi b/arch/arm64/boot/dts/qcom/qcs615.dtsi
-index 360cce76301a..165df8f97e86 100644
+index a12635fdbae5..ddfeb0995d3f 100644
 --- a/arch/arm64/boot/dts/qcom/qcs615.dtsi
 +++ b/arch/arm64/boot/dts/qcom/qcs615.dtsi
 @@ -412,6 +412,16 @@ smem_region: smem@86000000 {

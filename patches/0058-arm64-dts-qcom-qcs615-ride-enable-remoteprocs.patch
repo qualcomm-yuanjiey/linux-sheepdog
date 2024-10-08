@@ -1,7 +1,7 @@
-From e7f2fc116e63a8c1cb0b85e3d4edb6232df6aa1d Mon Sep 17 00:00:00 2001
+From 58b737574688812ed91bc9fa5434c35c58314cb4 Mon Sep 17 00:00:00 2001
 From: lijuang <quic_lijuang@quicinc.com>
 Date: Thu, 26 Sep 2024 18:18:32 +0800
-Subject: [PATCH 59/65] arm64: dts: qcom: qcs615-ride: enable remoteprocs
+Subject: [PATCH 58/64] arm64: dts: qcom: qcs615-ride: enable remoteprocs
 
 Enable all remoteproc nodes on the qcs615-ride board and point to the
 appropriate firmware files.

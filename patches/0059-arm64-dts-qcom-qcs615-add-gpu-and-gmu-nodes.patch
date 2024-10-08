@@ -1,7 +1,7 @@
-From 5f5f24fe38cf8c690be8af8c796ca2a4be74e704 Mon Sep 17 00:00:00 2001
+From b589997ca33b5610a53d7f2baf52df9a3ead931c Mon Sep 17 00:00:00 2001
 From: jie zhang <quic_jiezh@quicinc.com>
 Date: Thu, 26 Sep 2024 18:14:04 +0800
-Subject: [PATCH 60/65] arm64: dts: qcom: qcs615: add gpu and gmu nodes
+Subject: [PATCH 59/64] arm64: dts: qcom: qcs615: add gpu and gmu nodes
 
 Add gpu and gmu nodes for qcs615 based platforms.
 
@@ -11,7 +11,7 @@ Signed-off-by: jie zhang <quic_jiezh@quicinc.com>
  1 file changed, 63 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/qcom/qcs615.dtsi b/arch/arm64/boot/dts/qcom/qcs615.dtsi
-index 165df8f97e86..23922b512f85 100644
+index ddfeb0995d3f..bbf6aa19d8eb 100644
 --- a/arch/arm64/boot/dts/qcom/qcs615.dtsi
 +++ b/arch/arm64/boot/dts/qcom/qcs615.dtsi
 @@ -1201,6 +1201,69 @@ qup_uart7_rx: qup-uart7-rx-state {

@@ -1,7 +1,7 @@
-From 259b6db45df779f1b81fa3f43d754ca76a1e5557 Mon Sep 17 00:00:00 2001
+From 7bdc18bcfaae2aa440dc8c30ca447d4d3068cc72 Mon Sep 17 00:00:00 2001
 From: Yijie Yang <quic_yijiyang@quicinc.com>
 Date: Thu, 26 Sep 2024 17:50:30 +0800
-Subject: [PATCH 48/65] arm64: dts: qcom: qcs615: add ethernet node
+Subject: [PATCH 48/64] arm64: dts: qcom: qcs615: add ethernet node
 
 Add ethqos ethernet controller node for QCS615 SoC.
 
@@ -11,7 +11,7 @@ Signed-off-by: Yijie Yang <quic_yijiyang@quicinc.com>
  1 file changed, 29 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/qcom/qcs615.dtsi b/arch/arm64/boot/dts/qcom/qcs615.dtsi
-index 0d8fb557cf48..eedc87a4bde9 100644
+index 0d8fb557cf48..200cb4f58d08 100644
 --- a/arch/arm64/boot/dts/qcom/qcs615.dtsi
 +++ b/arch/arm64/boot/dts/qcom/qcs615.dtsi
 @@ -420,6 +420,35 @@ soc: soc@0 {
@@ -19,7 +19,7 @@ index 0d8fb557cf48..eedc87a4bde9 100644
  		#size-cells = <2>;
  
 +		ethernet: ethernet@20000 {
-+			compatible = "qcom,qcs615-ethqos";
++			compatible = "qcom,qcs615-ethqos", "qcom,sm8150-ethqos";
 +			reg = <0x0 0x20000 0x0 0x10000>,
 +			      <0x0 0x36000 0x0 0x100>;
 +			reg-names = "stmmaceth", "rgmii";

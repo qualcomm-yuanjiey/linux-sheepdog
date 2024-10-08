@@ -1,7 +1,7 @@
 From df0230b07760d4a4b309e959d33b7a57b58977b8 Mon Sep 17 00:00:00 2001
 From: Qingqing Zhou <quic_qqzhou@quicinc.com>
 Date: Sat, 5 Oct 2024 19:31:49 +0530
-Subject: [PATCH 23/65] firmware: qcom: scm: Return -EOPNOTSUPP for unsupported
+Subject: [PATCH 23/64] firmware: qcom: scm: Return -EOPNOTSUPP for unsupported
  SHM bridge enabling
 
 Currently for enabling shm bridge, QTEE will return 0 and put error 4 into

@@ -1,7 +1,7 @@
-From 26df8f7f7beea8bc3e8dc21308f2cfdcfdc93c80 Mon Sep 17 00:00:00 2001
+From defe3b0ef935948a5580f14840eb801c12fbb022 Mon Sep 17 00:00:00 2001
 From: Renjiang Han <quic_renjiang@quicinc.com>
 Date: Fri, 16 Aug 2024 12:57:28 +0530
-Subject: [PATCH 63/65] media: venus: add qcs615 data for Talos BU
+Subject: [PATCH 62/64] media: venus: add qcs615 data for Talos BU
 
 enable video feature on Talos
 

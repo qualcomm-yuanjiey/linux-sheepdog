@@ -1,7 +1,7 @@
 From 673dae7518ed27b387fada56f86cdd88235bcc33 Mon Sep 17 00:00:00 2001
 From: Tingguo Cheng <quic_tingguoc@quicinc.com>
 Date: Fri, 20 Sep 2024 12:08:42 +0800
-Subject: [PATCH 25/65] dt-bindings: power: qcom,rpmpd: document qcs615 RPMh
+Subject: [PATCH 25/64] dt-bindings: power: qcom,rpmpd: document qcs615 RPMh
  power domains
 
 Add compatible string for the RPMh power domains on qcs615 platform.

@@ -1,7 +1,7 @@
 From 5dfda83210a10c1f078a1492f1e742da454f2013 Mon Sep 17 00:00:00 2001
 From: Lijuan Gao <quic_lijuang@quicinc.com>
 Date: Fri, 20 Sep 2024 16:00:10 +0800
-Subject: [PATCH 05/65] pinctrl: qcom: add the tlmm driver for QCS615 platform
+Subject: [PATCH 05/64] pinctrl: qcom: add the tlmm driver for QCS615 platform
 
 Add support for QCS615 TLMM configuration and control via the
 pinctrl framework.
