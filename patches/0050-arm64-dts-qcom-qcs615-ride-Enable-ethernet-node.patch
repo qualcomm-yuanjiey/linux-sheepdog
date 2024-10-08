@@ -1,7 +1,7 @@
-From 5ba9d5a63e7342b29f982dcf0f3962da07f216a0 Mon Sep 17 00:00:00 2001
+From 248a96aa4b9399add49ee83d968cc015ed87794d Mon Sep 17 00:00:00 2001
 From: Yijie Yang <quic_yijiyang@quicinc.com>
 Date: Thu, 26 Sep 2024 17:54:38 +0800
-Subject: [PATCH 49/64] arm64: dts: qcom: qcs615-ride: Enable ethernet node
+Subject: [PATCH 50/64] arm64: dts: qcom: qcs615-ride: Enable ethernet node
 
 Enable the ethernet node, add the phy node and pinctrl for ethernet.
 

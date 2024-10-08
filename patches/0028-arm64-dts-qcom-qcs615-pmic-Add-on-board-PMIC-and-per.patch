@@ -1,4 +1,4 @@
-From 9f4cb637af0485638f1a82cbcf8508918addfbea Mon Sep 17 00:00:00 2001
+From 0ce4a6ea89df71783c8a6334cc31a1ee6bbeb90c Mon Sep 17 00:00:00 2001
 From: Tingguo Cheng <quic_tingguoc@quicinc.com>
 Date: Wed, 25 Sep 2024 15:45:43 +0800
 Subject: [PATCH 28/64] arm64: dts: qcom: qcs615-pmic: Add on-board PMIC and

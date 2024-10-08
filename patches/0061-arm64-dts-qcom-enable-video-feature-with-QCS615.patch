@@ -1,4 +1,4 @@
-From 7490a12aaca733666a6f22354d654211ffae1c63 Mon Sep 17 00:00:00 2001
+From 21cfec3fb4327a05ef0d09335f1ce9e3410f2d40 Mon Sep 17 00:00:00 2001
 From: Renjiang Han <quic_renjiang@quicinc.com>
 Date: Mon, 29 Jul 2024 10:40:11 +0530
 Subject: [PATCH 61/64] arm64: dts: qcom: enable video feature with QCS615

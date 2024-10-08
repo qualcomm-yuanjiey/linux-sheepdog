@@ -1,4 +1,4 @@
-From 8bca611c22b8a67f463e99d554e030fe4d1cc763 Mon Sep 17 00:00:00 2001
+From 65509a3b99c57c9d412d3fb05225c2016057c408 Mon Sep 17 00:00:00 2001
 From: lliu6 <quic_lliu6@quicinc.com>
 Date: Fri, 20 Sep 2024 13:04:24 +0800
 Subject: [PATCH 47/64] drm/msm/dpu: Add QCS615 support

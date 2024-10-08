@@ -1,4 +1,4 @@
-From d9b5a9bf95992f41c570b420faa70f73b8094d85 Mon Sep 17 00:00:00 2001
+From 626bb58d220132736bbfb9f94935acb33bb02631 Mon Sep 17 00:00:00 2001
 From: jie zhang <quic_jiezh@quicinc.com>
 Date: Thu, 26 Sep 2024 18:15:06 +0800
 Subject: [PATCH 60/64] drm/msm/a6xx: Add support for A612

@@ -1,4 +1,4 @@
-From 0dc8680e1d6b6397e364883423159f21f6ad50ca Mon Sep 17 00:00:00 2001
+From 8ea0986aa03ffeadee10f5dfccd6cb1752e0b62a Mon Sep 17 00:00:00 2001
 From: Lijuan Gao <quic_lijuang@quicinc.com>
 Date: Thu, 26 Sep 2024 14:54:46 +0800
 Subject: [PATCH 11/64] arm64: dts: qcom: add base QCS615 RIDE dts

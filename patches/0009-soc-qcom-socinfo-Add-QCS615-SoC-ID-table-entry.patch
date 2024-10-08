@@ -1,4 +1,4 @@
-From 959708f296f4a0a4f4f7df7b43e85ffca090c779 Mon Sep 17 00:00:00 2001
+From d9a5cf5a1281a99dc11178b30764af74d8e5136e Mon Sep 17 00:00:00 2001
 From: Lijuan Gao <quic_lijuang@quicinc.com>
 Date: Thu, 26 Sep 2024 14:54:44 +0800
 Subject: [PATCH 09/64] soc: qcom: socinfo: Add QCS615 SoC ID table entry

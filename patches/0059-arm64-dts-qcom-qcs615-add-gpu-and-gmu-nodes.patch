@@ -1,4 +1,4 @@
-From b589997ca33b5610a53d7f2baf52df9a3ead931c Mon Sep 17 00:00:00 2001
+From 77ec354d39acafc43417ff47001947069143e93e Mon Sep 17 00:00:00 2001
 From: jie zhang <quic_jiezh@quicinc.com>
 Date: Thu, 26 Sep 2024 18:14:04 +0800
 Subject: [PATCH 59/64] arm64: dts: qcom: qcs615: add gpu and gmu nodes

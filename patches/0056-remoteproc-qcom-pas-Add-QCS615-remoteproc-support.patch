@@ -1,4 +1,4 @@
-From dacf0f4ecb9d97e8276d621e4961f6d83972106a Mon Sep 17 00:00:00 2001
+From c6055f8db80b29388fd7cbe8ff4b6c270b0b0800 Mon Sep 17 00:00:00 2001
 From: Lijuan Gao <quic_lijuang@quicinc.com>
 Date: Mon, 23 Sep 2024 18:12:51 +0800
 Subject: [PATCH 56/64] remoteproc: qcom: pas: Add QCS615 remoteproc support

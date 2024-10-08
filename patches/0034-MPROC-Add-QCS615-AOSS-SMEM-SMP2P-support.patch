@@ -1,4 +1,4 @@
-From c0228d884c1947efac03b5aa9c934397a5973604 Mon Sep 17 00:00:00 2001
+From ddec2062e4efd38003bb1e903f42dece92a99fc6 Mon Sep 17 00:00:00 2001
 From: Kyle Deng <quic_chunkaid@quicinc.com>
 Date: Thu, 26 Sep 2024 18:43:43 +0800
 Subject: [PATCH 34/64] MPROC:Add QCS615 AOSS/SMEM/SMP2P support

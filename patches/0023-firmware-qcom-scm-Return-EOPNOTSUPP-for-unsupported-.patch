@@ -1,4 +1,4 @@
-From df0230b07760d4a4b309e959d33b7a57b58977b8 Mon Sep 17 00:00:00 2001
+From 8970d0884fb382ac046e5e4154260fb8aa23c3aa Mon Sep 17 00:00:00 2001
 From: Qingqing Zhou <quic_qqzhou@quicinc.com>
 Date: Sat, 5 Oct 2024 19:31:49 +0530
 Subject: [PATCH 23/64] firmware: qcom: scm: Return -EOPNOTSUPP for unsupported

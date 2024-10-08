@@ -1,4 +1,4 @@
-From 63a1b4c8e9a7c9e755d2e0a4df7ed9f10e31f983 Mon Sep 17 00:00:00 2001
+From 275c51034f7707d94fd1207c4e8da0ed9b89f2ed Mon Sep 17 00:00:00 2001
 From: Lijuan Gao <quic_lijuang@quicinc.com>
 Date: Thu, 12 Sep 2024 10:54:41 +0800
 Subject: [PATCH 01/64] dt-bindings: nvmem: qfprom: Add compatible for QCS615

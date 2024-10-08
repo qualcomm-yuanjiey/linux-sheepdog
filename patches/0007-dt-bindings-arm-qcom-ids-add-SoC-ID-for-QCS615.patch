@@ -1,4 +1,4 @@
-From 9a06bcd097afa2220e60d60076f94024b7696873 Mon Sep 17 00:00:00 2001
+From 9f9a94b371a5c24b1f6b8db735d7b97ad9af6cee Mon Sep 17 00:00:00 2001
 From: Lijuan Gao <quic_lijuang@quicinc.com>
 Date: Thu, 26 Sep 2024 14:54:42 +0800
 Subject: [PATCH 07/64] dt-bindings: arm: qcom,ids: add SoC ID for QCS615

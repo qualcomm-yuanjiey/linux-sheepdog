@@ -1,4 +1,4 @@
-From c6d81c32978470af2ec53c3357f5dd77a9c432fb Mon Sep 17 00:00:00 2001
+From a20d4763037aa0498d9886d55db28cbeff60101e Mon Sep 17 00:00:00 2001
 From: Song Xue <quic_songxue@quicinc.com>
 Date: Thu, 26 Sep 2024 15:56:51 +0800
 Subject: [PATCH 33/64] arm64: dts: qcom: qcs615: Add LLCC support for qcs615

@@ -1,4 +1,4 @@
-From b5c272e13cd4183b11d33e06b3156887c8162bcb Mon Sep 17 00:00:00 2001
+From 421e81f636abf677023c2f6f53ef5c43e8e21173 Mon Sep 17 00:00:00 2001
 From: Qingqing Zhou <quic_qqzhou@quicinc.com>
 Date: Thu, 26 Sep 2024 18:24:26 +0800
 Subject: [PATCH 14/64] arm64: dts: qcom: qcs615: add scm node

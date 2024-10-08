@@ -1,4 +1,4 @@
-From defe3b0ef935948a5580f14840eb801c12fbb022 Mon Sep 17 00:00:00 2001
+From b164af607d941631621f95cb7fe9eb6f043f9f00 Mon Sep 17 00:00:00 2001
 From: Renjiang Han <quic_renjiang@quicinc.com>
 Date: Fri, 16 Aug 2024 12:57:28 +0530
 Subject: [PATCH 62/64] media: venus: add qcs615 data for Talos BU

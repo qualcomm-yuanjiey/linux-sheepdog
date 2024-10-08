@@ -1,4 +1,4 @@
-From 66bd54576f1489bc56ed816cce69439708b0c682 Mon Sep 17 00:00:00 2001
+From b1473d8ae9445cbbb8ae2d01d2b17d800576f801 Mon Sep 17 00:00:00 2001
 From: Lijuan Gao <quic_lijuang@quicinc.com>
 Date: Thu, 26 Sep 2024 14:54:43 +0800
 Subject: [PATCH 08/64] dt-bindings: qcom,pdc: document QCS615 Power Domain

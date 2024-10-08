@@ -1,4 +1,4 @@
-From c6b58004a4e1bd33e4f7cb15ef4be6d952726890 Mon Sep 17 00:00:00 2001
+From 9cdb1989a505691b1fe96a617fc0326f41537ef4 Mon Sep 17 00:00:00 2001
 From: Qingqing Zhou <quic_qqzhou@quicinc.com>
 Date: Thu, 19 Sep 2024 12:26:24 +0530
 Subject: [PATCH 22/64] iommu/arm-smmu: Workaround the SMMU_IDR2 value
