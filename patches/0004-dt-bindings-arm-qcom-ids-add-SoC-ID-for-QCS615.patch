@@ -1,0 +1,28 @@
+From ef190c6b18dcf9eee91692d38b35b4c8a22b1e61 Mon Sep 17 00:00:00 2001
+From: Lijuan Gao <quic_lijuang@quicinc.com>
+Date: Thu, 26 Sep 2024 14:54:42 +0800
+Subject: [PATCH 04/59] dt-bindings: arm: qcom,ids: add SoC ID for QCS615
+
+Add the ID for the Qualcomm QCS615 SoC.
+
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Signed-off-by: Lijuan Gao <quic_lijuang@quicinc.com>
+---
+ include/dt-bindings/arm/qcom,ids.h | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/include/dt-bindings/arm/qcom,ids.h b/include/dt-bindings/arm/qcom,ids.h
+index 8332f8d82f96..73a69fc535f6 100644
+--- a/include/dt-bindings/arm/qcom,ids.h
++++ b/include/dt-bindings/arm/qcom,ids.h
+@@ -278,6 +278,7 @@
+ #define QCOM_ID_IPQ5321			650
+ #define QCOM_ID_QCS8300			674
+ #define QCOM_ID_QCS8275			675
++#define QCOM_ID_QCS615			680
+ 
+ /*
+  * The board type and revision information, used by Qualcomm bootloaders and
+-- 
+2.34.1
+

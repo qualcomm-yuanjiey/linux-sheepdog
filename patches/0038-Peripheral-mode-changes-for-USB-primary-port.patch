@@ -1,0 +1,327 @@
+From 8f30acc09a4d25c82fce438c393d6c3cf63e91d2 Mon Sep 17 00:00:00 2001
+From: Song Xue <quic_songxue@quicinc.com>
+Date: Tue, 10 Sep 2024 21:43:38 +0530
+Subject: [PATCH 38/59] Peripheral mode changes for USB primary port
+
+Signed-off-by: Krishna Kurapati <quic_kriskura@quicinc.com>
+Signed-off-by: Song Xue <quic_songxue@quicinc.com>
+---
+ .../phy/qcom,msm8998-qmp-usb3-phy.yaml        |   2 +
+ .../bindings/phy/qcom,qusb2-phy.yaml          |   1 +
+ .../devicetree/bindings/usb/qcom,dwc3.yaml    |   3 +
+ arch/arm64/boot/dts/qcom/qcs615-ride.dts      |  21 ++++
+ arch/arm64/boot/dts/qcom/qcs615.dtsi          | 110 ++++++++++++++++++
+ drivers/phy/qualcomm/phy-qcom-qmp-usbc.c      |   3 +
+ drivers/phy/qualcomm/phy-qcom-qusb2.c         |  29 +++++
+ 7 files changed, 169 insertions(+)
+
+diff --git a/Documentation/devicetree/bindings/phy/qcom,msm8998-qmp-usb3-phy.yaml b/Documentation/devicetree/bindings/phy/qcom,msm8998-qmp-usb3-phy.yaml
+index f1f4e4f83352..1636285fbe53 100644
+--- a/Documentation/devicetree/bindings/phy/qcom,msm8998-qmp-usb3-phy.yaml
++++ b/Documentation/devicetree/bindings/phy/qcom,msm8998-qmp-usb3-phy.yaml
+@@ -18,6 +18,7 @@ properties:
+     enum:
+       - qcom,msm8998-qmp-usb3-phy
+       - qcom,qcm2290-qmp-usb3-phy
++      - qcom,qcs615-qmp-usb3-phy
+       - qcom,sdm660-qmp-usb3-phy
+       - qcom,sm6115-qmp-usb3-phy
+ 
+@@ -96,6 +97,7 @@ allOf:
+           contains:
+             enum:
+               - qcom,msm8998-qmp-usb3-phy
++              - qcom,qcs615-qmp-usb3-phy
+               - qcom,sdm660-qmp-usb3-phy
+     then:
+       properties:
+diff --git a/Documentation/devicetree/bindings/phy/qcom,qusb2-phy.yaml b/Documentation/devicetree/bindings/phy/qcom,qusb2-phy.yaml
+index 95eecbaef05c..4aed4b5d65ec 100644
+--- a/Documentation/devicetree/bindings/phy/qcom,qusb2-phy.yaml
++++ b/Documentation/devicetree/bindings/phy/qcom,qusb2-phy.yaml
+@@ -25,6 +25,7 @@ properties:
+               - qcom,msm8996-qusb2-phy
+               - qcom,msm8998-qusb2-phy
+               - qcom,qcm2290-qusb2-phy
++              - qcom,qcs615-qusb2-phy
+               - qcom,sdm660-qusb2-phy
+               - qcom,sm4250-qusb2-phy
+               - qcom,sm6115-qusb2-phy
+diff --git a/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml b/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
+index 18758efb8d29..a4a8945d8bcf 100644
+--- a/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
++++ b/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
+@@ -26,6 +26,7 @@ properties:
+           - qcom,msm8998-dwc3
+           - qcom,qcm2290-dwc3
+           - qcom,qcs404-dwc3
++          - qcom,qcs615-dwc3
+           - qcom,qdu1000-dwc3
+           - qcom,sa8775p-dwc3
+           - qcom,sc7180-dwc3
+@@ -338,6 +339,7 @@ allOf:
+           contains:
+             enum:
+               - qcom,qcm2290-dwc3
++              - qcom,qcs615-dwc3
+               - qcom,sc8180x-dwc3
+               - qcom,sc8180x-dwc3-mp
+               - qcom,sm6115-dwc3
+@@ -465,6 +467,7 @@ allOf:
+               - qcom,ipq4019-dwc3
+               - qcom,ipq8064-dwc3
+               - qcom,msm8994-dwc3
++              - qcom,qcs615-dwc3
+               - qcom,qdu1000-dwc3
+               - qcom,sa8775p-dwc3
+               - qcom,sc7180-dwc3
+diff --git a/arch/arm64/boot/dts/qcom/qcs615-ride.dts b/arch/arm64/boot/dts/qcom/qcs615-ride.dts
+index 317028001b85..d05a881d7ffe 100644
+--- a/arch/arm64/boot/dts/qcom/qcs615-ride.dts
++++ b/arch/arm64/boot/dts/qcom/qcs615-ride.dts
+@@ -219,6 +219,27 @@ &uart0 {
+ 	status = "okay";
+ };
+ 
++&usb_hsphy {
++	vdd-supply = <&vreg_l5a>;
++	vdda-pll-supply = <&vreg_l2a>;
++	vdda-phy-dpdm-supply = <&vreg_l13a>;
++	status = "okay";
++};
++
++&usb_qmpphy {
++	vdda-phy-supply = <&vreg_l5a>;
++	vdda-pll-supply = <&vreg_l12a>;
++	status = "okay";
++};
++
++&usb {
++	status = "okay";
++};
++
++&usb_dwc3 {
++	dr_mode = "peripheral";
++};
++
+ &watchdog {
+ 	clocks = <&sleep_clk>;
+ };
+diff --git a/arch/arm64/boot/dts/qcom/qcs615.dtsi b/arch/arm64/boot/dts/qcom/qcs615.dtsi
+index 6f153fb56f98..3f6e5a9ecedb 100644
+--- a/arch/arm64/boot/dts/qcom/qcs615.dtsi
++++ b/arch/arm64/boot/dts/qcom/qcs615.dtsi
+@@ -400,6 +400,12 @@ qfprom: efuse@780000 {
+ 			reg = <0x0 0x00780000 0x0 0x7000>;
+ 			#address-cells = <1>;
+ 			#size-cells = <1>;
++
++			qusb2_hstx_trim: hstx-trim@1f8 {
++				reg = <0x1fb 0x1>;
++				bits = <1 4>;
++			};
++
+ 		};
+ 
+ 		qupv3_id_0: geniqup@8c0000 {
+@@ -440,6 +446,21 @@ config_noc: interconnect@1500000 {
+ 			qcom,bcm-voters = <&apps_bcm_voter>;
+ 		};
+ 
++		usb_hsphy: phy@1613000 {
++
++			compatible = "qcom,qcs615-qusb2-phy";
++			reg = <0x0 0x88e2000 0x0 0x180>;
++			#phy-cells = <0>;
++
++			clocks = <&gcc GCC_AHB2PHY_WEST_CLK>, <&rpmhcc RPMH_CXO_CLK>;
++			clock-names = "cfg_ahb", "ref";
++
++			resets = <&gcc GCC_QUSB2PHY_PRIM_BCR>;
++			nvmem-cells = <&qusb2_hstx_trim>;
++
++			status = "disabled";
++		};
++
+ 		system_noc: interconnect@1620000 {
+ 			reg = <0x0 0x1620000 0x0 0x1f300>;
+ 			compatible = "qcom,qcs615-system-noc";
+@@ -544,6 +565,31 @@ smem: qcom,smem@8600000 {
+ 			hwlocks = <&tcsr_mutex 3>;
+ 		};
+ 
++		usb_qmpphy: phy@88e6000 {
++			compatible = "qcom,qcs615-qmp-usb3-phy";
++			reg = <0x0 0x88e6000 0x0 0x1000>;
++
++			clocks = <&gcc GCC_USB3_PRIM_PHY_AUX_CLK>,
++				 <&gcc GCC_USB3_PRIM_CLKREF_CLK>,
++				 <&gcc GCC_AHB2PHY_WEST_CLK>,
++				 <&gcc GCC_USB3_PRIM_PHY_PIPE_CLK>;
++			clock-names = "aux",
++				      "ref",
++				      "cfg_ahb",
++				      "pipe";
++			clock-output-names = "usb3_phy_pipe_clk_src";
++			#clock-cells = <0>;
++			#phy-cells = <0>;
++
++			resets = <&gcc GCC_USB3_PHY_PRIM_SP0_BCR>,
++				 <&gcc GCC_USB3PHY_PHY_PRIM_SP0_BCR>;
++			reset-names = "phy", "phy_phy";
++
++			qcom,tcsr-reg = <&tcsr 0xb244>;
++
++			status = "disabled";
++		};
++
+ 		dc_noc: interconnect@9160000 {
+ 			reg = <0x0 0x9160000 0x0 0x3200>;
+ 			compatible = "qcom,qcs615-dc-noc";
+@@ -564,6 +610,65 @@ gem_noc: interconnect@9680000 {
+ 			qcom,bcm-voters = <&apps_bcm_voter>;
+ 		};
+ 
++		usb: usb@a6f8800 {
++			compatible = "qcom,qcs615-dwc3", "qcom,dwc3";
++			reg = <0 0x0a6f8800 0 0x400>;
++			#address-cells = <2>;
++			#size-cells = <2>;
++			ranges;
++
++			clocks = <&gcc GCC_CFG_NOC_USB3_PRIM_AXI_CLK>,
++                                 <&gcc GCC_USB30_PRIM_MASTER_CLK>,
++                                 <&gcc GCC_AGGRE_USB3_PRIM_AXI_CLK>,
++                                 <&gcc GCC_USB30_PRIM_SLEEP_CLK>,
++                                 <&gcc GCC_USB30_PRIM_MOCK_UTMI_CLK>,
++                                 <&gcc GCC_USB3_PRIM_CLKREF_CLK>;
++			clock-names = "cfg_noc",
++                                      "core",
++                                      "iface",
++                                      "sleep",
++                                      "mock_utmi",
++                                      "xo";
++
++			assigned-clocks = <&gcc GCC_USB30_PRIM_MOCK_UTMI_CLK>,
++                                          <&gcc GCC_USB30_PRIM_MASTER_CLK>;
++			assigned-clock-rates = <19200000>, <200000000>;
++
++			interrupts-extended = <&intc GIC_SPI 130 IRQ_TYPE_LEVEL_HIGH>,
++                                              <&intc GIC_SPI 131 IRQ_TYPE_LEVEL_HIGH>,
++                                              <&pdc 9 IRQ_TYPE_EDGE_BOTH>,
++                                              <&pdc 8 IRQ_TYPE_EDGE_BOTH>,
++                                              <&pdc 6 IRQ_TYPE_LEVEL_HIGH>;
++			interrupt-names = "pwr_event",
++                                          "hs_phy_irq",
++                                          "dp_hs_phy_irq",
++                                          "dm_hs_phy_irq",
++                                          "ss_phy_irq";
++
++			power-domains = <&gcc USB30_PRIM_GDSC>;
++			required-opps = <&rpmhpd_opp_nom>;
++
++			resets = <&gcc GCC_USB30_PRIM_BCR>;
++
++			status = "disabled";
++
++			usb_dwc3: usb@4e00000 {
++				compatible = "snps,dwc3";
++				reg = <0 0x0a600000 0 0xcd00>;
++				interrupts = <GIC_SPI 133 IRQ_TYPE_LEVEL_HIGH>;
++				phys = <&usb_hsphy>, <&usb_qmpphy>;
++				phy-names = "usb2-phy", "usb3-phy";
++				iommus = <&apps_smmu 0x140 0x0>;
++				memory-region = <&dwc3_mem_region>;
++				snps,dis_u2_susphy_quirk;
++				snps,dis_enblslpm_quirk;
++				snps,has-lpm-erratum;
++				snps,hird-threshold = /bits/ 8 <0x10>;
++				snps,usb3_lpm_capable;
++			};
++
++		};
++
+ 		videocc: clock-controller@ab00000 {
+ 			compatible = "qcom,qcs615-videocc";
+ 			reg = <0 0xab00000 0 0x10000>;
+@@ -971,4 +1076,9 @@ arch_timer: timer {
+ 			     <GIC_PPI 3 (GIC_CPU_MASK_SIMPLE(8) | IRQ_TYPE_LEVEL_LOW)>,
+ 			     <GIC_PPI 0 (GIC_CPU_MASK_SIMPLE(8) | IRQ_TYPE_LEVEL_LOW)>;
+ 	};
++
++	dwc3_mem_region: dwc3_mem_region {
++		iommu-addresses = <&usb_dwc3 0x0 0x0 0x0 0x90000000>,
++					<&usb_dwc3 0x0 0xf0000000 0xffffffff 0x10000000>;
++	};
+ };
+diff --git a/drivers/phy/qualcomm/phy-qcom-qmp-usbc.c b/drivers/phy/qualcomm/phy-qcom-qmp-usbc.c
+index d4fa1063ea61..c56ba8468538 100644
+--- a/drivers/phy/qualcomm/phy-qcom-qmp-usbc.c
++++ b/drivers/phy/qualcomm/phy-qcom-qmp-usbc.c
+@@ -1123,6 +1123,9 @@ static const struct of_device_id qmp_usbc_of_match_table[] = {
+ 	}, {
+ 		.compatible = "qcom,qcm2290-qmp-usb3-phy",
+ 		.data = &qcm2290_usb3phy_cfg,
++	}, {
++		.compatible = "qcom,qcs615-qmp-usb3-phy",
++		.data = &qcm2290_usb3phy_cfg,
+ 	}, {
+ 		.compatible = "qcom,sdm660-qmp-usb3-phy",
+ 		.data = &sdm660_usb3phy_cfg,
+diff --git a/drivers/phy/qualcomm/phy-qcom-qusb2.c b/drivers/phy/qualcomm/phy-qcom-qusb2.c
+index c52655a383ce..227041e096bc 100644
+--- a/drivers/phy/qualcomm/phy-qcom-qusb2.c
++++ b/drivers/phy/qualcomm/phy-qcom-qusb2.c
+@@ -151,6 +151,19 @@ static const struct qusb2_phy_init_tbl ipq6018_init_tbl[] = {
+ 	QUSB2_PHY_INIT_CFG(QUSB2PHY_PLL_AUTOPGM_CTL1, 0x9F),
+ };
+ 
++static const struct qusb2_phy_init_tbl qcs615_init_tbl[] = {
++	QUSB2_PHY_INIT_CFG_L(QUSB2PHY_PORT_TUNE1, 0xC8),
++	QUSB2_PHY_INIT_CFG_L(QUSB2PHY_PORT_TUNE2, 0xB3),
++	QUSB2_PHY_INIT_CFG_L(QUSB2PHY_PORT_TUNE3, 0x83),
++	QUSB2_PHY_INIT_CFG_L(QUSB2PHY_PORT_TUNE4, 0xC0),
++	QUSB2_PHY_INIT_CFG(QUSB2PHY_PLL_TUNE, 0x30),
++	QUSB2_PHY_INIT_CFG(QUSB2PHY_PLL_USER_CTL1, 0x79),
++	QUSB2_PHY_INIT_CFG(QUSB2PHY_PLL_USER_CTL2, 0x21),
++	QUSB2_PHY_INIT_CFG_L(QUSB2PHY_PORT_TEST2, 0x14),
++	QUSB2_PHY_INIT_CFG(QUSB2PHY_PLL_AUTOPGM_CTL1, 0x9F),
++	QUSB2_PHY_INIT_CFG(QUSB2PHY_PLL_PWR_CTRL, 0x00),
++};
++
+ static const unsigned int ipq6018_regs_layout[] = {
+ 	[QUSB2PHY_PLL_STATUS]              = 0x38,
+ 	[QUSB2PHY_PORT_TUNE1]              = 0x80,
+@@ -331,6 +344,19 @@ static const struct qusb2_phy_cfg ipq6018_phy_cfg = {
+ 	.autoresume_en   = BIT(0),
+ };
+ 
++static const struct qusb2_phy_cfg qcs615_phy_cfg = {
++	.tbl            = qcs615_init_tbl,
++	.tbl_num        = ARRAY_SIZE(qcs615_init_tbl),
++	.regs           = ipq6018_regs_layout,
++
++	.has_pll_override = false,
++	.se_clk_scheme_default = false,
++	.disable_ctrl   = (CLAMP_N_EN | FREEZIO_N | POWER_DOWN),
++	.mask_core_ready = PLL_LOCKED,
++	/* autoresume not used */
++	.autoresume_en   = BIT(0),
++};
++
+ static const struct qusb2_phy_cfg qusb2_v2_phy_cfg = {
+ 	.tbl		= qusb2_v2_init_tbl,
+ 	.tbl_num	= ARRAY_SIZE(qusb2_v2_init_tbl),
+@@ -922,6 +948,9 @@ static const struct of_device_id qusb2_phy_of_match_table[] = {
+ 	}, {
+ 		.compatible	= "qcom,msm8998-qusb2-phy",
+ 		.data		= &msm8998_phy_cfg,
++	}, {
++		.compatible	= "qcom,qcs615-qusb2-phy",
++		.data		= &qcs615_phy_cfg,
+ 	}, {
+ 		.compatible	= "qcom,qcm2290-qusb2-phy",
+ 		.data		= &sm6115_phy_cfg,
+-- 
+2.34.1
+
