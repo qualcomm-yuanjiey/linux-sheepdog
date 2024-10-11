@@ -1,7 +1,7 @@
-From 530bef62af08dd895a01bdbe98cae9cce303d026 Mon Sep 17 00:00:00 2001
+From c01deef968df091b79d639865a30db065a6651b9 Mon Sep 17 00:00:00 2001
 From: Qingqing Zhou <quic_qqzhou@quicinc.com>
 Date: Fri, 13 Sep 2024 14:50:17 +0530
-Subject: [PATCH 18/59] arm64: dts: qcom: qcs615: add the GPU SMMU node
+Subject: [PATCH 18/62] arm64: dts: qcom: qcs615: add the GPU SMMU node
 
 Add the Adreno GPU IOMMU for qcs615-based platforms.
 

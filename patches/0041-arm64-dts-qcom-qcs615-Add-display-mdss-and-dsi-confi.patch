@@ -1,7 +1,7 @@
-From b46f538f3d3c149d563ea79c944769d523b3c53a Mon Sep 17 00:00:00 2001
+From c4282a1de101583e77089954e5dfb8c1509ea0de Mon Sep 17 00:00:00 2001
 From: lliu6 <quic_lliu6@quicinc.com>
 Date: Thu, 26 Sep 2024 17:46:31 +0800
-Subject: [PATCH 41/59] arm64: dts: qcom: qcs615: Add display mdss and dsi
+Subject: [PATCH 41/62] arm64: dts: qcom: qcs615: Add display mdss and dsi
  configuration
 
 Add display mdss and dsi configuration for QCS615 SoC.
@@ -126,7 +126,7 @@ index d05a881d7ffe..538e697e2dac 100644
  	status = "okay";
  };
 diff --git a/arch/arm64/boot/dts/qcom/qcs615.dtsi b/arch/arm64/boot/dts/qcom/qcs615.dtsi
-index 8e2199bb180d..0d8fb557cf48 100644
+index 8e2199bb180d..9d2cb7a97f70 100644
 --- a/arch/arm64/boot/dts/qcom/qcs615.dtsi
 +++ b/arch/arm64/boot/dts/qcom/qcs615.dtsi
 @@ -1266,6 +1266,201 @@ camcc: clock-controller@ad00000 {
@@ -134,7 +134,7 @@ index 8e2199bb180d..0d8fb557cf48 100644
  		};
  
 +		mdss: display-subsystem@ae00000 {
-+			compatible = "qcom,sa6155p-mdss";
++			compatible = "qcom,qcs615-mdss";
 +			reg = <0 0x0ae00000 0 0x1000>;
 +			reg-names = "mdss";
 +
@@ -163,7 +163,7 @@ index 8e2199bb180d..0d8fb557cf48 100644
 +			status = "disabled";
 +
 +			mdss_mdp: display-controller@ae01000 {
-+				compatible = "qcom,sa6155p-dpu";
++				compatible = "qcom,qcs615-dpu";
 +				reg = <0 0x0ae01000 0 0x8f000>,
 +				      <0 0x0aeb0000 0 0x2008>;
 +				reg-names = "mdp", "vbif";
@@ -231,7 +231,7 @@ index 8e2199bb180d..0d8fb557cf48 100644
 +			};
 +
 +			mdss_dsi0: dsi@ae94000 {
-+				compatible = "qcom,sa6155p-dsi-ctrl", "qcom,mdss-dsi-ctrl";
++				compatible = "qcom,qcs615-dsi-ctrl", "qcom,mdss-dsi-ctrl";
 +				reg = <0 0x0ae94000 0 0x400>;
 +				reg-names = "dsi_ctrl";
 +
@@ -309,7 +309,7 @@ index 8e2199bb180d..0d8fb557cf48 100644
 +			};
 +
 +			mdss_dsi0_phy: phy@ae94400 {
-+				compatible = "qcom,sa6155p-dsi-phy-14nm";
++				compatible = "qcom,qcs615-dsi-phy-14nm";
 +				reg = <0 0x0ae94400 0 0x100>,
 +				      <0 0x0ae94500 0 0x300>,
 +				      <0 0x0ae94800 0 0x188>;

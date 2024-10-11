@@ -1,7 +1,7 @@
-From 315a1efe760c0e680f51a758450d4d4163550404 Mon Sep 17 00:00:00 2001
+From fdfbb10023a0f4322e8df8d039244aa92cd5985e Mon Sep 17 00:00:00 2001
 From: Yuanjie Yang <quic_yuanjiey@quicinc.com>
 Date: Wed, 9 Oct 2024 18:45:44 +0800
-Subject: [PATCH 59/59] ARM: dts: msm: Add sd card node for qcs615
+Subject: [PATCH 62/62] ARM: dts: msm: Add sd card node for qcs615
 
 The change add sd card node for qcs615 SoC.
 
@@ -39,7 +39,7 @@ index 1fb2d5ffd978..4f71108c9a69 100644
 +};
 \ No newline at end of file
 diff --git a/arch/arm64/boot/dts/qcom/qcs615.dtsi b/arch/arm64/boot/dts/qcom/qcs615.dtsi
-index 57e59fbf9531..c92d214f7d2d 100644
+index ddd74e232a49..a3a90da74de7 100644
 --- a/arch/arm64/boot/dts/qcom/qcs615.dtsi
 +++ b/arch/arm64/boot/dts/qcom/qcs615.dtsi
 @@ -31,6 +31,7 @@ aliases {
@@ -105,7 +105,7 @@ index 57e59fbf9531..c92d214f7d2d 100644
  			qup_i2c1_data_clk: qup-i2c1-data-clk-state {
  				pins = "gpio4", "gpio5";
  				function = "qup0";
-@@ -2288,8 +2337,65 @@ glink_edge: glink-edge {
+@@ -2300,8 +2349,65 @@ glink_edge: glink-edge {
  				mboxes = <&apss_shared 24>;
  			};
  		};

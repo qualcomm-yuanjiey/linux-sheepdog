@@ -1,7 +1,7 @@
-From 5e88f194b4ba31504fd0127dedbf635fb0256b67 Mon Sep 17 00:00:00 2001
+From 68b3da0e93788c7dfc7d3a00fb267a8e5b08c841 Mon Sep 17 00:00:00 2001
 From: Taniya Das <quic_tdas@quicinc.com>
 Date: Wed, 18 Sep 2024 10:12:40 +0530
-Subject: [PATCH 30/59] fixes pll
+Subject: [PATCH 30/62] fixes pll
 
 Signed-off-by: Taniya Das <quic_tdas@quicinc.com>
 ---

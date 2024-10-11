@@ -1,7 +1,7 @@
-From 31ead2dca97186094f0c76fa5e74fce20a8db75e Mon Sep 17 00:00:00 2001
+From 09433cb9e25cee9edbb8e00c11ee71551231b94d Mon Sep 17 00:00:00 2001
 From: Xin Liu <quic_liuxin@quicinc.com>
 Date: Thu, 26 Sep 2024 18:02:05 +0800
-Subject: [PATCH 49/59] arm64: dts: qcom: qcs615-ride: Add ufs mem
+Subject: [PATCH 52/62] arm64: dts: qcom: qcs615-ride: Add ufs mem
 
 Add ufs_mem_hc and ufs_mem_phy node into qcs615-ride.
 

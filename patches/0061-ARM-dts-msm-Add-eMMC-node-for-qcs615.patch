@@ -1,7 +1,7 @@
-From 5253d082a40bc0764317b89c8e65554f156db818 Mon Sep 17 00:00:00 2001
+From a87d3abb08f1c5e7d8278d7070f0b55497a8160a Mon Sep 17 00:00:00 2001
 From: Yuanjie Yang <quic_yuanjiey@quicinc.com>
 Date: Sun, 29 Sep 2024 19:34:31 +0800
-Subject: [PATCH 58/59] ARM: dts: msm: Add eMMC node for qcs615
+Subject: [PATCH 61/62] ARM: dts: msm: Add eMMC node for qcs615
 
 The change add eMMC node for qcs615 SoC.
 
@@ -46,7 +46,7 @@ index ccab6170dc21..1fb2d5ffd978 100644
  	clocks = <&sleep_clk>;
  };
 diff --git a/arch/arm64/boot/dts/qcom/qcs615.dtsi b/arch/arm64/boot/dts/qcom/qcs615.dtsi
-index 58833e609578..57e59fbf9531 100644
+index 34a3f8037f2f..ddd74e232a49 100644
 --- a/arch/arm64/boot/dts/qcom/qcs615.dtsi
 +++ b/arch/arm64/boot/dts/qcom/qcs615.dtsi
 @@ -30,6 +30,7 @@ aliases {

@@ -1,17 +1,17 @@
-From 73360683dc2f910a3dc735efafe038e853feef4d Mon Sep 17 00:00:00 2001
+From 7c50cc0f5ccfc9b53951ee9029617c33367282c0 Mon Sep 17 00:00:00 2001
 From: jie zhang <quic_jiezh@quicinc.com>
 Date: Thu, 26 Sep 2024 18:14:04 +0800
-Subject: [PATCH 1/2] arm64: dts: qcom: qcs615: add gpu and gmu nodes
+Subject: [PATCH 57/62] arm64: dts: qcom: qcs615: add gpu and gmu nodes
 
 Add gpu and gmu nodes for qcs615 based platforms.
 
 Signed-off-by: jie zhang <quic_jiezh@quicinc.com>
 ---
- arch/arm64/boot/dts/qcom/qcs615.dtsi | 68 ++++++++++++++++++++++++++++
- 1 file changed, 68 insertions(+)
+ arch/arm64/boot/dts/qcom/qcs615.dtsi | 80 ++++++++++++++++++++++++++++
+ 1 file changed, 80 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/qcom/qcs615.dtsi b/arch/arm64/boot/dts/qcom/qcs615.dtsi
-index ddfeb0995d3f..86abba9405e1 100644
+index 441bd9d8836c..70847f447494 100644
 --- a/arch/arm64/boot/dts/qcom/qcs615.dtsi
 +++ b/arch/arm64/boot/dts/qcom/qcs615.dtsi
 @@ -422,6 +422,11 @@ rproc_adsp_mem: rproc-adsp@95900000 {
@@ -26,7 +26,7 @@ index ddfeb0995d3f..86abba9405e1 100644
  	};
  
  	soc: soc@0 {
-@@ -1201,6 +1206,69 @@ qup_uart7_rx: qup-uart7-rx-state {
+@@ -1199,6 +1204,81 @@ qup_uart7_rx: qup-uart7-rx-state {
  			};
  		};
  
@@ -67,19 +67,31 @@ index ddfeb0995d3f..86abba9405e1 100644
 +				opp-435000000 {
 +					opp-hz = /bits/ 64 <435000000>;
 +					opp-level = <RPMH_REGULATOR_LEVEL_SVS>;
-+					opp-peak-kBps = <4068000>;
++					opp-peak-kBps = <3000000>;
 +				};
 +
-+				opp-550000000 {
-+					opp-hz = /bits/ 64 <550000000>;
++				opp-500000000 {
++					opp-hz = /bits/ 64 <500000000>;
 +					opp-level = <RPMH_REGULATOR_LEVEL_SVS_L1>;
-+					opp-peak-kBps = <6832000>;
++					opp-peak-kBps = <3975000>;
 +				};
 +
-+				opp-700000000 {
-+					opp-hz = /bits/ 64 <700000000>;
++				opp-650000000 {
++					opp-hz = /bits/ 64 <650000000>;
++					opp-level = <RPMH_REGULATOR_LEVEL_NOM>;
++					opp-peak-kBps = <5287500>;
++				};
++
++				opp-745000000 {
++					opp-hz = /bits/ 64 <745000000>;
++					opp-level = <RPMH_REGULATOR_LEVEL_NOM_L1>;
++					opp-peak-kBps = <6075000>;
++				};
++
++				opp-845000000 {
++					opp-hz = /bits/ 64 <845000000>;
 +					opp-level = <RPMH_REGULATOR_LEVEL_TURBO>;
-+					opp-peak-kBps = <8532000>;
++					opp-peak-kBps = <7050000>;
 +				};
 +			};
 +		};

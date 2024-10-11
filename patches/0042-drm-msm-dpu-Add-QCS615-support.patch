@@ -1,13 +1,13 @@
-From 948b273cb8420809fc34c13646980e2fec2150d3 Mon Sep 17 00:00:00 2001
+From 223404746a4fdaa0bf4d010aebc7bbb0e7a379ba Mon Sep 17 00:00:00 2001
 From: lliu6 <quic_lliu6@quicinc.com>
-Date: Fri, 20 Sep 2024 13:04:24 +0800
-Subject: [PATCH 42/59] drm/msm/dpu: Add QCS615 support
+Date: Thu, 10 Oct 2024 13:07:15 +0800
+Subject: [PATCH 42/62] drm/msm/dpu: Add QCS615 support
 
 Add support for the display hardware used on the Qualcomm QCS615 platform.
 
 Signed-off-by: lliu6 <quic_lliu6@quicinc.com>
 ---
- .../msm/disp/dpu1/catalog/dpu_5_3_sa6155p.h   | 268 ++++++++++++++++++
+ .../msm/disp/dpu1/catalog/dpu_5_3_qcs615.h    | 268 ++++++++++++++++++
  .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    |   1 +
  .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    |   1 +
  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |   1 +
@@ -18,23 +18,23 @@ Signed-off-by: lliu6 <quic_lliu6@quicinc.com>
  drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c    |  21 ++
  drivers/gpu/drm/msm/msm_mdss.c                |   7 +
  10 files changed, 320 insertions(+)
- create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_3_sa6155p.h
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_3_qcs615.h
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_3_sa6155p.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_3_sa6155p.h
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_3_qcs615.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_3_qcs615.h
 new file mode 100644
-index 000000000000..5986e86991fa
+index 000000000000..ff7e390db2af
 --- /dev/null
-+++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_3_sa6155p.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_3_qcs615.h
 @@ -0,0 +1,268 @@
 +/* SPDX-License-Identifier: GPL-2.0-only */
 +/*
 + * Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
 + */
 +
-+#ifndef _DPU_5_3_SA6155P_H
-+#define _DPU_5_3_SA6155P_H
++#ifndef _DPU_5_3_QCS615_H
++#define _DPU_5_3_QCS615_H
 +
-+static const struct dpu_caps sa6155p_dpu_caps = {
++static const struct dpu_caps qcs615_dpu_caps = {
 +	.max_mixer_width = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
 +	.max_mixer_blendstages = 0x9,
 +	.has_dim_layer = true,
@@ -45,7 +45,7 @@ index 000000000000..5986e86991fa
 +	.max_vdeci_exp = MAX_VERT_DECIMATION,
 +};
 +
-+static const struct dpu_mdp_cfg sa6155p_mdp = {
++static const struct dpu_mdp_cfg qcs615_mdp = {
 +	.name = "top_0",
 +	.base = 0x0, .len = 0x45c,
 +	.features = 0,
@@ -58,7 +58,7 @@ index 000000000000..5986e86991fa
 +	},
 +};
 +
-+static const struct dpu_ctl_cfg sa6155p_ctl[] = {
++static const struct dpu_ctl_cfg qcs615_ctl[] = {
 +	{
 +		.name = "ctl_0", .id = CTL_0,
 +		.base = 0x1000, .len = 0x1e0,
@@ -92,7 +92,7 @@ index 000000000000..5986e86991fa
 +	},
 +};
 +
-+static const struct dpu_sspp_cfg sa6155p_sspp[] = {
++static const struct dpu_sspp_cfg qcs615_sspp[] = {
 +	{
 +		.name = "sspp_0", .id = SSPP_VIG0,
 +		.base = 0x4000, .len = 0x1f0,
@@ -136,7 +136,7 @@ index 000000000000..5986e86991fa
 +	},
 +};
 +
-+static const struct dpu_lm_cfg sa6155p_lm[] = {
++static const struct dpu_lm_cfg qcs615_lm[] = {
 +	{
 +		.name = "lm_0", .id = LM_0,
 +		.base = 0x44000, .len = 0x320,
@@ -163,7 +163,7 @@ index 000000000000..5986e86991fa
 +	},
 +};
 +
-+static const struct dpu_dspp_cfg sa6155p_dspp[] = {
++static const struct dpu_dspp_cfg qcs615_dspp[] = {
 +	{
 +		.name = "dspp_0", .id = DSPP_0,
 +		.base = 0x54000, .len = 0x1800,
@@ -172,7 +172,7 @@ index 000000000000..5986e86991fa
 +	},
 +};
 +
-+static const struct dpu_pingpong_cfg sa6155p_pp[] = {
++static const struct dpu_pingpong_cfg qcs615_pp[] = {
 +	{
 +		.name = "pingpong_0", .id = PINGPONG_0,
 +		.base = 0x70000, .len = 0xd4,
@@ -197,7 +197,7 @@ index 000000000000..5986e86991fa
 +	},
 +};
 +
-+static const struct dpu_intf_cfg sa6155p_intf[] = {
++static const struct dpu_intf_cfg qcs615_intf[] = {
 +	{
 +		.name = "intf_0", .id = INTF_0,
 +		.base = 0x6a000, .len = 0x280,
@@ -238,7 +238,7 @@ index 000000000000..5986e86991fa
 +	},
 +};
 +
-+static const struct dpu_perf_cfg sa6155p_perf_data = {//here
++static const struct dpu_perf_cfg qcs615_perf_data = {//here
 +	.max_bw_low = 4800000,
 +	.max_bw_high = 4800000,
 +	.min_core_ib = 2400000,
@@ -267,85 +267,85 @@ index 000000000000..5986e86991fa
 +	.bw_inefficiency_factor = 120,
 +};
 +
-+static const struct dpu_mdss_version sa6155p_mdss_ver = {
++static const struct dpu_mdss_version qcs615_mdss_ver = {
 +	.core_major_ver = 5,
 +	.core_minor_ver = 3,
 +};
 +
-+const struct dpu_mdss_cfg dpu_sa6155p_cfg = {
-+	.mdss_ver = &sa6155p_mdss_ver,
-+	.caps = &sa6155p_dpu_caps,
-+	.mdp = &sa6155p_mdp,
-+	.ctl_count = ARRAY_SIZE(sa6155p_ctl),
-+	.ctl = sa6155p_ctl,
-+	.sspp_count = ARRAY_SIZE(sa6155p_sspp),
-+	.sspp = sa6155p_sspp,
-+	.mixer_count = ARRAY_SIZE(sa6155p_lm),
-+	.mixer = sa6155p_lm,
-+	.dspp_count = ARRAY_SIZE(sa6155p_dspp),
-+	.dspp = sa6155p_dspp,
-+	.pingpong_count = ARRAY_SIZE(sa6155p_pp),
-+	.pingpong = sa6155p_pp,
-+	.intf_count = ARRAY_SIZE(sa6155p_intf),
-+	.intf = sa6155p_intf,
++const struct dpu_mdss_cfg dpu_qcs615_cfg = {
++	.mdss_ver = &qcs615_mdss_ver,
++	.caps = &qcs615_dpu_caps,
++	.mdp = &qcs615_mdp,
++	.ctl_count = ARRAY_SIZE(qcs615_ctl),
++	.ctl = qcs615_ctl,
++	.sspp_count = ARRAY_SIZE(qcs615_sspp),
++	.sspp = qcs615_sspp,
++	.mixer_count = ARRAY_SIZE(qcs615_lm),
++	.mixer = qcs615_lm,
++	.dspp_count = ARRAY_SIZE(qcs615_dspp),
++	.dspp = qcs615_dspp,
++	.pingpong_count = ARRAY_SIZE(qcs615_pp),
++	.pingpong = qcs615_pp,
++	.intf_count = ARRAY_SIZE(qcs615_intf),
++	.intf = qcs615_intf,
 +	.vbif_count = ARRAY_SIZE(sdm845_vbif),
 +	.vbif = sdm845_vbif,
-+	.perf = &sa6155p_perf_data,
++	.perf = &qcs615_perf_data,
 +};
 +
 +#endif
 diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-index dcb4fd85e73b..9d1a68c3c813 100644
+index dcb4fd85e73b..4b07de941e58 100644
 --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
 +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
 @@ -685,6 +685,7 @@ static const struct dpu_qos_lut_entry sc7180_qos_nrt[] = {
  #include "catalog/dpu_5_0_sm8150.h"
  #include "catalog/dpu_5_1_sc8180x.h"
  #include "catalog/dpu_5_2_sm7150.h"
-+#include "catalog/dpu_5_3_sa6155p.h"
++#include "catalog/dpu_5_3_qcs615.h"
  #include "catalog/dpu_5_4_sm6125.h"
  
  #include "catalog/dpu_6_0_sm8250.h"
 diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-index 37e18e820a20..1638a6bfa751 100644
+index 37e18e820a20..8e3406ca7cb9 100644
 --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
 +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
 @@ -843,6 +843,7 @@ extern const struct dpu_mdss_cfg dpu_sm8250_cfg;
  extern const struct dpu_mdss_cfg dpu_sc7180_cfg;
  extern const struct dpu_mdss_cfg dpu_sm6115_cfg;
  extern const struct dpu_mdss_cfg dpu_sm6125_cfg;
-+extern const struct dpu_mdss_cfg dpu_sa6155p_cfg;
++extern const struct dpu_mdss_cfg dpu_qcs615_cfg;
  extern const struct dpu_mdss_cfg dpu_sm6350_cfg;
  extern const struct dpu_mdss_cfg dpu_qcm2290_cfg;
  extern const struct dpu_mdss_cfg dpu_sm6375_cfg;
 diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-index 9bcae53c4f45..598a4ed1baae 100644
+index 9bcae53c4f45..afa9c04fa9c8 100644
 --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
 +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
 @@ -1457,6 +1457,7 @@ static const struct of_device_id dpu_dt_match[] = {
  	{ .compatible = "qcom,sc8280xp-dpu", .data = &dpu_sc8280xp_cfg, },
  	{ .compatible = "qcom,sm6115-dpu", .data = &dpu_sm6115_cfg, },
  	{ .compatible = "qcom,sm6125-dpu", .data = &dpu_sm6125_cfg, },
-+	{ .compatible = "qcom,sa6155p-dpu", .data = &dpu_sa6155p_cfg, },
++	{ .compatible = "qcom,qcs615-dpu", .data = &dpu_qcs615_cfg, },
  	{ .compatible = "qcom,sm6350-dpu", .data = &dpu_sm6350_cfg, },
  	{ .compatible = "qcom,sm6375-dpu", .data = &dpu_sm6375_cfg, },
  	{ .compatible = "qcom,sm7150-dpu", .data = &dpu_sm7150_cfg, },
 diff --git a/drivers/gpu/drm/msm/dsi/dsi_cfg.c b/drivers/gpu/drm/msm/dsi/dsi_cfg.c
-index 10ba7d153d1c..fc04d54ce309 100644
+index 10ba7d153d1c..38bcd999b973 100644
 --- a/drivers/gpu/drm/msm/dsi/dsi_cfg.c
 +++ b/drivers/gpu/drm/msm/dsi/dsi_cfg.c
 @@ -221,6 +221,21 @@ static const struct msm_dsi_config sc7280_dsi_cfg = {
  	},
  };
  
-+static const struct regulator_bulk_data sa6155p_dsi_regulators[] = {
++static const struct regulator_bulk_data qcs615_dsi_regulators[] = {
 +	{ .supply = "vdda", .init_load_uA = 21800 },
 +};
 +
-+static const struct msm_dsi_config sa6155p_dsi_cfg = {
++static const struct msm_dsi_config qcs615_dsi_cfg = {
 +	.io_offset = DSI_6G_REG_SHIFT,
-+	.regulator_data = sa6155p_dsi_regulators,
-+	.num_regulators = ARRAY_SIZE(sa6155p_dsi_regulators),
++	.regulator_data = qcs615_dsi_regulators,
++	.num_regulators = ARRAY_SIZE(qcs615_dsi_regulators),
 +	.bus_clk_names = dsi_v2_4_clk_names,
 +	.num_bus_clks = ARRAY_SIZE(dsi_v2_4_clk_names),
 +	.io_start = {
@@ -361,7 +361,7 @@ index 10ba7d153d1c..fc04d54ce309 100644
  	{MSM_DSI_VER_MAJOR_6G, MSM_DSI_6G_VER_MINOR_V2_8_0,
  		&sm8650_dsi_cfg, &msm_dsi_6g_v2_host_ops},
 +	{MSM_DSI_VER_MAJOR_6G, MSM_DSI_6G_VER_MINOR_V2_3_1,
-+		&sa6155p_dsi_cfg, &msm_dsi_6g_v2_host_ops},
++		&qcs615_dsi_cfg, &msm_dsi_6g_v2_host_ops},
  };
  
  const struct msm_dsi_cfg_handler *msm_dsi_cfg_get(u32 major, u32 minor)
@@ -378,32 +378,32 @@ index 4c9b4b37681b..120cb65164c1 100644
  #define MSM_DSI_6G_VER_MINOR_V2_4_1	0x20040001
  #define MSM_DSI_6G_VER_MINOR_V2_5_0	0x20050000
 diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
-index dd58bc0a49eb..957d2f693b98 100644
+index dd58bc0a49eb..9ada01d9d438 100644
 --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
 +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
 @@ -567,6 +567,8 @@ static const struct of_device_id dsi_phy_dt_match[] = {
  	  .data = &dsi_phy_14nm_8953_cfgs },
  	{ .compatible = "qcom,sm6125-dsi-phy-14nm",
  	  .data = &dsi_phy_14nm_2290_cfgs },
-+	{ .compatible = "qcom,sa6155p-dsi-phy-14nm",
-+	  .data = &dsi_phy_14nm_6155_cfgs },
++	{ .compatible = "qcom,qcs615-dsi-phy-14nm",
++	  .data = &dsi_phy_14nm_615_cfgs },
  #endif
  #ifdef CONFIG_DRM_MSM_DSI_10NM_PHY
  	{ .compatible = "qcom,dsi-phy-10nm",
 diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
-index 4953459edd63..6802ed959352 100644
+index 4953459edd63..7f2e82a36a93 100644
 --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
 +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
 @@ -49,6 +49,7 @@ extern const struct msm_dsi_phy_cfg dsi_phy_14nm_cfgs;
  extern const struct msm_dsi_phy_cfg dsi_phy_14nm_660_cfgs;
  extern const struct msm_dsi_phy_cfg dsi_phy_14nm_2290_cfgs;
  extern const struct msm_dsi_phy_cfg dsi_phy_14nm_8953_cfgs;
-+extern const struct msm_dsi_phy_cfg dsi_phy_14nm_6155_cfgs;
++extern const struct msm_dsi_phy_cfg dsi_phy_14nm_615_cfgs;
  extern const struct msm_dsi_phy_cfg dsi_phy_10nm_cfgs;
  extern const struct msm_dsi_phy_cfg dsi_phy_10nm_8998_cfgs;
  extern const struct msm_dsi_phy_cfg dsi_phy_7nm_cfgs;
 diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c
-index 1723f0e4faa4..c515348aa73a 100644
+index 1723f0e4faa4..42a1c76a25f5 100644
 --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c
 +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c
 @@ -1032,6 +1032,10 @@ static const struct regulator_bulk_data dsi_phy_14nm_73p4mA_regulators[] = {
@@ -422,7 +422,7 @@ index 1723f0e4faa4..c515348aa73a 100644
  	.num_dsi_phy = 1,
  };
 +
-+const struct msm_dsi_phy_cfg dsi_phy_14nm_6155_cfgs = {
++const struct msm_dsi_phy_cfg dsi_phy_14nm_615_cfgs = {
 +	.has_phy_lane = true,
 +	.regulator_data = dsi_phy_14nm_36mA_regulators,
 +	.num_regulators = ARRAY_SIZE(dsi_phy_14nm_36mA_regulators),
@@ -439,17 +439,17 @@ index 1723f0e4faa4..c515348aa73a 100644
 +	.num_dsi_phy = 1,
 +};
 diff --git a/drivers/gpu/drm/msm/msm_mdss.c b/drivers/gpu/drm/msm/msm_mdss.c
-index faa88fd6eb4d..79f21f8e43d8 100644
+index faa88fd6eb4d..d50459090920 100644
 --- a/drivers/gpu/drm/msm/msm_mdss.c
 +++ b/drivers/gpu/drm/msm/msm_mdss.c
 @@ -662,6 +662,12 @@ static const struct msm_mdss_data sm6125_data = {
  	.highest_bank_bit = 1,
  };
  
-+static const struct msm_mdss_data sa6155p_data = {
++static const struct msm_mdss_data qcs615_data = {
 +	.ubwc_enc_version = UBWC_2_0,
 +	.ubwc_dec_version = UBWC_2_0,
-+	.highest_bank_bit = 2,
++	.highest_bank_bit = 1,
 +};
 +
  static const struct msm_mdss_data sm8250_data = {
@@ -459,7 +459,7 @@ index faa88fd6eb4d..79f21f8e43d8 100644
  	{ .compatible = "qcom,sc8280xp-mdss", .data = &sc8280xp_data },
  	{ .compatible = "qcom,sm6115-mdss", .data = &sm6115_data },
  	{ .compatible = "qcom,sm6125-mdss", .data = &sm6125_data },
-+	{ .compatible = "qcom,sa6155p-mdss", .data = &sa6155p_data },
++	{ .compatible = "qcom,qcs615-mdss", .data = &qcs615_data },
  	{ .compatible = "qcom,sm6350-mdss", .data = &sm6350_data },
  	{ .compatible = "qcom,sm6375-mdss", .data = &sm6350_data },
  	{ .compatible = "qcom,sm7150-mdss", .data = &sm7150_data },
