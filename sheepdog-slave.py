@@ -216,7 +216,7 @@ def make_ramdisk(kernel_components):
     clean_ramdisk = f"{workspace}/clean_ramdisk.gz"
     dest_dir = workspace
     dest_ramdisk = f"{dest_dir}/ramdisk.gz"
-    tmp_ramdisk_dir = "/tmp/ramdisk"
+    tmp_ramdisk_dir = f"{workspace}/ramdisk"
 
     if not os.access(clean_ramdisk, os.F_OK):
         exec_shell_cmd(f"wget -O {clean_ramdisk} {ramdisk_url}")
