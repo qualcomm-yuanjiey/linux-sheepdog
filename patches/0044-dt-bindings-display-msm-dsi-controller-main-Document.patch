@@ -1,0 +1,28 @@
+From 49137f3e1ff1645e17a958963c589bf436cb87db Mon Sep 17 00:00:00 2001
+From: lliu6 <quic_lliu6@quicinc.com>
+Date: Thu, 10 Oct 2024 16:12:58 +0800
+Subject: [PATCH 44/68] dt-bindings: display/msm: dsi-controller-main: Document
+ QCS615
+
+Document general compatibility of the DSI controller on QCS615.
+
+Signed-off-by: lliu6 <quic_lliu6@quicinc.com>
+---
+ .../devicetree/bindings/display/msm/dsi-controller-main.yaml     | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml b/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
+index b0fd96b76ed1..4142c753d1c4 100644
+--- a/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
++++ b/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
+@@ -39,6 +39,7 @@ properties:
+               - qcom,sm8450-dsi-ctrl
+               - qcom,sm8550-dsi-ctrl
+               - qcom,sm8650-dsi-ctrl
++              - qcom,qcs615-dsi-ctrl
+           - const: qcom,mdss-dsi-ctrl
+       - enum:
+           - qcom,dsi-ctrl-6g-qcm2290
+-- 
+2.34.1
+

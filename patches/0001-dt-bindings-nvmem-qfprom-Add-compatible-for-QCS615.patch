@@ -1,7 +1,7 @@
 From 9d2b49d86fa1a1a3e43409a61dc91594ef73fd54 Mon Sep 17 00:00:00 2001
 From: Lijuan Gao <quic_lijuang@quicinc.com>
 Date: Thu, 12 Sep 2024 10:54:41 +0800
-Subject: [PATCH 01/69] dt-bindings: nvmem: qfprom: Add compatible for QCS615
+Subject: [PATCH 01/68] dt-bindings: nvmem: qfprom: Add compatible for QCS615
 
 Document compatible for QFPROM used on QCS615. It's compatible
 with generic QFPROM fallback.

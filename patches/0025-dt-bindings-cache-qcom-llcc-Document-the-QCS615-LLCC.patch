@@ -1,0 +1,39 @@
+From d858c50a898088f3df8ab0c13348e9ba0364bc7f Mon Sep 17 00:00:00 2001
+From: Song Xue <quic_songxue@quicinc.com>
+Date: Tue, 24 Sep 2024 18:07:11 +0800
+Subject: [PATCH 25/68] dt-bindings: cache: qcom,llcc: Document the QCS615 LLCC
+
+Document the LLCC on the QCS615 platform.
+
+The QCS615 platform has LLCC as the system cache controller. It
+includes 1 LLCC instance and 1 broadcast interface.
+
+Signed-off-by: Song Xue <quic_songxue@quicinc.com>
+Acked-by: Rob Herring (Arm) <robh@kernel.org>
+---
+ Documentation/devicetree/bindings/cache/qcom,llcc.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/Documentation/devicetree/bindings/cache/qcom,llcc.yaml b/Documentation/devicetree/bindings/cache/qcom,llcc.yaml
+index 68ea5f70b75f..51dadf661fc8 100644
+--- a/Documentation/devicetree/bindings/cache/qcom,llcc.yaml
++++ b/Documentation/devicetree/bindings/cache/qcom,llcc.yaml
+@@ -20,6 +20,7 @@ description: |
+ properties:
+   compatible:
+     enum:
++      - qcom,qcs615-llcc
+       - qcom,qdu1000-llcc
+       - qcom,sa8775p-llcc
+       - qcom,sc7180-llcc
+@@ -67,6 +68,7 @@ allOf:
+         compatible:
+           contains:
+             enum:
++              - qcom,qcs615-llcc
+               - qcom,sc7180-llcc
+               - qcom,sm6350-llcc
+     then:
+-- 
+2.34.1
+
