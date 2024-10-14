@@ -4,21 +4,37 @@ import sys, os, datetime, logging, configparser, argparse
 import subprocess, multiprocessing
 import glob, git, shutil, re, gzip
 
+workspace = ""
 
-def file_is_exist(file_path):
-    if len(file_path) == 0 or file_path == None:
+
+def sheepdog_normalize(file_path, base_path=None):
+    if not file_path:
         return False
 
-    if os.path.isabs(f"{file_path}"):
-        file_path = os.path.normpath(f"{file_path}")
-    else:
-        file_path = f"{workspace}/{file_path}"
+    file_path = os.path.normpath(f"{file_path}")
+    if not os.path.isabs(f"{file_path}"):
+        if not base_path:
+            base_path = workspace
+        file_path = f"{base_path}/{file_path}"
         file_path = os.path.abspath(file_path)
 
+    return file_path
+
+
+def file_is_exist(file_path):
+    """
+    Return absoluted and normalized path if file exists, otherwise return False
+    """
+
+    file_path = sheepdog_normalize(file_path)
+    if not file_path:
+        return False
+
     if os.path.exists(file_path):
-        return True
+        return file_path
     else:
         return False
+
 
 def exit_with_msg(msg, code):
     logging.error(msg)
@@ -63,7 +79,7 @@ def init_repo():
     local_repo_path = args.local
 
     if local_repo_path != None:
-        local_repo_path = os.path.abspath(local_repo_path)
+        local_repo_path = sheepdog_normalize(local_repo_path)
     else:
         local_repo_path = f"{workspace}/{repo_name}"
     logging.debug(f"local repo directory is {local_repo_path}")
@@ -157,6 +173,7 @@ def sync_mkbootimg():
     repo_name = "mkbootimg"
 
     mkbootimg = config["TOOLS"]["mkbootimg"]
+    mkbootimg = sheepdog_normalize(mkbootimg)
     if file_is_exist(mkbootimg):
         logging.info("mkbootimg.py is exsit. Skip")
         return
@@ -233,12 +250,10 @@ def make_ramdisk(kernel_components):
         shutil.rmtree(f"{compile_path}/modules_dir")
 
         for ramdisk_add in ramdisk_adds:
-            if not os.path.isabs(ramdisk_add):
-                ramdisk_add = os.path.abspath(ramdisk_add)
-
-            if not os.path.exists(ramdisk_add):
-                logging.warning(f"{ramdisk_add} not exists")
-                return
+            ramdisk_add = file_is_exist(ramdisk_add)
+            if not ramdisk_add:
+                logging.error(f"{ramdisk_add} not exists")
+                raise FileNotFoundError(f"path: {ramdisk_add} provided not exist")
 
             # Fixme: Because dash can't catch error in pipeline, so this cmd error can't catch correctly.
             cmd = f"rsync -avHA {ramdisk_add}/ {tmp_ramdisk_dir}/"
@@ -275,21 +290,17 @@ def am_patch():
     # get patches file
     patch_dirs = config["PATCH"]["patch_dir"].split()
     for patch_dir in patch_dirs:
-        if os.path.isabs(f"{patch_dir}"):
-            patch_dir = os.path.normpath(f"{patch_dir}")
-        else:
-            patch_dir = f"{workspace}/{patch_dir}"
-            patch_dir = os.path.abspath(patch_dir)
-        
-        if not os.path.exists(patch_dir):
+        if not file_is_exist(patch_dir):
             logging.error("Wrong patch directory path. Please check patch_dir option in ini file")
             raise FileNotFoundError("Not found patch directory")
+
+        patch_dir = sheepdog_normalize(patch_dir)
         logging.debug(f"patches dir is {patch_dir}")
 
         patches_pattern = f"{patch_dir}/*.patch"
         patch_files = glob.glob(patches_pattern)
         patch_files = sorted(patch_files)
-        
+
         if len(patch_files) < 1:
             logging.error("Not found the patches. Please check the patch_dir")
             raise FileNotFoundError("Not found the patches.")
@@ -304,7 +315,7 @@ def am_patch():
                 logging.error(f"Git am operation aborted and changes reverted")
                 local_repo.git.am("--abort")
                 raise e
-            
+
             logging.debug(f"{patch_file} applies to {track_branch}")
         logging.info(f'patches in {patch_dir} are all applied down')
 
@@ -523,8 +534,8 @@ def parse_config():
     if config_file is None:
         config_file = os.path.dirname(__file__) + "/template-slave.ini"
 
-    config_file = os.path.abspath(config_file)
-    if not os.path.exists(config_file):
+    config_file = file_is_exist(config_file)
+    if not config_file:
         raise FileNotFoundError(f"File {config_file} not found")
     config = configparser.ConfigParser()
     config.read(config_file)
@@ -532,7 +543,7 @@ def parse_config():
 
 def log_init():
     log_file = config.get("LOG", "file", fallback=f"./linux-sheepdog-slave.log")
-    log_file = os.path.abspath(log_file)
+    log_file = sheepdog_normalize(log_file)
     log_level = config["LOG"]["level"]
 
     logging.basicConfig(
@@ -561,7 +572,7 @@ def parse_options():
 def env_init():
     global workspace, tool_path
     workspace = os.getcwd()
-    tool_path = os.path.dirname(os.path.abspath(__file__))
+    tool_path = os.path.dirname(sheepdog_normalize(__file__))
 
 
 def initialize():
