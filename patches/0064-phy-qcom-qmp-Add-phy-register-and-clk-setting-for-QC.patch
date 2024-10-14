@@ -1,7 +1,7 @@
 From 65859635581142c76442aedd95c9551ebdb973f0 Mon Sep 17 00:00:00 2001
 From: Ziyue Zhang <quic_ziyuzhan@quicinc.com>
 Date: Mon, 14 Oct 2024 16:03:04 +0800
-Subject: [PATCH 64/66] phy: qcom: qmp: Add phy register and clk setting for
+Subject: [PATCH 64/69] phy: qcom: qmp: Add phy register and clk setting for
  QCS615 PCIe
 
 Add support for GEN3 x1 PCIe PHY found on Qualcomm QCS615 platform.

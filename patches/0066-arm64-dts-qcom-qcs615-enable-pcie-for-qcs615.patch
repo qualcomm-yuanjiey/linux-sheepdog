@@ -1,7 +1,7 @@
 From 34714b0f2ce828d88b434579d795487915e296a0 Mon Sep 17 00:00:00 2001
 From: Ziyue Zhang <quic_ziyuzhan@quicinc.com>
 Date: Mon, 14 Oct 2024 16:13:02 +0800
-Subject: [PATCH 66/66] arm64: dts: qcom: qcs615: enable pcie for qcs615
+Subject: [PATCH 66/69] arm64: dts: qcom: qcs615: enable pcie for qcs615
 
 Add configurations in devicetree for PCIe0, including registers, clocks,
 interrupts and phy setting sequence.

@@ -1,7 +1,7 @@
 From fc6335ea5f8a87115cbd2fa32668dde7b1deb748 Mon Sep 17 00:00:00 2001
 From: Taniya Das <quic_tdas@quicinc.com>
 Date: Mon, 9 Sep 2024 15:40:08 +0530
-Subject: [PATCH 35/66] VideoCC Drivers
+Subject: [PATCH 35/69] VideoCC Drivers
 
 Signed-off-by: Taniya Das <quic_tdas@quicinc.com>
 ---

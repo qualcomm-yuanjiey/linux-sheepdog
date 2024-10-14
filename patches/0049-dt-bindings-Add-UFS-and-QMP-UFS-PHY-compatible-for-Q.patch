@@ -1,7 +1,7 @@
 From 7aaa217897f228b68ecea73dac95b604f794c7cc Mon Sep 17 00:00:00 2001
 From: Xin Liu <quic_liuxin@quicinc.com>
 Date: Mon, 23 Sep 2024 15:54:05 +0800
-Subject: [PATCH 49/66] dt-bindings: Add UFS and QMP UFS PHY compatible for
+Subject: [PATCH 49/69] dt-bindings: Add UFS and QMP UFS PHY compatible for
  QCS615
 
 Add qcom,qcs615-qmp-ufs-phy and qcom,qcs615-ufshc into include file.

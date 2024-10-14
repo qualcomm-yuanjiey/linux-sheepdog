@@ -1,7 +1,7 @@
 From 57e04be715831445ae037a1fc12b2edafdd605a4 Mon Sep 17 00:00:00 2001
 From: lliu6 <quic_lliu6@quicinc.com>
 Date: Thu, 10 Oct 2024 16:44:34 +0800
-Subject: [PATCH 44/66] dt-bindings: display/msm: Add QCS615 MDSS & DPU
+Subject: [PATCH 44/69] dt-bindings: display/msm: Add QCS615 MDSS & DPU
 
 Add bindings for the display hardware on QCS615.
 

@@ -1,7 +1,7 @@
 From c4b06654a7c35ce93b342d9efffb45baeb8c5078 Mon Sep 17 00:00:00 2001
 From: lijuang <quic_lijuang@quicinc.com>
 Date: Thu, 26 Sep 2024 18:17:12 +0800
-Subject: [PATCH 55/66] arm64: dts: qcom: qcs615: add ADSP and CDSP nodes
+Subject: [PATCH 55/69] arm64: dts: qcom: qcs615: add ADSP and CDSP nodes
 
 Add nodes for remoteprocs: ADSP and CDSP for QCS615 SoC.
 

@@ -1,7 +1,7 @@
 From 040c4f641e8b5abd127e85a913628099d0546641 Mon Sep 17 00:00:00 2001
 From: Kyle Deng <quic_chunkaid@quicinc.com>
 Date: Thu, 26 Sep 2024 18:43:43 +0800
-Subject: [PATCH 29/66] MPROC:Add QCS615 AOSS/SMEM/SMP2P support
+Subject: [PATCH 29/69] MPROC:Add QCS615 AOSS/SMEM/SMP2P support
 
 Add support for Mproc node for the qcs615 platform.
 

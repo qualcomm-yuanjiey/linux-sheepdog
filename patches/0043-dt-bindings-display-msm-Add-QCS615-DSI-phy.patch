@@ -1,7 +1,7 @@
 From fc4ef3c678821ad517e4b0d34e302887058b9719 Mon Sep 17 00:00:00 2001
 From: lliu6 <quic_lliu6@quicinc.com>
 Date: Thu, 10 Oct 2024 16:22:45 +0800
-Subject: [PATCH 43/66] dt-bindings: display/msm: Add QCS615 DSI phy
+Subject: [PATCH 43/69] dt-bindings: display/msm: Add QCS615 DSI phy
 
 QCS615 platform uses the 14nm DSI PHY driver.
 

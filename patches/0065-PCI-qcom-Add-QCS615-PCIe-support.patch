@@ -1,7 +1,7 @@
 From 356d8bbb28f2abd273aba2316cb72f4c593d93c4 Mon Sep 17 00:00:00 2001
 From: Ziyue Zhang <quic_ziyuzhan@quicinc.com>
 Date: Mon, 14 Oct 2024 16:08:17 +0800
-Subject: [PATCH 65/66] PCI: qcom: Add QCS615 PCIe support
+Subject: [PATCH 65/69] PCI: qcom: Add QCS615 PCIe support
 
 Add the compatible and the driver data for QCS615 PCIe controller.
 
