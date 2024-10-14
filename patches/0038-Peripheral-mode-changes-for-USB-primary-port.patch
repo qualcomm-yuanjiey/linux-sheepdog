@@ -1,7 +1,7 @@
-From 0dc6851d136b96afc9fb6316068c45a1e0cf9cfb Mon Sep 17 00:00:00 2001
+From dc06b6ecf9514799e986502fc69ab84ce1948105 Mon Sep 17 00:00:00 2001
 From: Song Xue <quic_songxue@quicinc.com>
 Date: Tue, 10 Sep 2024 21:43:38 +0530
-Subject: [PATCH 38/62] Peripheral mode changes for USB primary port
+Subject: [PATCH 38/66] Peripheral mode changes for USB primary port
 
 Signed-off-by: Krishna Kurapati <quic_kriskura@quicinc.com>
 Signed-off-by: Song Xue <quic_songxue@quicinc.com>

@@ -1,7 +1,7 @@
-From d552417bde4eb599cb90051f8b02b595206a817e Mon Sep 17 00:00:00 2001
+From 345c5bbefafd9df71348662ae56fca912e439ff5 Mon Sep 17 00:00:00 2001
 From: Renjiang Han <quic_renjiang@quicinc.com>
 Date: Mon, 29 Jul 2024 10:40:11 +0530
-Subject: [PATCH 59/62] arm64: dts: qcom: enable video feature with QCS615
+Subject: [PATCH 59/66] arm64: dts: qcom: enable video feature with QCS615
 
 add video devicetree for the Talos
 

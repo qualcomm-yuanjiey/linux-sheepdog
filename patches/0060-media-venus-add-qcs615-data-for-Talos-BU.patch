@@ -1,7 +1,7 @@
-From d27b7ecf3fac52152ba067e504d2ed55d5fbb307 Mon Sep 17 00:00:00 2001
+From 7458e61785c687e5ead072ecb17ba71ddcfe476c Mon Sep 17 00:00:00 2001
 From: Renjiang Han <quic_renjiang@quicinc.com>
 Date: Fri, 16 Aug 2024 12:57:28 +0530
-Subject: [PATCH 60/62] media: venus: add qcs615 data for Talos BU
+Subject: [PATCH 60/66] media: venus: add qcs615 data for Talos BU
 
 enable video feature on Talos
 
@@ -12,7 +12,7 @@ Signed-off-by: Renjiang Han <quic_renjiang@quicinc.com>
  1 file changed, 50 insertions(+)
 
 diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
-index 84e95a46dfc9..f235fab0f88b 100644
+index 8ad36ed0ca8b..8cf16dd38c57 100644
 --- a/drivers/media/platform/qcom/venus/core.c
 +++ b/drivers/media/platform/qcom/venus/core.c
 @@ -816,6 +816,55 @@ static const struct venus_resources sc7180_res = {

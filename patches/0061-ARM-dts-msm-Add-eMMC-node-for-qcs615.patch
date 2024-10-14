@@ -1,7 +1,7 @@
-From a87d3abb08f1c5e7d8278d7070f0b55497a8160a Mon Sep 17 00:00:00 2001
+From 77e8f61c4632a53d1c8752d3b4bdc9a3769d3f49 Mon Sep 17 00:00:00 2001
 From: Yuanjie Yang <quic_yuanjiey@quicinc.com>
 Date: Sun, 29 Sep 2024 19:34:31 +0800
-Subject: [PATCH 61/62] ARM: dts: msm: Add eMMC node for qcs615
+Subject: [PATCH 61/66] ARM: dts: msm: Add eMMC node for qcs615
 
 The change add eMMC node for qcs615 SoC.
 

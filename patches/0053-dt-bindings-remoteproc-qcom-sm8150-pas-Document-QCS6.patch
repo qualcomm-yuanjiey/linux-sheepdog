@@ -1,7 +1,7 @@
-From fb70c9ad596b9bc6827f500217a993ae8926cdb8 Mon Sep 17 00:00:00 2001
+From ae074453bf86516c8f2cc481382ead3c9960230b Mon Sep 17 00:00:00 2001
 From: Lijuan Gao <quic_lijuang@quicinc.com>
 Date: Mon, 23 Sep 2024 18:07:10 +0800
-Subject: [PATCH 53/62] dt-bindings: remoteproc: qcom,sm8150-pas: Document
+Subject: [PATCH 53/66] dt-bindings: remoteproc: qcom,sm8150-pas: Document
  QCS615 remoteproc
 
 Document the ADSP and CDSP Peripheral Authentication Service on

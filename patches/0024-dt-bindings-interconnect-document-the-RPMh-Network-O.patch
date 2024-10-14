@@ -1,7 +1,7 @@
-From 71cd803f3202f3391a58d09388f0f00655680e6b Mon Sep 17 00:00:00 2001
+From 989d61098e286cb8fc5e57b9eaec3eab488993c8 Mon Sep 17 00:00:00 2001
 From: Raviteja Laggyshetty <quic_rlaggysh@quicinc.com>
 Date: Tue, 24 Sep 2024 14:39:57 +0000
-Subject: [PATCH 24/62] dt-bindings: interconnect: document the RPMh
+Subject: [PATCH 24/66] dt-bindings: interconnect: document the RPMh
  Network-On-Chip interconnect in QCS615 SoC
 
 Document the RPMh Network-On-Chip Interconnect of the QCS615 platform.
