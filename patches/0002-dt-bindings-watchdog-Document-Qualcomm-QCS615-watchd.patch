@@ -1,4 +1,4 @@
-From 77a7ea23bdf13071be08fd6a8c4fa45799a4145d Mon Sep 17 00:00:00 2001
+From 92b57e4fed94abf41bb3c8bc7d89a5fc1c4988c4 Mon Sep 17 00:00:00 2001
 From: lijuang <quic_lijuang@quicinc.com>
 Date: Fri, 20 Sep 2024 15:11:41 +0800
 Subject: [PATCH 02/68] dt-bindings: watchdog: Document Qualcomm QCS615

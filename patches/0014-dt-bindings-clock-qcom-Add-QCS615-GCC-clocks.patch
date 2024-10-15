@@ -1,4 +1,4 @@
-From 58a7f407cf47fd48872b08b68692d870708494f3 Mon Sep 17 00:00:00 2001
+From 0998fbcd255b5fe4fb45758b46b5c429daf2c35f Mon Sep 17 00:00:00 2001
 From: Taniya Das <quic_tdas@quicinc.com>
 Date: Fri, 20 Sep 2024 16:08:17 +0530
 Subject: [PATCH 14/68] dt-bindings: clock: qcom: Add QCS615 GCC clocks

@@ -1,4 +1,4 @@
-From cc688d555d1fa80a6cd42e2b3d39062b71e1a47c Mon Sep 17 00:00:00 2001
+From b697b7d50f9d74f8c212634b58a6dbf0b16a0da4 Mon Sep 17 00:00:00 2001
 From: Lijuan Gao <quic_lijuang@quicinc.com>
 Date: Thu, 26 Sep 2024 14:54:47 +0800
 Subject: [PATCH 09/68] arm64: defconfig: enable clock controller, interconnect
@@ -18,7 +18,7 @@ Signed-off-by: Lijuan Gao <quic_lijuang@quicinc.com>
  1 file changed, 3 insertions(+)
 
 diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
-index 5fdbfea7a5b2..c066fe3a32c3 100644
+index 730f303350c3..fb4bcbe0eaeb 100644
 --- a/arch/arm64/configs/defconfig
 +++ b/arch/arm64/configs/defconfig
 @@ -607,6 +607,7 @@ CONFIG_PINCTRL_MSM8996=y
@@ -37,7 +37,7 @@ index 5fdbfea7a5b2..c066fe3a32c3 100644
  CONFIG_QDU_GCC_1000=y
  CONFIG_SC_CAMCC_8280XP=m
  CONFIG_SC_DISPCC_7280=m
-@@ -1625,6 +1627,7 @@ CONFIG_INTERCONNECT_QCOM_MSM8996=y
+@@ -1626,6 +1628,7 @@ CONFIG_INTERCONNECT_QCOM_MSM8996=y
  CONFIG_INTERCONNECT_QCOM_OSM_L3=m
  CONFIG_INTERCONNECT_QCOM_QCM2290=y
  CONFIG_INTERCONNECT_QCOM_QCS404=m

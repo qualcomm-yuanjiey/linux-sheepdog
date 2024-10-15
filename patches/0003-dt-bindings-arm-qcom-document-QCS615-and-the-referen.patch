@@ -1,4 +1,4 @@
-From 78dd33e56d9d35db1c5a6ed29a0ac18d421f0846 Mon Sep 17 00:00:00 2001
+From b982a13e2cf9b7b4bb6fabe55bdbc2814f1d6126 Mon Sep 17 00:00:00 2001
 From: Lijuan Gao <quic_lijuang@quicinc.com>
 Date: Thu, 26 Sep 2024 14:54:41 +0800
 Subject: [PATCH 03/68] dt-bindings: arm: qcom: document QCS615 and the

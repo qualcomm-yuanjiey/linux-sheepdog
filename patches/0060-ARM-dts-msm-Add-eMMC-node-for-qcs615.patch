@@ -1,4 +1,4 @@
-From 83517d257a8b4c874524abba2c1654211ba01ebd Mon Sep 17 00:00:00 2001
+From 35366e212bd9e724df667aaa5378122b479fb631 Mon Sep 17 00:00:00 2001
 From: Yuanjie Yang <quic_yuanjiey@quicinc.com>
 Date: Sun, 29 Sep 2024 19:34:31 +0800
 Subject: [PATCH 60/68] ARM: dts: msm: Add eMMC node for qcs615

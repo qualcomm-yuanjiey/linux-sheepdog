@@ -1,4 +1,4 @@
-From 2ab05367992914a3fc70fa5d8857c9a5295c5a2e Mon Sep 17 00:00:00 2001
+From 3b48c30036331631a3cf31e1c696d4c36eefe31c Mon Sep 17 00:00:00 2001
 From: Ziyue Zhang <quic_ziyuzhan@quicinc.com>
 Date: Mon, 14 Oct 2024 16:03:04 +0800
 Subject: [PATCH 63/68] phy: qcom: qmp: Add phy register and clk setting for

@@ -1,4 +1,4 @@
-From 31df1dfb2d6f171068c2f80666146d42ddd8de42 Mon Sep 17 00:00:00 2001
+From 186e3be0ef4a40d35050f67ef55fdb293e3a1c40 Mon Sep 17 00:00:00 2001
 From: Song Xue <quic_songxue@quicinc.com>
 Date: Thu, 26 Sep 2024 17:32:42 +0800
 Subject: [PATCH 38/68] arm64: dts: qcom: qcs615: Add QUPv3 configuration

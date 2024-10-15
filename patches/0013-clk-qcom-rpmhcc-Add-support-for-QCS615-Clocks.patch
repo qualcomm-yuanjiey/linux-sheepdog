@@ -1,4 +1,4 @@
-From f25234bc45dcd5143495e6d1f0766d618890fcb3 Mon Sep 17 00:00:00 2001
+From 2cb8b69dc57ffe1e8cdfc456cf9148afc24a3e15 Mon Sep 17 00:00:00 2001
 From: Taniya Das <quic_tdas@quicinc.com>
 Date: Fri, 20 Sep 2024 16:08:16 +0530
 Subject: [PATCH 13/68] clk: qcom: rpmhcc: Add support for QCS615 Clocks

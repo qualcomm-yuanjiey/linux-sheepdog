@@ -1,4 +1,4 @@
-From b00684748f36875d7bb3271faf681d171542533c Mon Sep 17 00:00:00 2001
+From 1c69e6481fdd8099e324e2d28fa06a1dfdb38e6d Mon Sep 17 00:00:00 2001
 From: Kuldeep Singh <quic_kuldsing@quicinc.com>
 Date: Sat, 5 Oct 2024 19:31:50 +0530
 Subject: [PATCH 21/68] firmware: qcom: qcom_tzmem: Implement sanity checks

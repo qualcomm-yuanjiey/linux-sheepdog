@@ -1,4 +1,4 @@
-From 125e113de9546d5e207c98443a7590e1ab7dff74 Mon Sep 17 00:00:00 2001
+From 466e696c63d0c6623c0b3eed45995cab1fd61299 Mon Sep 17 00:00:00 2001
 From: Qingqing Zhou <quic_qqzhou@quicinc.com>
 Date: Thu, 19 Sep 2024 21:56:23 +0800
 Subject: [PATCH 16/68] dt-bindings: arm-smmu: document the smmu on Qualcomm

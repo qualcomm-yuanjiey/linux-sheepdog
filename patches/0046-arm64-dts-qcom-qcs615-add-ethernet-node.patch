@@ -1,4 +1,4 @@
-From 33b6a587e98a1342552c1da429c6828e1eeebcff Mon Sep 17 00:00:00 2001
+From 9ef541db6af5368df79c3abf8876b43b550d2d7e Mon Sep 17 00:00:00 2001
 From: Yijie Yang <quic_yijiyang@quicinc.com>
 Date: Thu, 26 Sep 2024 17:50:30 +0800
 Subject: [PATCH 46/68] arm64: dts: qcom: qcs615: add ethernet node

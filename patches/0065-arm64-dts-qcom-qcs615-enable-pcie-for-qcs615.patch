@@ -1,4 +1,4 @@
-From 674c2142e4f49cc3c3e2556ba7219ee3fc3808f9 Mon Sep 17 00:00:00 2001
+From 7f43aea724c9dc7e819cb61e9b1cbcd497809343 Mon Sep 17 00:00:00 2001
 From: Ziyue Zhang <quic_ziyuzhan@quicinc.com>
 Date: Mon, 14 Oct 2024 16:13:02 +0800
 Subject: [PATCH 65/68] arm64: dts: qcom: qcs615: enable pcie for qcs615

@@ -1,4 +1,4 @@
-From 2c21545f9cd52b026b5c5a6ba2789441cdee8833 Mon Sep 17 00:00:00 2001
+From 0df915c90ccb7bca4e25e8018870203d9621a2d2 Mon Sep 17 00:00:00 2001
 From: lijuang <quic_lijuang@quicinc.com>
 Date: Mon, 14 Oct 2024 14:41:11 +0800
 Subject: [PATCH 68/68] arm64: qcom: Add BWMON support for QCS615

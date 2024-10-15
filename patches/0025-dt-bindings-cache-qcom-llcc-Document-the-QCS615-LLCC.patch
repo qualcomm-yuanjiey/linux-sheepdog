@@ -1,4 +1,4 @@
-From d858c50a898088f3df8ab0c13348e9ba0364bc7f Mon Sep 17 00:00:00 2001
+From 618f4da7e38212682307cd5999c42e1b2a71044b Mon Sep 17 00:00:00 2001
 From: Song Xue <quic_songxue@quicinc.com>
 Date: Tue, 24 Sep 2024 18:07:11 +0800
 Subject: [PATCH 25/68] dt-bindings: cache: qcom,llcc: Document the QCS615 LLCC

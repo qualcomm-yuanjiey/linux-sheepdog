@@ -1,4 +1,4 @@
-From 49137f3e1ff1645e17a958963c589bf436cb87db Mon Sep 17 00:00:00 2001
+From 2c6e178e889e9d83a434f291b68ddc9dda358a32 Mon Sep 17 00:00:00 2001
 From: lliu6 <quic_lliu6@quicinc.com>
 Date: Thu, 10 Oct 2024 16:12:58 +0800
 Subject: [PATCH 44/68] dt-bindings: display/msm: dsi-controller-main: Document

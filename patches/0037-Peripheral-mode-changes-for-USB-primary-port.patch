@@ -1,4 +1,4 @@
-From 3caa228ff82273bd0fd16a8d2299c206f2ec722b Mon Sep 17 00:00:00 2001
+From 2d1fa5d36145c8a9f519c0930728331f036a448d Mon Sep 17 00:00:00 2001
 From: Song Xue <quic_songxue@quicinc.com>
 Date: Tue, 10 Sep 2024 21:43:38 +0530
 Subject: [PATCH 37/68] Peripheral mode changes for USB primary port
@@ -48,7 +48,7 @@ index 95eecbaef05c..4aed4b5d65ec 100644
                - qcom,sm4250-qusb2-phy
                - qcom,sm6115-qusb2-phy
 diff --git a/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml b/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
-index 18758efb8d29..a4a8945d8bcf 100644
+index f7be05641930..76f78ed6ac9b 100644
 --- a/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
 +++ b/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
 @@ -26,6 +26,7 @@ properties:
@@ -56,10 +56,10 @@ index 18758efb8d29..a4a8945d8bcf 100644
            - qcom,qcm2290-dwc3
            - qcom,qcs404-dwc3
 +          - qcom,qcs615-dwc3
+           - qcom,qcs8300-dwc3
            - qcom,qdu1000-dwc3
            - qcom,sa8775p-dwc3
-           - qcom,sc7180-dwc3
-@@ -338,6 +339,7 @@ allOf:
+@@ -340,6 +341,7 @@ allOf:
            contains:
              enum:
                - qcom,qcm2290-dwc3
@@ -67,14 +67,14 @@ index 18758efb8d29..a4a8945d8bcf 100644
                - qcom,sc8180x-dwc3
                - qcom,sc8180x-dwc3-mp
                - qcom,sm6115-dwc3
-@@ -465,6 +467,7 @@ allOf:
+@@ -467,6 +469,7 @@ allOf:
                - qcom,ipq4019-dwc3
                - qcom,ipq8064-dwc3
                - qcom,msm8994-dwc3
 +              - qcom,qcs615-dwc3
+               - qcom,qcs8300-dwc3
                - qcom,qdu1000-dwc3
                - qcom,sa8775p-dwc3
-               - qcom,sc7180-dwc3
 diff --git a/arch/arm64/boot/dts/qcom/qcs615-ride.dts b/arch/arm64/boot/dts/qcom/qcs615-ride.dts
 index b79c22730920..d1612db9c58a 100644
 --- a/arch/arm64/boot/dts/qcom/qcs615-ride.dts

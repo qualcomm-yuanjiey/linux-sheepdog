@@ -1,4 +1,4 @@
-From 952fdf9bd152a3b8b8765b1037f2108a2ea2bfea Mon Sep 17 00:00:00 2001
+From 4b7a1cc6dcf678b234af80ac2370c0a1f650f09f Mon Sep 17 00:00:00 2001
 From: lijuang <quic_lijuang@quicinc.com>
 Date: Thu, 26 Sep 2024 18:18:32 +0800
 Subject: [PATCH 55/68] arm64: dts: qcom: qcs615-ride: enable remoteprocs

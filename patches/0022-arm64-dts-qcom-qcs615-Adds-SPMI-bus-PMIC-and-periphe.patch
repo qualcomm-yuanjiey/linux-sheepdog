@@ -1,4 +1,4 @@
-From d25643a2ea654e968051de12e3e370d9408a50b3 Mon Sep 17 00:00:00 2001
+From 122342cef92eb9ee5bda22c63839abf9f58a1650 Mon Sep 17 00:00:00 2001
 From: Tingguo Cheng <quic_tingguoc@quicinc.com>
 Date: Sun, 29 Sep 2024 12:50:16 +0800
 Subject: [PATCH 22/68] arm64: dts: qcom: qcs615: Adds SPMI bus, PMIC and

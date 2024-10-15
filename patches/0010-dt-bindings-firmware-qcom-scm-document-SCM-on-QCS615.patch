@@ -1,4 +1,4 @@
-From fdb2a28e5304a8366e12c6955dbe38c2911e2f84 Mon Sep 17 00:00:00 2001
+From 94b8b2977924d5cbe661ebfe3baf5a14d72d51ea Mon Sep 17 00:00:00 2001
 From: Qingqing Zhou <quic_qqzhou@quicinc.com>
 Date: Tue, 24 Sep 2024 17:15:16 +0800
 Subject: [PATCH 10/68] dt-bindings: firmware: qcom,scm: document SCM on QCS615

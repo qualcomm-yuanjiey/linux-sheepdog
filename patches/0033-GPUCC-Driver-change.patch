@@ -1,4 +1,4 @@
-From 551ded392c2463749cb87a3d724f48d9e6333916 Mon Sep 17 00:00:00 2001
+From 1a8e11163889d0f7199d40d2594916d5bd9558c1 Mon Sep 17 00:00:00 2001
 From: Taniya Das <quic_tdas@quicinc.com>
 Date: Mon, 9 Sep 2024 15:02:03 +0530
 Subject: [PATCH 33/68] GPUCC Driver change

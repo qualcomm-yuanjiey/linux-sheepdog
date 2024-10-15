@@ -1,4 +1,4 @@
-From 44c4d9dc1886d0b9f3d1dd4e06f754cf80c371e6 Mon Sep 17 00:00:00 2001
+From 64b8e0b7f316b9eabeec2fc43c036849f72f4e18 Mon Sep 17 00:00:00 2001
 From: Taniya Das <quic_tdas@quicinc.com>
 Date: Mon, 9 Sep 2024 15:42:33 +0530
 Subject: [PATCH 35/68] arm64: defconfig: Enable clock controllers for QCS615
@@ -11,7 +11,7 @@ Signed-off-by: Taniya Das <quic_tdas@quicinc.com>
  1 file changed, 4 insertions(+)
 
 diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
-index c066fe3a32c3..76f3a6ee93e9 100644
+index fb4bcbe0eaeb..fa76fadbc536 100644
 --- a/arch/arm64/configs/defconfig
 +++ b/arch/arm64/configs/defconfig
 @@ -1323,8 +1323,12 @@ CONFIG_MSM_GCC_8998=y
