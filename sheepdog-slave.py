@@ -290,11 +290,11 @@ def am_patch():
     # get patches file
     patch_dirs = config["PATCH"]["patch_dir"].split()
     for patch_dir in patch_dirs:
-        if not file_is_exist(patch_dir):
+        patch_dir = sheepdog_normalize(patch_dir)
+        if not patch_dir or not os.path.exists(patch_dir):
             logging.error("Wrong patch directory path. Please check patch_dir option in ini file")
             raise FileNotFoundError("Not found patch directory")
 
-        patch_dir = sheepdog_normalize(patch_dir)
         logging.debug(f"patches dir is {patch_dir}")
 
         patches_pattern = f"{patch_dir}/*.patch"
@@ -307,16 +307,14 @@ def am_patch():
 
         # check patches
         logging.debug(f"patch base commit is {base_commit}")
-        for patch_file in patch_files:
-            try:
-                local_repo.git.am(patch_file)
-            except git.exc.GitCommandError as e:
-                logging.error(f"Error is {e}\n")
-                logging.error(f"Git am operation aborted and changes reverted")
-                local_repo.git.am("--abort")
-                raise e
+        try:
+            local_repo.git.am(*patch_files)
+        except git.exc.GitCommandError as e:
+            logging.error(f"Error is {e}\n")
+            logging.error(f"Git am operation aborted and changes reverted")
+            local_repo.git.am("--abort")
+            raise e
 
-            logging.debug(f"{patch_file} applies to {track_branch}")
         logging.info(f'patches in {patch_dir} are all applied down')
 
     logging.info(f"patches apply down")
