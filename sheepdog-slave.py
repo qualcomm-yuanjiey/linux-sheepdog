@@ -218,9 +218,13 @@ def unpack_ramdisk(ramdisk, dest_dir):
 
 
 def pack_ramdisk(src_dir, dest_dir):
+    ramdisk_dest = f"{dest_dir}/ramdisk.gz"
+    if os.path.exists(ramdisk_dest):
+        os.remove(ramdisk_dest)
+
     os.chdir(src_dir)
 
-    cmd = f"find . | cpio -o -H newc -R +0:+0 | pigz -9 >> {dest_dir}/ramdisk.gz"
+    cmd = f"find . | cpio -o -H newc -R +0:+0 | pigz -9 >> {ramdisk_dest}"
     exec_shell_cmd(cmd)
 
     os.chdir(workspace)
