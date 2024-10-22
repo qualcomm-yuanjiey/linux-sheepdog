@@ -1,7 +1,7 @@
-From 7d68a1b656b218e692f19d0d3f3791a29ba96d1b Mon Sep 17 00:00:00 2001
+From 90fee1ac86ee0d2fefbe302d7aa7f8cc1177278f Mon Sep 17 00:00:00 2001
 From: Taniya Das <quic_tdas@quicinc.com>
 Date: Fri, 20 Sep 2024 16:08:18 +0530
-Subject: [PATCH 15/68] clk: qcom: gcc: Add support for QCS615 GCC clocks
+Subject: [PATCH 15/72] clk: qcom: gcc: Add support for QCS615 GCC clocks
 
 Add the global clock controller support for QCS615 SoC.
 
@@ -14,7 +14,7 @@ Signed-off-by: Taniya Das <quic_tdas@quicinc.com>
  create mode 100644 drivers/clk/qcom/gcc-qcs615.c
 
 diff --git a/drivers/clk/qcom/Kconfig b/drivers/clk/qcom/Kconfig
-index 30eb8236c9d8..e76207a2eb3a 100644
+index e5d7c89b0dab..00c2582fde96 100644
 --- a/drivers/clk/qcom/Kconfig
 +++ b/drivers/clk/qcom/Kconfig
 @@ -467,6 +467,15 @@ config QCS_GCC_404

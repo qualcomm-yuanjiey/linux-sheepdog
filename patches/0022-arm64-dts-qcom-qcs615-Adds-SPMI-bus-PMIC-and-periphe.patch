@@ -1,7 +1,7 @@
-From 122342cef92eb9ee5bda22c63839abf9f58a1650 Mon Sep 17 00:00:00 2001
+From fe5450ab40014834b8dd0e3a88253ea4b4ed5545 Mon Sep 17 00:00:00 2001
 From: Tingguo Cheng <quic_tingguoc@quicinc.com>
 Date: Sun, 29 Sep 2024 12:50:16 +0800
-Subject: [PATCH 22/68] arm64: dts: qcom: qcs615: Adds SPMI bus, PMIC and
+Subject: [PATCH 22/72] arm64: dts: qcom: qcs615: Adds SPMI bus, PMIC and
  peripherals
 
 Create a new file qcs615-pmic.dtsi to add on-board PMIC and peripher-

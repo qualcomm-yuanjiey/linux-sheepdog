@@ -1,7 +1,7 @@
-From 41144819f21e305924a7ada028d96726979f04dd Mon Sep 17 00:00:00 2001
+From ea87271db5ab5aa06759df6ca10a304dd423ba93 Mon Sep 17 00:00:00 2001
 From: Qingqing Zhou <quic_qqzhou@quicinc.com>
 Date: Thu, 19 Sep 2024 21:59:34 +0800
-Subject: [PATCH 17/68] arm64: dts: qcom: qcs615: add the APPS SMMU node
+Subject: [PATCH 17/72] arm64: dts: qcom: qcs615: add the APPS SMMU node
 
 Add the APPS SMMU node for qcs615-based platforms.
 

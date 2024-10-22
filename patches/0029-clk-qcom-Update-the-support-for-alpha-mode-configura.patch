@@ -1,0 +1,33 @@
+From 809aadf61915f79132a07d7669212f199c44643e Mon Sep 17 00:00:00 2001
+From: Taniya Das <quic_tdas@quicinc.com>
+Date: Sat, 19 Oct 2024 00:45:37 +0530
+Subject: [PATCH 29/72] clk: qcom: Update the support for alpha mode
+ configuration
+
+The alpha_en_mask and alpha_mode_mask must be applied within the
+clk_alpha_pll_configure() function to ensure proper configuration of
+the alpha mode of the PLL.
+
+Fixes: c45ae598fc16 ("clk: qcom: support for alpha mode configuration")
+Signed-off-by: Taniya Das <quic_tdas@quicinc.com>
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+ drivers/clk/qcom/clk-alpha-pll.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/clk/qcom/clk-alpha-pll.c b/drivers/clk/qcom/clk-alpha-pll.c
+index be9bee6ab65f..ea866259d0dc 100644
+--- a/drivers/clk/qcom/clk-alpha-pll.c
++++ b/drivers/clk/qcom/clk-alpha-pll.c
+@@ -421,6 +421,8 @@ void clk_alpha_pll_configure(struct clk_alpha_pll *pll, struct regmap *regmap,
+ 	mask |= config->pre_div_mask;
+ 	mask |= config->post_div_mask;
+ 	mask |= config->vco_mask;
++	mask |= config->alpha_en_mask;
++	mask |= config->alpha_mode_mask;
+ 
+ 	regmap_update_bits(regmap, PLL_USER_CTL(pll), mask, val);
+ 
+-- 
+2.34.1
+

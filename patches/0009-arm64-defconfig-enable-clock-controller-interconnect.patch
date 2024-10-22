@@ -1,7 +1,7 @@
-From b697b7d50f9d74f8c212634b58a6dbf0b16a0da4 Mon Sep 17 00:00:00 2001
+From b3794f670a631a6666f8ba6d868a8038baf818d2 Mon Sep 17 00:00:00 2001
 From: Lijuan Gao <quic_lijuang@quicinc.com>
 Date: Thu, 26 Sep 2024 14:54:47 +0800
-Subject: [PATCH 09/68] arm64: defconfig: enable clock controller, interconnect
+Subject: [PATCH 09/72] arm64: defconfig: enable clock controller, interconnect
  and pinctrl for QCS615
 
 Enable clock controller, interconnect and pinctrl for Qualcomm
@@ -18,7 +18,7 @@ Signed-off-by: Lijuan Gao <quic_lijuang@quicinc.com>
  1 file changed, 3 insertions(+)
 
 diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
-index 730f303350c3..fb4bcbe0eaeb 100644
+index 36b33b9f1704..fd0dfa9ebae0 100644
 --- a/arch/arm64/configs/defconfig
 +++ b/arch/arm64/configs/defconfig
 @@ -607,6 +607,7 @@ CONFIG_PINCTRL_MSM8996=y
@@ -34,10 +34,10 @@ index 730f303350c3..fb4bcbe0eaeb 100644
  CONFIG_QCM_DISPCC_2290=m
  CONFIG_QCS_GCC_404=y
 +CONFIG_QCS_GCC_615=y
+ CONFIG_SC_CAMCC_7280=m
  CONFIG_QDU_GCC_1000=y
  CONFIG_SC_CAMCC_8280XP=m
- CONFIG_SC_DISPCC_7280=m
-@@ -1626,6 +1628,7 @@ CONFIG_INTERCONNECT_QCOM_MSM8996=y
+@@ -1629,6 +1631,7 @@ CONFIG_INTERCONNECT_QCOM_MSM8996=y
  CONFIG_INTERCONNECT_QCOM_OSM_L3=m
  CONFIG_INTERCONNECT_QCOM_QCM2290=y
  CONFIG_INTERCONNECT_QCOM_QCS404=m

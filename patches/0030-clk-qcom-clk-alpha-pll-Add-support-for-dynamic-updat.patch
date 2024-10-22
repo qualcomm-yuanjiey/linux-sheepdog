@@ -1,20 +1,24 @@
-From f33e2463d4cf5751d5856c7e5379735167c3cc81 Mon Sep 17 00:00:00 2001
+From f9b6cbbb4a886598f662fd2dd5f915be9122247a Mon Sep 17 00:00:00 2001
 From: Taniya Das <quic_tdas@quicinc.com>
-Date: Thu, 12 Sep 2024 12:43:46 +0530
-Subject: [PATCH 30/68] clk: qcom: clk-alpha-pll: Add support for dynamic
- update for Slewing PLLs
+Date: Sat, 19 Oct 2024 00:45:38 +0530
+Subject: [PATCH 30/72] clk: qcom: clk-alpha-pll: Add support for dynamic
+ update for slewing PLLs
+
+The alpha PLLs which slew to a new frequency at runtime would require
+the PLL to calibrate at the mid point of the VCO. Add the new PLL ops
+which can support the slewing of the PLL to a new frequency.
 
 Signed-off-by: Taniya Das <quic_tdas@quicinc.com>
 ---
- drivers/clk/qcom/clk-alpha-pll.c | 177 +++++++++++++++++++++++++++++++
+ drivers/clk/qcom/clk-alpha-pll.c | 172 +++++++++++++++++++++++++++++++
  drivers/clk/qcom/clk-alpha-pll.h |   1 +
- 2 files changed, 178 insertions(+)
+ 2 files changed, 173 insertions(+)
 
 diff --git a/drivers/clk/qcom/clk-alpha-pll.c b/drivers/clk/qcom/clk-alpha-pll.c
-index 03cc7aa09248..e09eb08c4823 100644
+index ea866259d0dc..831df7f07e6d 100644
 --- a/drivers/clk/qcom/clk-alpha-pll.c
 +++ b/drivers/clk/qcom/clk-alpha-pll.c
-@@ -2758,3 +2758,180 @@ const struct clk_ops clk_alpha_pll_regera_ops = {
+@@ -2758,3 +2758,175 @@ const struct clk_ops clk_alpha_pll_regera_ops = {
  	.set_rate = clk_zonda_pll_set_rate,
  };
  EXPORT_SYMBOL_GPL(clk_alpha_pll_regera_ops);
@@ -24,8 +28,7 @@ index 03cc7aa09248..e09eb08c4823 100644
 +	int ret = 0;
 +	u32 val;
 +
-+	regmap_update_bits(pll->clkr.regmap, PLL_MODE(pll),
-+					PLL_UPDATE, PLL_UPDATE);
++	regmap_update_bits(pll->clkr.regmap, PLL_MODE(pll), PLL_UPDATE, PLL_UPDATE);
 +	regmap_read(pll->clkr.regmap, PLL_MODE(pll), &val);
 +
 +	ret = wait_for_pll_update(pll);
@@ -42,7 +45,7 @@ index 03cc7aa09248..e09eb08c4823 100644
 +}
 +
 +static int clk_alpha_pll_slew_set_rate(struct clk_hw *hw, unsigned long rate,
-+			unsigned long parent_rate)
++					unsigned long parent_rate)
 +{
 +	struct clk_alpha_pll *pll = to_clk_alpha_pll(hw);
 +	unsigned long freq_hz;
@@ -122,11 +125,10 @@ index 03cc7aa09248..e09eb08c4823 100644
 +	 * should have only one entry table, i.e. index = 0, find the
 +	 * calibration frequency.
 +	 */
-+	calibration_freq = (pll->vco_table[0].min_freq +
-+					pll->vco_table[0].max_freq)/2;
++	calibration_freq = (pll->vco_table[0].min_freq + pll->vco_table[0].max_freq) / 2;
 +
-+	freq_hz = alpha_pll_round_rate(calibration_freq,
-+			clk_hw_get_rate(parent), &l, &a, alpha_width);
++	freq_hz = alpha_pll_round_rate(calibration_freq, clk_hw_get_rate(parent),
++					&l, &a, alpha_width);
 +	if (freq_hz != calibration_freq) {
 +		pr_err("alpha_pll: call clk_set_rate with rounded rates!\n");
 +		return -EINVAL;
@@ -139,8 +141,7 @@ index 03cc7aa09248..e09eb08c4823 100644
 +	regmap_write(pll->clkr.regmap, PLL_ALPHA_VAL(pll), a);
 +	regmap_write(pll->clkr.regmap, PLL_ALPHA_VAL_U(pll), a >> 32);
 +
-+	regmap_update_bits(pll->clkr.regmap, PLL_USER_CTL(pll),
-+				PLL_VCO_MASK << PLL_VCO_SHIFT,
++	regmap_update_bits(pll->clkr.regmap, PLL_USER_CTL(pll), PLL_VCO_MASK << PLL_VCO_SHIFT,
 +				vco->val << PLL_VCO_SHIFT);
 +
 +	/* Bringup the pll at calibration frequency */
@@ -157,9 +158,8 @@ index 03cc7aa09248..e09eb08c4823 100644
 +	freq_hz = alpha_pll_round_rate(clk_hw_get_rate(hw),
 +			clk_hw_get_rate(parent), &l, &a, alpha_width);
 +
-+
 +	pr_debug("pll %s: setting back to required rate %lu, freq_hz %ld\n",
-+				hw->init->name, clk_hw_get_rate(hw), freq_hz);
++		clk_hw_get_name(hw), clk_hw_get_rate(hw), freq_hz);
 +
 +	/* Setup the PLL for the new frequency */
 +	a <<= (ALPHA_REG_BITWIDTH - ALPHA_BITWIDTH);
@@ -168,8 +168,7 @@ index 03cc7aa09248..e09eb08c4823 100644
 +	regmap_write(pll->clkr.regmap, PLL_ALPHA_VAL(pll), a);
 +	regmap_write(pll->clkr.regmap, PLL_ALPHA_VAL_U(pll), a >> 32);
 +
-+	regmap_update_bits(pll->clkr.regmap, PLL_USER_CTL(pll),
-+				PLL_ALPHA_EN, PLL_ALPHA_EN);
++	regmap_update_bits(pll->clkr.regmap, PLL_USER_CTL(pll), PLL_ALPHA_EN, PLL_ALPHA_EN);
 +
 +	return clk_alpha_pll_slew_update(pll);
 +}
