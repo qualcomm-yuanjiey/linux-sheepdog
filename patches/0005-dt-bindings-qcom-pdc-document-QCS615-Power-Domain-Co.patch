@@ -1,7 +1,7 @@
 From dc208ff0607fd0e297d3d63f1c7a4409f6cc7006 Mon Sep 17 00:00:00 2001
 From: Lijuan Gao <quic_lijuang@quicinc.com>
 Date: Thu, 26 Sep 2024 14:54:43 +0800
-Subject: [PATCH 05/72] dt-bindings: qcom,pdc: document QCS615 Power Domain
+Subject: [PATCH 05/71] dt-bindings: qcom,pdc: document QCS615 Power Domain
  Controller
 
 Add a compatible for the Power Domain Controller on QCS615 platform.

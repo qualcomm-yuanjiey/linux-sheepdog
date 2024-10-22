@@ -1,7 +1,7 @@
-From 39118d9b21abb2849f1c88b2943d3f6ada926d51 Mon Sep 17 00:00:00 2001
+From 9887d7d17cae3402660506e024596838cffbdc6d Mon Sep 17 00:00:00 2001
 From: Qingqing Zhou <quic_qqzhou@quicinc.com>
 Date: Fri, 13 Sep 2024 14:50:17 +0530
-Subject: [PATCH 18/72] arm64: dts: qcom: qcs615: add the GPU SMMU node
+Subject: [PATCH 18/71] arm64: dts: qcom: qcs615: add the GPU SMMU node
 
 Add the Adreno GPU IOMMU for qcs615-based platforms.
 
@@ -11,10 +11,10 @@ Signed-off-by: Qingqing Zhou <quic_qqzhou@quicinc.com>
  1 file changed, 28 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/qcom/qcs615.dtsi b/arch/arm64/boot/dts/qcom/qcs615.dtsi
-index 65fe3e2c3340..b6fdf37364c5 100644
+index d60c311420ed..c72759c4f28d 100644
 --- a/arch/arm64/boot/dts/qcom/qcs615.dtsi
 +++ b/arch/arm64/boot/dts/qcom/qcs615.dtsi
-@@ -495,6 +495,34 @@ qup_uart0_rx: qup-uart0-rx-state {
+@@ -496,6 +496,34 @@ qup_uart0_rx: qup-uart0-rx-state {
  			};
  		};
  

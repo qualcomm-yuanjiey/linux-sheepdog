@@ -1,0 +1,34 @@
+From 8fff60c53ae10064939d08d7de66fbb0a28a5b2d Mon Sep 17 00:00:00 2001
+From: Ziyue Zhang <quic_ziyuzhan@quicinc.com>
+Date: Mon, 14 Oct 2024 16:08:17 +0800
+Subject: [PATCH 67/71] PCI: qcom: Add QCS615 PCIe support
+
+Add the compatible and the driver data for QCS615 PCIe controller.
+
+There is only one controller instance found on this platform, out of which
+is Gen3 with speeds of up to 8.0GT/s.
+
+The version of the controller is 1.38.0 for all instances, but they are
+compatible with 1.9.0 config.
+
+Signed-off-by: Krishna chaitanya chundru <quic_krichai@quicinc.com>
+Signed-off-by: Ziyue Zhang <quic_ziyuzhan@quicinc.com>
+---
+ drivers/pci/controller/dwc/pcie-qcom.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/pci/controller/dwc/pcie-qcom.c b/drivers/pci/controller/dwc/pcie-qcom.c
+index ef44a82be058..3725a365fcf6 100644
+--- a/drivers/pci/controller/dwc/pcie-qcom.c
++++ b/drivers/pci/controller/dwc/pcie-qcom.c
+@@ -1844,6 +1844,7 @@ static const struct of_device_id qcom_pcie_match[] = {
+ 	{ .compatible = "qcom,pcie-sm8450-pcie1", .data = &cfg_1_9_0 },
+ 	{ .compatible = "qcom,pcie-sm8550", .data = &cfg_1_9_0 },
+ 	{ .compatible = "qcom,pcie-x1e80100", .data = &cfg_1_9_0 },
++	{ .compatible = "qcom,pcie-qcs615", .data = &cfg_1_9_0 },
+ 	{ }
+ };
+ 
+-- 
+2.34.1
+
