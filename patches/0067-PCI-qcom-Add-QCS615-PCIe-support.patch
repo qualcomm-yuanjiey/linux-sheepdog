@@ -1,4 +1,4 @@
-From 243b3fa03ae2ecf02ae05cf67d7dd21909f14d99 Mon Sep 17 00:00:00 2001
+From 4083fbe48350a4e1af2b47a75077d818560af843 Mon Sep 17 00:00:00 2001
 From: Ziyue Zhang <quic_ziyuzhan@quicinc.com>
 Date: Mon, 14 Oct 2024 16:08:17 +0800
 Subject: [PATCH 67/71] PCI: qcom: Add QCS615 PCIe support

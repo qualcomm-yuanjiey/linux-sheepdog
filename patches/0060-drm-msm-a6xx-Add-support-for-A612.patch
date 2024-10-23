@@ -1,4 +1,4 @@
-From 5648088cfc87afdd2a236bc7a4dc600da82b8fdd Mon Sep 17 00:00:00 2001
+From 65ba48262580ae27861b2bd1fd90b521582597c1 Mon Sep 17 00:00:00 2001
 From: jie zhang <quic_jiezh@quicinc.com>
 Date: Thu, 26 Sep 2024 18:15:06 +0800
 Subject: [PATCH 60/71] drm/msm/a6xx: Add support for A612
@@ -7,17 +7,16 @@ Add support for Adreno 612 found on qcs615 platform.
 
 Signed-off-by: jie zhang <quic_jiezh@quicinc.com>
 ---
- drivers/gpu/drm/msm/adreno/a6xx_catalog.c     | 18 +++++++++++
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c         | 30 ++++++++++++++++---
- drivers/gpu/drm/msm/adreno/adreno_gpu.h       |  7 ++++-
- drivers/gpu/drm/msm/registers/adreno/a6xx.xml |  1 +
- 4 files changed, 51 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/msm/adreno/a6xx_catalog.c | 17 ++++++++++++++++
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c     | 24 +++++++++++++++++++----
+ drivers/gpu/drm/msm/adreno/adreno_gpu.h   |  7 ++++++-
+ 3 files changed, 43 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
-index c4c1d8120bd6..d9ba2756e2cc 100644
+index c4c1d8120bd6..682988cfa64e 100644
 --- a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
 +++ b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
-@@ -704,6 +704,24 @@ static const struct adreno_info a6xx_gpus[] = {
+@@ -704,6 +704,23 @@ static const struct adreno_info a6xx_gpus[] = {
  			{ 157, 3 },
  			{ 127, 4 },
  		),
@@ -27,7 +26,6 @@ index c4c1d8120bd6..d9ba2756e2cc 100644
 +		.revn = 612,
 +		.fw = {
 +			[ADRENO_FW_SQE] = "a630_sqe.fw",
-+			[ADRENO_FW_GMU] = "a612_rgmu.bin",
 +		},
 +		.gmem = (SZ_128K + SZ_4K),
 +		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
@@ -43,7 +41,7 @@ index c4c1d8120bd6..d9ba2756e2cc 100644
  		.chip_ids = ADRENO_CHIP_IDS(0x06010500),
  		.family = ADRENO_6XX_GEN1,
 diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-index 1dee4c465ff0..4dc0862c772f 100644
+index 1dee4c465ff0..b2c15af110bb 100644
 --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
 +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
 @@ -504,15 +504,26 @@ static void a6xx_set_hwcg(struct msm_gpu *gpu, bool state)
@@ -97,19 +95,6 @@ index 1dee4c465ff0..4dc0862c772f 100644
  		gpu_write(gpu, REG_A6XX_CP_MEM_POOL_SIZE, 48);
  		gpu_write(gpu, REG_A6XX_CP_MEM_POOL_DBG_ADDR, 47);
  	} else if (adreno_is_a702(adreno_gpu)) {
-@@ -1183,6 +1199,12 @@ static int hw_init(struct msm_gpu *gpu)
- 			  FIELD_PREP(GENMASK(7, 0), 0x4));
- 	}
- 
-+	if (!adreno_has_gmu_wrapper(adreno_gpu) && adreno_is_a612(adreno_gpu)) {
-+		gpu_write(gpu, REG_A6XX_RBBM_BLOCK_GX_RETENTION_CNTL, 0x7FB);
-+		/* For CP IPC interrupt */
-+		gpu_write(gpu, REG_A7XX_RBBM_INT_2_MASK, 0x00000010);
-+	}
-+
- 	/* Select CP0 to always count cycles */
- 	gpu_write(gpu, REG_A6XX_CP_PERFCTR_CP_SEL(0), PERF_CP_ALWAYS_COUNT);
- 
 diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
 index 610ad59ce180..e289ceead2c7 100644
 --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
@@ -135,18 +120,6 @@ index 610ad59ce180..e289ceead2c7 100644
  }
  
  /* TODO: 615/616 */
-diff --git a/drivers/gpu/drm/msm/registers/adreno/a6xx.xml b/drivers/gpu/drm/msm/registers/adreno/a6xx.xml
-index 2db425abf0f3..484126bbabe2 100644
---- a/drivers/gpu/drm/msm/registers/adreno/a6xx.xml
-+++ b/drivers/gpu/drm/msm/registers/adreno/a6xx.xml
-@@ -2667,6 +2667,7 @@ to upconvert to 32b float internally?
- 	<reg32 offset="0x00044" name="RBBM_RAC_THRESHOLD_CNT"/>
- 	<reg32 offset="0x00045" name="RBBM_BLOCK_SW_RESET_CMD"/>
- 	<reg32 offset="0x00046" name="RBBM_BLOCK_SW_RESET_CMD2"/>
-+	<reg32 offset="0x00050" name="RBBM_BLOCK_GX_RETENTION_CNTL"/>
- 	<reg32 offset="0x000ad" name="RBBM_CLOCK_CNTL_GLOBAL" variants="A7XX-"/>
- 	<reg32 offset="0x000ae" name="RBBM_CLOCK_CNTL"/>
- 	<reg32 offset="0x000b0" name="RBBM_CLOCK_CNTL_SP0"/>
 -- 
 2.34.1
 
