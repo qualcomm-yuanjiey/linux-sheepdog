@@ -1,4 +1,4 @@
-From 2c51dc7c08ed628ca322e8d8c38df2236418c524 Mon Sep 17 00:00:00 2001
+From 3d1562ebc4918b387f98ffebe1fa03639df67da9 Mon Sep 17 00:00:00 2001
 From: lliu6 <quic_lliu6@quicinc.com>
 Date: Thu, 10 Oct 2024 16:22:45 +0800
 Subject: [PATCH 45/71] dt-bindings: display/msm: Add QCS615 DSI phy

@@ -1,4 +1,4 @@
-From e107ee04f99af64d81e699aeab85663d687ef813 Mon Sep 17 00:00:00 2001
+From a27645dffa5b8c767225a56c6d82887f4c66a95c Mon Sep 17 00:00:00 2001
 From: Taniya Das <quic_tdas@quicinc.com>
 Date: Mon, 14 Oct 2024 14:25:51 +0800
 Subject: [PATCH 69/71] arm64: dts: qcom: qcs615: add clock and cpufreq node to

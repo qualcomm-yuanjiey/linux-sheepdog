@@ -1,4 +1,4 @@
-From d4d79a2cbc1bd35fba8a61b77b100a5f1036ed51 Mon Sep 17 00:00:00 2001
+From 55eaf4ffbe7f1baab992695649be457bd16c17c5 Mon Sep 17 00:00:00 2001
 From: Xin Liu <quic_liuxin@quicinc.com>
 Date: Mon, 23 Sep 2024 15:54:05 +0800
 Subject: [PATCH 51/71] dt-bindings: Add UFS and QMP UFS PHY compatible for

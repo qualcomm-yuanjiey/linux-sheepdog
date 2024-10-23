@@ -1,4 +1,4 @@
-From e9c9e3d54eec544e8698c337cd7eb763d09abfb4 Mon Sep 17 00:00:00 2001
+From dc015bec0fe2aa2126299b0d818817c0af04675c Mon Sep 17 00:00:00 2001
 From: Yuanjie Yang <quic_yuanjiey@quicinc.com>
 Date: Wed, 9 Oct 2024 18:45:44 +0800
 Subject: [PATCH 64/71] ARM: dts: msm: Add sd card node for qcs615

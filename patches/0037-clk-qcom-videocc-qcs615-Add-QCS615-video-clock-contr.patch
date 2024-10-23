@@ -1,4 +1,4 @@
-From ae56ada0e9eaada0671e812056cd5404750f5199 Mon Sep 17 00:00:00 2001
+From 7e0851596fa3317228d1514a2f6abf2e049df1d2 Mon Sep 17 00:00:00 2001
 From: Taniya Das <quic_tdas@quicinc.com>
 Date: Sat, 19 Oct 2024 00:45:46 +0530
 Subject: [PATCH 37/71] clk: qcom: videocc-qcs615: Add QCS615 video clock
@@ -48,7 +48,7 @@ index a1486d649bb7..be4d40b6f3b4 100644
  obj-$(CONFIG_QDU_ECPRICC_1000) += ecpricc-qdu1000.o
 diff --git a/drivers/clk/qcom/videocc-qcs615.c b/drivers/clk/qcom/videocc-qcs615.c
 new file mode 100644
-index 000000000000..cebe1ab591f3
+index 000000000000..bcf1e7a75a93
 --- /dev/null
 +++ b/drivers/clk/qcom/videocc-qcs615.c
 @@ -0,0 +1,332 @@
@@ -294,7 +294,7 @@ index 000000000000..cebe1ab591f3
 +		.name = "vcodec0_gdsc",
 +	},
 +	.pwrsts = PWRSTS_OFF_ON,
-+	.flags = HW_CTRL_TRIGGER | POLL_CFG_GDSCR,
++	.flags = HW_CTRL | POLL_CFG_GDSCR,
 +};
 +
 +static struct gdsc venus_gdsc = {

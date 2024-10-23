@@ -1,4 +1,4 @@
-From 1e5e468e5cf3c5f6ba4bf746fbe75fa504e5851f Mon Sep 17 00:00:00 2001
+From 8243974615a62adb702c18695c6ec4de3d94ce20 Mon Sep 17 00:00:00 2001
 From: Xin Liu <quic_liuxin@quicinc.com>
 Date: Thu, 26 Sep 2024 18:02:05 +0800
 Subject: [PATCH 54/71] arm64: dts: qcom: qcs615-ride: Add ufs mem

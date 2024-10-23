@@ -1,4 +1,4 @@
-From 5cdcb3bb81ee8098df8f3f6d64e3b97e5ab2c843 Mon Sep 17 00:00:00 2001
+From 97d18d36890083a6d6e9c1134dfeb34e5cffe012 Mon Sep 17 00:00:00 2001
 From: Song Xue <quic_songxue@quicinc.com>
 Date: Tue, 10 Sep 2024 21:43:38 +0530
 Subject: [PATCH 40/71] Peripheral mode changes for USB primary port

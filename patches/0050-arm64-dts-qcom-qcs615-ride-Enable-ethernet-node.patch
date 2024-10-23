@@ -1,4 +1,4 @@
-From 36915db510b8adacd017f7244a089afb3d7843e4 Mon Sep 17 00:00:00 2001
+From b46d587b69d4ef9c545858e9ccffa60a4518ccc5 Mon Sep 17 00:00:00 2001
 From: Yijie Yang <quic_yijiyang@quicinc.com>
 Date: Thu, 26 Sep 2024 17:54:38 +0800
 Subject: [PATCH 50/71] arm64: dts: qcom: qcs615-ride: Enable ethernet node

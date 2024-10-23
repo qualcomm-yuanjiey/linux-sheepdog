@@ -1,4 +1,4 @@
-From 74ab640e8647a6d575e06fb2488b394206f4d3c1 Mon Sep 17 00:00:00 2001
+From 78af717d221bb61f410ce4bd111c8aeedd0405df Mon Sep 17 00:00:00 2001
 From: Taniya Das <quic_tdas@quicinc.com>
 Date: Thu, 26 Sep 2024 16:45:28 +0800
 Subject: [PATCH 39/71] arm64: dts: qcom: add support for clock controllers

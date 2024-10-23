@@ -1,4 +1,4 @@
-From d0e8ff519ee5023e2f342311e11aa0587e4a5847 Mon Sep 17 00:00:00 2001
+From 4f1ad35e7c1808b01b8425f5efaff6f7d017a62d Mon Sep 17 00:00:00 2001
 From: Yijie Yang <quic_yijiyang@quicinc.com>
 Date: Fri, 20 Sep 2024 16:46:07 +0800
 Subject: [PATCH 48/71] dt-bindings: net: qcom,ethqos: add description for
