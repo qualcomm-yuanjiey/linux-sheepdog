@@ -1,4 +1,4 @@
-From 90fee1ac86ee0d2fefbe302d7aa7f8cc1177278f Mon Sep 17 00:00:00 2001
+From 12ba3a9c4c2ab7be94b3a0cad38aff54ad66ef43 Mon Sep 17 00:00:00 2001
 From: Taniya Das <quic_tdas@quicinc.com>
 Date: Fri, 20 Sep 2024 16:08:18 +0530
 Subject: [PATCH 15/71] clk: qcom: gcc: Add support for QCS615 GCC clocks

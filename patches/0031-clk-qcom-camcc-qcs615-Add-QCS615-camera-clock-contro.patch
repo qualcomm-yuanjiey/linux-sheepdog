@@ -1,4 +1,4 @@
-From 282853ea4e65877ebb72b47e63c490c085db129d Mon Sep 17 00:00:00 2001
+From 3a83f845085234c01cbf6e0c4c78a24706d0096c Mon Sep 17 00:00:00 2001
 From: Taniya Das <quic_tdas@quicinc.com>
 Date: Sat, 19 Oct 2024 00:45:40 +0530
 Subject: [PATCH 31/71] clk: qcom: camcc-qcs615: Add QCS615 camera clock

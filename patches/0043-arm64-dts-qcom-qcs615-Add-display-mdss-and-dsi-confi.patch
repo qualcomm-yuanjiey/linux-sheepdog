@@ -1,4 +1,4 @@
-From f5c1c16e5c2151bc1d3a6f021dd2333d7985dde3 Mon Sep 17 00:00:00 2001
+From 179220e81a10f08d72c96cd1cacb0f4ddb072357 Mon Sep 17 00:00:00 2001
 From: lliu6 <quic_lliu6@quicinc.com>
 Date: Thu, 26 Sep 2024 17:46:31 +0800
 Subject: [PATCH 43/71] arm64: dts: qcom: qcs615: Add display mdss and dsi
@@ -13,7 +13,7 @@ Signed-off-by: lliu6 <quic_lliu6@quicinc.com>
  2 files changed, 297 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/qcom/qcs615-ride.dts b/arch/arm64/boot/dts/qcom/qcs615-ride.dts
-index d1612db9c58a..b55fdfed553e 100644
+index 7c4a8b001284..be24f3641bf1 100644
 --- a/arch/arm64/boot/dts/qcom/qcs615-ride.dts
 +++ b/arch/arm64/boot/dts/qcom/qcs615-ride.dts
 @@ -206,6 +206,108 @@ &gcc {
@@ -126,7 +126,7 @@ index d1612db9c58a..b55fdfed553e 100644
  	status = "okay";
  };
 diff --git a/arch/arm64/boot/dts/qcom/qcs615.dtsi b/arch/arm64/boot/dts/qcom/qcs615.dtsi
-index cf933c6b1728..e7c83df340f2 100644
+index 46965e6cfd6e..4e47587f89e0 100644
 --- a/arch/arm64/boot/dts/qcom/qcs615.dtsi
 +++ b/arch/arm64/boot/dts/qcom/qcs615.dtsi
 @@ -1267,6 +1267,201 @@ camcc: clock-controller@ad00000 {

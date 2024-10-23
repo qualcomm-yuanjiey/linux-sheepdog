@@ -1,4 +1,4 @@
-From 49097e85c8a8fee9f08caf89792a245e6368ec46 Mon Sep 17 00:00:00 2001
+From 3d15bc933a0bb063d63e356d8a33648504a6a47c Mon Sep 17 00:00:00 2001
 From: Taniya Das <quic_tdas@quicinc.com>
 Date: Sat, 19 Oct 2024 00:45:45 +0530
 Subject: [PATCH 36/71] dt-bindings: clock: Add Qualcomm QCS615 Video clock

@@ -1,4 +1,4 @@
-From 8e5df22e98740a79b7bb4b1e8e2d4c1bc995091d Mon Sep 17 00:00:00 2001
+From 026e9400ca3c2c9550e9de369dd98dda61e8c1da Mon Sep 17 00:00:00 2001
 From: Raviteja Laggyshetty <quic_rlaggysh@quicinc.com>
 Date: Tue, 24 Sep 2024 14:39:57 +0000
 Subject: [PATCH 22/71] dt-bindings: interconnect: document the RPMh

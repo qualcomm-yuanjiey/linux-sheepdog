@@ -1,4 +1,4 @@
-From 25c3d206443cfe01c96c8791fef431dd7547af50 Mon Sep 17 00:00:00 2001
+From c274545c08be22aa59b950419683fe16d45a93f1 Mon Sep 17 00:00:00 2001
 From: Song Xue <quic_songxue@quicinc.com>
 Date: Tue, 24 Sep 2024 18:07:12 +0800
 Subject: [PATCH 25/71] soc: qcom: llcc: Add configuration data for QCS615

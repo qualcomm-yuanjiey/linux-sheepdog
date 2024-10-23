@@ -1,4 +1,4 @@
-From 0be379ed564648f71df5456a0871ab1bc55b2063 Mon Sep 17 00:00:00 2001
+From 33d73740a6c5c78c2c240f7edee62d81c4b766c1 Mon Sep 17 00:00:00 2001
 From: Lijuan Gao <quic_lijuang@quicinc.com>
 Date: Mon, 23 Sep 2024 18:07:10 +0800
 Subject: [PATCH 55/71] dt-bindings: remoteproc: qcom,sm8150-pas: Document

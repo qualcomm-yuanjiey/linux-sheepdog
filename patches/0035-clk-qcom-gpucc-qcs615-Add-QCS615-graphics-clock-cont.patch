@@ -1,4 +1,4 @@
-From 843feb43fcde581dccedea2138613c4e65ec58bd Mon Sep 17 00:00:00 2001
+From ceed1e15a6d79d6cfc7f4d71e797015585729f63 Mon Sep 17 00:00:00 2001
 From: Taniya Das <quic_tdas@quicinc.com>
 Date: Sat, 19 Oct 2024 00:45:44 +0530
 Subject: [PATCH 35/71] clk: qcom: gpucc-qcs615: Add QCS615 graphics clock

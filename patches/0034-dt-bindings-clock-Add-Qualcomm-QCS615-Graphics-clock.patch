@@ -1,4 +1,4 @@
-From be31a3c55e9e0e580d9fa79d9c439419860814d6 Mon Sep 17 00:00:00 2001
+From 1f9a6557fc934481e35b86438080cd7370c2e825 Mon Sep 17 00:00:00 2001
 From: Taniya Das <quic_tdas@quicinc.com>
 Date: Sat, 19 Oct 2024 00:45:43 +0530
 Subject: [PATCH 34/71] dt-bindings: clock: Add Qualcomm QCS615 Graphics clock

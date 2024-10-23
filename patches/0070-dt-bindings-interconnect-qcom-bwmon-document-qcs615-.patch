@@ -1,4 +1,4 @@
-From 80ace0385b73c951b460c887a903f10e4113a084 Mon Sep 17 00:00:00 2001
+From 1b8710e00f1ff734e578e2a81f7bab9581fcba9d Mon Sep 17 00:00:00 2001
 From: Lijuan Gao <quic_lijuang@quicinc.com>
 Date: Mon, 14 Oct 2024 14:27:01 +0800
 Subject: [PATCH 70/71] dt-bindings: interconnect: qcom-bwmon: document qcs615

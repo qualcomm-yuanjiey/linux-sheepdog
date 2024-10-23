@@ -1,4 +1,4 @@
-From 8d7a7deb5b35bf295bb5420359cbef5576f0787a Mon Sep 17 00:00:00 2001
+From fb2ceb959bc3c2662795177cc52379edae565971 Mon Sep 17 00:00:00 2001
 From: Taniya Das <quic_tdas@quicinc.com>
 Date: Mon, 14 Oct 2024 14:25:51 +0800
 Subject: [PATCH 69/71] arm64: dts: qcom: qcs615: add clock and cpufreq node to
@@ -13,7 +13,7 @@ Signed-off-by: Taniya Das <quic_tdas@quicinc.com>
  1 file changed, 28 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/qcom/qcs615.dtsi b/arch/arm64/boot/dts/qcom/qcs615.dtsi
-index 82b4e9265a68..252a4a9058ae 100644
+index 727cdfc0a131..a3100be32c49 100644
 --- a/arch/arm64/boot/dts/qcom/qcs615.dtsi
 +++ b/arch/arm64/boot/dts/qcom/qcs615.dtsi
 @@ -51,6 +51,8 @@ cpu0: cpu@0 {

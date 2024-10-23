@@ -1,4 +1,4 @@
-From 9887d7d17cae3402660506e024596838cffbdc6d Mon Sep 17 00:00:00 2001
+From 288c88b9a695446f2fe5106fa81ec83ffb20f115 Mon Sep 17 00:00:00 2001
 From: Qingqing Zhou <quic_qqzhou@quicinc.com>
 Date: Fri, 13 Sep 2024 14:50:17 +0530
 Subject: [PATCH 18/71] arm64: dts: qcom: qcs615: add the GPU SMMU node

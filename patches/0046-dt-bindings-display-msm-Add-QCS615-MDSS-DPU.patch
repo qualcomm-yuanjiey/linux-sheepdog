@@ -1,4 +1,4 @@
-From d90fe95cadbb10e3fd5ddd48cba9434ad7b6e066 Mon Sep 17 00:00:00 2001
+From 6b6a0fe24b940e2937900b911157646661fd0512 Mon Sep 17 00:00:00 2001
 From: lliu6 <quic_lliu6@quicinc.com>
 Date: Thu, 10 Oct 2024 16:44:34 +0800
 Subject: [PATCH 46/71] dt-bindings: display/msm: Add QCS615 MDSS & DPU

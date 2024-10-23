@@ -1,4 +1,4 @@
-From aa94c02585841294469594d0e039840f53f13a29 Mon Sep 17 00:00:00 2001
+From 55c0f6a888551a93a17c442bfe4add867094ddfe Mon Sep 17 00:00:00 2001
 From: Ziyue Zhang <quic_ziyuzhan@quicinc.com>
 Date: Mon, 14 Oct 2024 15:56:50 +0800
 Subject: [PATCH 65/71] dt-bindings: pcie: qcom,pcie: document qcs615

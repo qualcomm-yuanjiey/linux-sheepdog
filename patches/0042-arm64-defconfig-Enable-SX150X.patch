@@ -1,4 +1,4 @@
-From 61dbb9289e31111d9388d28200af357756af0b87 Mon Sep 17 00:00:00 2001
+From 8a694340140fecb06abdaf9c589ff1e72447ff17 Mon Sep 17 00:00:00 2001
 From: lliu6 <quic_lliu6@quicinc.com>
 Date: Fri, 20 Sep 2024 12:55:04 +0800
 Subject: [PATCH 42/71] arm64: defconfig: Enable SX150X

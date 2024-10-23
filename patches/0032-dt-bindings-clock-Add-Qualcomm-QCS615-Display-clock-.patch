@@ -1,4 +1,4 @@
-From 1c2067367272e2e79d97e5b62c82f44cd89c17e9 Mon Sep 17 00:00:00 2001
+From b796860ea022a7cf457ef60ddb30bbe97e229304 Mon Sep 17 00:00:00 2001
 From: Taniya Das <quic_tdas@quicinc.com>
 Date: Sat, 19 Oct 2024 00:45:41 +0530
 Subject: [PATCH 32/71] dt-bindings: clock: Add Qualcomm QCS615 Display clock

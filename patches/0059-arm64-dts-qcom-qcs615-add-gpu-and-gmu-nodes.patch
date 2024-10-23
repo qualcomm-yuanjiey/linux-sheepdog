@@ -1,4 +1,4 @@
-From e4b08ed9fa133d7151269504c47b81253a4bf652 Mon Sep 17 00:00:00 2001
+From 1186a274a82afd02b2f396c74b399f3d123555bf Mon Sep 17 00:00:00 2001
 From: jie zhang <quic_jiezh@quicinc.com>
 Date: Thu, 26 Sep 2024 18:14:04 +0800
 Subject: [PATCH 59/71] arm64: dts: qcom: qcs615: add gpu and gmu nodes
@@ -11,7 +11,7 @@ Signed-off-by: jie zhang <quic_jiezh@quicinc.com>
  1 file changed, 84 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/qcom/qcs615.dtsi b/arch/arm64/boot/dts/qcom/qcs615.dtsi
-index 9c3010fdda3b..7352120d692e 100644
+index 0e0dd254d68d..25ae527c3d0b 100644
 --- a/arch/arm64/boot/dts/qcom/qcs615.dtsi
 +++ b/arch/arm64/boot/dts/qcom/qcs615.dtsi
 @@ -422,6 +422,11 @@ rproc_adsp_mem: rproc-adsp@95900000 {

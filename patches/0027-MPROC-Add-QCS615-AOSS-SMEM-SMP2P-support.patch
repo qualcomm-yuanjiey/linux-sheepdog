@@ -1,4 +1,4 @@
-From 213b4bfad40aea9e0ae42f2d9fc20b2318d8bac6 Mon Sep 17 00:00:00 2001
+From 62603b54603d6a76f00d90c8299d023e7142e492 Mon Sep 17 00:00:00 2001
 From: Kyle Deng <quic_chunkaid@quicinc.com>
 Date: Thu, 26 Sep 2024 18:43:43 +0800
 Subject: [PATCH 27/71] MPROC:Add QCS615 AOSS/SMEM/SMP2P support
@@ -25,7 +25,7 @@ index 7afdb60edb22..ee3414a77e38 100644
            - qcom,sa8775p-aoss-qmp
            - qcom,sc7180-aoss-qmp
 diff --git a/arch/arm64/boot/dts/qcom/qcs615.dtsi b/arch/arm64/boot/dts/qcom/qcs615.dtsi
-index 2c6f3dbf9765..31ab615e6362 100644
+index 9d43dfe8181d..188899db7966 100644
 --- a/arch/arm64/boot/dts/qcom/qcs615.dtsi
 +++ b/arch/arm64/boot/dts/qcom/qcs615.dtsi
 @@ -524,6 +524,12 @@ adreno_smmu: iommu@50a0000 {

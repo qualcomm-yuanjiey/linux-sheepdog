@@ -1,4 +1,4 @@
-From e48222cfff39b60fe8d442acd4352346eb5cab51 Mon Sep 17 00:00:00 2001
+From 58078ab4345e1a6b3aa2dd0eecbcef11e0904875 Mon Sep 17 00:00:00 2001
 From: Taniya Das <quic_tdas@quicinc.com>
 Date: Sat, 19 Oct 2024 00:45:38 +0530
 Subject: [PATCH 29/71] clk: qcom: clk-alpha-pll: Add support for dynamic

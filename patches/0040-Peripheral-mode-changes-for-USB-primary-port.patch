@@ -1,4 +1,4 @@
-From 97d18d36890083a6d6e9c1134dfeb34e5cffe012 Mon Sep 17 00:00:00 2001
+From 0cf230130cbadaeeda971c9ecdcf913178cb372d Mon Sep 17 00:00:00 2001
 From: Song Xue <quic_songxue@quicinc.com>
 Date: Tue, 10 Sep 2024 21:43:38 +0530
 Subject: [PATCH 40/71] Peripheral mode changes for USB primary port
@@ -42,10 +42,10 @@ index f7be05641930..76f78ed6ac9b 100644
                - qcom,qdu1000-dwc3
                - qcom,sa8775p-dwc3
 diff --git a/arch/arm64/boot/dts/qcom/qcs615-ride.dts b/arch/arm64/boot/dts/qcom/qcs615-ride.dts
-index b79c22730920..d1612db9c58a 100644
+index 5fd46bf991ac..7c4a8b001284 100644
 --- a/arch/arm64/boot/dts/qcom/qcs615-ride.dts
 +++ b/arch/arm64/boot/dts/qcom/qcs615-ride.dts
-@@ -218,6 +218,27 @@ &uart0 {
+@@ -252,6 +252,27 @@ &uart0 {
  	status = "okay";
  };
  
@@ -74,7 +74,7 @@ index b79c22730920..d1612db9c58a 100644
  	clocks = <&sleep_clk>;
  };
 diff --git a/arch/arm64/boot/dts/qcom/qcs615.dtsi b/arch/arm64/boot/dts/qcom/qcs615.dtsi
-index 014f30957d63..bb15c011e6ca 100644
+index 95d824f1cb5c..86f4adb99791 100644
 --- a/arch/arm64/boot/dts/qcom/qcs615.dtsi
 +++ b/arch/arm64/boot/dts/qcom/qcs615.dtsi
 @@ -401,6 +401,12 @@ qfprom: efuse@780000 {

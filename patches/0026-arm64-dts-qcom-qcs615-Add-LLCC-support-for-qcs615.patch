@@ -1,4 +1,4 @@
-From abe1914ebdd3c1a23bc28cd5f53761b64876af8f Mon Sep 17 00:00:00 2001
+From c7772b4d7d54ca9101b922bcacfe96c1dacf891d Mon Sep 17 00:00:00 2001
 From: Song Xue <quic_songxue@quicinc.com>
 Date: Thu, 26 Sep 2024 15:56:51 +0800
 Subject: [PATCH 26/71] arm64: dts: qcom: qcs615: Add LLCC support for qcs615
@@ -11,7 +11,7 @@ Signed-off-by: Song Xue <quic_songxue@quicinc.com>
  1 file changed, 6 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/qcom/qcs615.dtsi b/arch/arm64/boot/dts/qcom/qcs615.dtsi
-index 34053872785f..2c6f3dbf9765 100644
+index ec02015747e4..9d43dfe8181d 100644
 --- a/arch/arm64/boot/dts/qcom/qcs615.dtsi
 +++ b/arch/arm64/boot/dts/qcom/qcs615.dtsi
 @@ -531,6 +531,12 @@ dc_noc: interconnect@9160000 {

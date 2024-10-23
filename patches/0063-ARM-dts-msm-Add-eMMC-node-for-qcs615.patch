@@ -1,4 +1,4 @@
-From e9c5ab797d298505bc04c20cceca777377a7e3af Mon Sep 17 00:00:00 2001
+From def43a77634992873f3d51a8f0e405303bbbd7aa Mon Sep 17 00:00:00 2001
 From: Yuanjie Yang <quic_yuanjiey@quicinc.com>
 Date: Sun, 29 Sep 2024 19:34:31 +0800
 Subject: [PATCH 63/71] ARM: dts: msm: Add eMMC node for qcs615
@@ -14,7 +14,7 @@ Signed-off-by: Yuanjie Yang <quic_yuanjiey@quicinc.com>
  2 files changed, 125 insertions(+), 4 deletions(-)
 
 diff --git a/arch/arm64/boot/dts/qcom/qcs615-ride.dts b/arch/arm64/boot/dts/qcom/qcs615-ride.dts
-index 492272c88e35..8f345dd54460 100644
+index d74f48017679..bf17a2fc715b 100644
 --- a/arch/arm64/boot/dts/qcom/qcs615-ride.dts
 +++ b/arch/arm64/boot/dts/qcom/qcs615-ride.dts
 @@ -193,10 +193,9 @@ vreg_l17a: ldo17 {
@@ -30,7 +30,7 @@ index 492272c88e35..8f345dd54460 100644
  		};
  	};
  };
-@@ -471,7 +470,14 @@ &usb {
+@@ -505,7 +504,14 @@ &usb {
  &usb_dwc3 {
  	dr_mode = "peripheral";
  };
@@ -46,7 +46,7 @@ index 492272c88e35..8f345dd54460 100644
  	clocks = <&sleep_clk>;
  };
 diff --git a/arch/arm64/boot/dts/qcom/qcs615.dtsi b/arch/arm64/boot/dts/qcom/qcs615.dtsi
-index ae1b02828fac..cf703b054285 100644
+index a1643e626c8d..125e22536fa8 100644
 --- a/arch/arm64/boot/dts/qcom/qcs615.dtsi
 +++ b/arch/arm64/boot/dts/qcom/qcs615.dtsi
 @@ -30,6 +30,7 @@ aliases {

@@ -1,4 +1,4 @@
-From 23014ca6bb7ba5d4a85915e0ecf021b2f9dfaefc Mon Sep 17 00:00:00 2001
+From 0d9536bd1e9940a1d2605ebc7268d881dfd669a4 Mon Sep 17 00:00:00 2001
 From: Raviteja Laggyshetty <quic_rlaggysh@quicinc.com>
 Date: Tue, 24 Sep 2024 14:39:58 +0000
 Subject: [PATCH 23/71] interconnect: qcom: add QCS615 interconnect provider

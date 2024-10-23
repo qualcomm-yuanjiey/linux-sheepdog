@@ -1,4 +1,4 @@
-From 264a05edd71582b6faf71679e72da56044df22d3 Mon Sep 17 00:00:00 2001
+From 569ffc89460aa2a1cdbf0a139aa3815d2dc30153 Mon Sep 17 00:00:00 2001
 From: Renjiang Han <quic_renjiang@quicinc.com>
 Date: Mon, 29 Jul 2024 10:40:11 +0530
 Subject: [PATCH 61/71] arm64: dts: qcom: enable video feature with QCS615
@@ -12,7 +12,7 @@ Signed-off-by: Renjiang Han <quic_renjiang@quicinc.com>
  1 file changed, 78 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/qcom/qcs615.dtsi b/arch/arm64/boot/dts/qcom/qcs615.dtsi
-index 7352120d692e..ae1b02828fac 100644
+index 25ae527c3d0b..a1643e626c8d 100644
 --- a/arch/arm64/boot/dts/qcom/qcs615.dtsi
 +++ b/arch/arm64/boot/dts/qcom/qcs615.dtsi
 @@ -413,6 +413,11 @@ smem_region: smem@86000000 {

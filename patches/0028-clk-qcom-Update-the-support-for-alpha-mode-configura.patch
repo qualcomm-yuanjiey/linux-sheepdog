@@ -1,4 +1,4 @@
-From 645740cf8370e70aa05871ea1b1f6f2eb5bf07b8 Mon Sep 17 00:00:00 2001
+From 0dd33991257fe68931511760d328e6cef6b6d10b Mon Sep 17 00:00:00 2001
 From: Taniya Das <quic_tdas@quicinc.com>
 Date: Sat, 19 Oct 2024 00:45:37 +0530
 Subject: [PATCH 28/71] clk: qcom: Update the support for alpha mode

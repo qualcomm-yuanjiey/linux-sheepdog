@@ -1,4 +1,4 @@
-From b46d587b69d4ef9c545858e9ccffa60a4518ccc5 Mon Sep 17 00:00:00 2001
+From 55f3ab883660c455d6f842becc65751a2837cd30 Mon Sep 17 00:00:00 2001
 From: Yijie Yang <quic_yijiyang@quicinc.com>
 Date: Thu, 26 Sep 2024 17:54:38 +0800
 Subject: [PATCH 50/71] arm64: dts: qcom: qcs615-ride: Enable ethernet node
@@ -11,7 +11,7 @@ Signed-off-by: Yijie Yang <quic_yijiyang@quicinc.com>
  1 file changed, 105 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/qcom/qcs615-ride.dts b/arch/arm64/boot/dts/qcom/qcs615-ride.dts
-index b55fdfed553e..a0e975062259 100644
+index be24f3641bf1..e1bc864cff9b 100644
 --- a/arch/arm64/boot/dts/qcom/qcs615-ride.dts
 +++ b/arch/arm64/boot/dts/qcom/qcs615-ride.dts
 @@ -5,6 +5,7 @@
@@ -20,7 +20,7 @@ index b55fdfed553e..a0e975062259 100644
  #include <dt-bindings/regulator/qcom,rpmh-regulator.h>
 +#include <dt-bindings/gpio/gpio.h>
  #include "qcs615.dtsi"
- #include "qcs615-pmic.dtsi"
+ #include "pm8150.dtsi"
  / {
 @@ -200,6 +201,60 @@ vreg_l17a: ldo17 {
  	};

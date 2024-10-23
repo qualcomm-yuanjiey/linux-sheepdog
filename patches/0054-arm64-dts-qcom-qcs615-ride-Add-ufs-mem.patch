@@ -1,4 +1,4 @@
-From 8243974615a62adb702c18695c6ec4de3d94ce20 Mon Sep 17 00:00:00 2001
+From 896af4a9bc2139bdf43a242df460769861cfc462 Mon Sep 17 00:00:00 2001
 From: Xin Liu <quic_liuxin@quicinc.com>
 Date: Thu, 26 Sep 2024 18:02:05 +0800
 Subject: [PATCH 54/71] arm64: dts: qcom: qcs615-ride: Add ufs mem
@@ -12,10 +12,10 @@ Signed-off-by: Sayali Lokhande <quic_sayalil@quicinc.com>
  1 file changed, 16 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/qcom/qcs615-ride.dts b/arch/arm64/boot/dts/qcom/qcs615-ride.dts
-index a0e975062259..bdc6df6f150f 100644
+index e1bc864cff9b..7e1074c027c2 100644
 --- a/arch/arm64/boot/dts/qcom/qcs615-ride.dts
 +++ b/arch/arm64/boot/dts/qcom/qcs615-ride.dts
-@@ -425,6 +425,22 @@ &uart0 {
+@@ -459,6 +459,22 @@ &uart0 {
  	status = "okay";
  };
  

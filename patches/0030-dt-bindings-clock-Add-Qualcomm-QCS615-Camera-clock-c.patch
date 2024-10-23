@@ -1,4 +1,4 @@
-From f57e6dcfbafac629161f2c5bc4d34aaacdf8785e Mon Sep 17 00:00:00 2001
+From 9aa8ccc60264482f9d4850b088ffc0f0a902c3ff Mon Sep 17 00:00:00 2001
 From: Taniya Das <quic_tdas@quicinc.com>
 Date: Sat, 19 Oct 2024 00:45:39 +0530
 Subject: [PATCH 30/71] dt-bindings: clock: Add Qualcomm QCS615 Camera clock

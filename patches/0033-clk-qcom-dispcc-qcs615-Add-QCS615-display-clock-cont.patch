@@ -1,4 +1,4 @@
-From 3980922b201489802adb8421d239cae0fcc8c431 Mon Sep 17 00:00:00 2001
+From 663467f9802c644a76ce74ccd6fd11d470c98c2f Mon Sep 17 00:00:00 2001
 From: Taniya Das <quic_tdas@quicinc.com>
 Date: Sat, 19 Oct 2024 00:45:42 +0530
 Subject: [PATCH 33/71] clk: qcom: dispcc-qcs615: Add QCS615 display clock

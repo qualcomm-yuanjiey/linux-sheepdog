@@ -1,4 +1,4 @@
-From 78af717d221bb61f410ce4bd111c8aeedd0405df Mon Sep 17 00:00:00 2001
+From faafe6db45cf2b506e52aa93cd2b227939e37483 Mon Sep 17 00:00:00 2001
 From: Taniya Das <quic_tdas@quicinc.com>
 Date: Thu, 26 Sep 2024 16:45:28 +0800
 Subject: [PATCH 39/71] arm64: dts: qcom: add support for clock controllers
@@ -11,7 +11,7 @@ Signed-off-by: Taniya Das <quic_tdas@quicinc.com>
  1 file changed, 54 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/qcom/qcs615.dtsi b/arch/arm64/boot/dts/qcom/qcs615.dtsi
-index 31ab615e6362..014f30957d63 100644
+index 188899db7966..95d824f1cb5c 100644
 --- a/arch/arm64/boot/dts/qcom/qcs615.dtsi
 +++ b/arch/arm64/boot/dts/qcom/qcs615.dtsi
 @@ -3,7 +3,11 @@

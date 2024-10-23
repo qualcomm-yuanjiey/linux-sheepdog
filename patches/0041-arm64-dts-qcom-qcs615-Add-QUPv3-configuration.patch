@@ -1,4 +1,4 @@
-From ca64ba918c396e384f280bba49fc43e5fe3b1d2f Mon Sep 17 00:00:00 2001
+From d1015ab068005bf9f7a2cb0be74ebe1728b37fe4 Mon Sep 17 00:00:00 2001
 From: Song Xue <quic_songxue@quicinc.com>
 Date: Thu, 26 Sep 2024 17:32:42 +0800
 Subject: [PATCH 41/71] arm64: dts: qcom: qcs615: Add QUPv3 configuration
@@ -12,7 +12,7 @@ Signed-off-by: Song Xue <quic_songxue@quicinc.com>
  1 file changed, 575 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/qcom/qcs615.dtsi b/arch/arm64/boot/dts/qcom/qcs615.dtsi
-index bb15c011e6ca..cf933c6b1728 100644
+index 86f4adb99791..46965e6cfd6e 100644
 --- a/arch/arm64/boot/dts/qcom/qcs615.dtsi
 +++ b/arch/arm64/boot/dts/qcom/qcs615.dtsi
 @@ -9,6 +9,7 @@

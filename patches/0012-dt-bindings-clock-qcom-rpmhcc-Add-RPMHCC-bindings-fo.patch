@@ -1,4 +1,4 @@
-From e36f51fedfa7cf3b775d7edc7d9912491f2e3a0c Mon Sep 17 00:00:00 2001
+From 3ccea5292e3cb9d4c3fc156c1051ba341e3a05dd Mon Sep 17 00:00:00 2001
 From: Taniya Das <quic_tdas@quicinc.com>
 Date: Fri, 20 Sep 2024 16:08:15 +0530
 Subject: [PATCH 12/71] dt-bindings: clock: qcom-rpmhcc: Add RPMHCC bindings

@@ -1,4 +1,4 @@
-From e8671df8ccc770f9ea7a8c17177ed61edd11cc30 Mon Sep 17 00:00:00 2001
+From 2dffd76e1587e70138f4af9a3f895891842aa154 Mon Sep 17 00:00:00 2001
 From: Yijie Yang <quic_yijiyang@quicinc.com>
 Date: Thu, 26 Sep 2024 17:50:30 +0800
 Subject: [PATCH 49/71] arm64: dts: qcom: qcs615: add ethernet node
@@ -11,7 +11,7 @@ Signed-off-by: Yijie Yang <quic_yijiyang@quicinc.com>
  1 file changed, 27 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/qcom/qcs615.dtsi b/arch/arm64/boot/dts/qcom/qcs615.dtsi
-index e7c83df340f2..f7e911f30d10 100644
+index 4e47587f89e0..7a39067d8adb 100644
 --- a/arch/arm64/boot/dts/qcom/qcs615.dtsi
 +++ b/arch/arm64/boot/dts/qcom/qcs615.dtsi
 @@ -421,6 +421,33 @@ soc: soc@0 {

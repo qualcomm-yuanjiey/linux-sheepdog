@@ -1,4 +1,4 @@
-From b3794f670a631a6666f8ba6d868a8038baf818d2 Mon Sep 17 00:00:00 2001
+From 9a8a194441d6d2c351e84d14ba7891dccc849f05 Mon Sep 17 00:00:00 2001
 From: Lijuan Gao <quic_lijuang@quicinc.com>
 Date: Thu, 26 Sep 2024 14:54:47 +0800
 Subject: [PATCH 09/71] arm64: defconfig: enable clock controller, interconnect

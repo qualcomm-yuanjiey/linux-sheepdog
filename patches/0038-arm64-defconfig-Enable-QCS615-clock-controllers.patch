@@ -1,4 +1,4 @@
-From 6827a993d63bf9f00820ce147d095b8ed0e7d02c Mon Sep 17 00:00:00 2001
+From 318877752c2e2a2f1572221bd869c4103a4ed3ce Mon Sep 17 00:00:00 2001
 From: Taniya Das <quic_tdas@quicinc.com>
 Date: Sat, 19 Oct 2024 00:45:47 +0530
 Subject: [PATCH 38/71] arm64: defconfig: Enable QCS615 clock controllers

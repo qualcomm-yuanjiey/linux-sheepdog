@@ -1,4 +1,4 @@
-From bad42639ec12ff420bf82a1f260f901a0c868335 Mon Sep 17 00:00:00 2001
+From d9d8a43b1bde439afeadd073d8763e0924b5b925 Mon Sep 17 00:00:00 2001
 From: Xin Liu <quic_liuxin@quicinc.com>
 Date: Thu, 26 Sep 2024 17:59:50 +0800
 Subject: [PATCH 53/71] arm64: dts: qcom: qcs615: add UFS nodes
@@ -12,7 +12,7 @@ Signed-off-by: Sayali Lokhande <quic_sayalil@quicinc.com>
  1 file changed, 67 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/qcom/qcs615.dtsi b/arch/arm64/boot/dts/qcom/qcs615.dtsi
-index f7e911f30d10..11d4bb8e1b53 100644
+index 7a39067d8adb..65ed8d138258 100644
 --- a/arch/arm64/boot/dts/qcom/qcs615.dtsi
 +++ b/arch/arm64/boot/dts/qcom/qcs615.dtsi
 @@ -909,6 +909,73 @@ mmss_noc: interconnect@1740000 {
