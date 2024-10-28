@@ -1,0 +1,119 @@
+From a8793e97c79f7af18a5f31f4568c24413d19aab5 Mon Sep 17 00:00:00 2001
+From: lijuang <quic_lijuang@quicinc.com>
+Date: Mon, 14 Oct 2024 14:41:11 +0800
+Subject: [PATCH 66/66] arm64: qcom: Add BWMON support for QCS615
+
+Add CPU and LLCC BWMON nodes and their corresponding opp tables for
+QCS615 SoC.
+
+Signed-off-by: Lijuan Gao <quic_lijuang@quicinc.com>
+---
+ arch/arm64/boot/dts/qcom/qcs615.dtsi | 92 ++++++++++++++++++++++++++++
+ 1 file changed, 92 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/qcom/qcs615.dtsi b/arch/arm64/boot/dts/qcom/qcs615.dtsi
+index a3100be32c49..69f55933d22b 100644
+--- a/arch/arm64/boot/dts/qcom/qcs615.dtsi
++++ b/arch/arm64/boot/dts/qcom/qcs615.dtsi
+@@ -1725,6 +1725,98 @@ usb_qmpphy: phy@88e6000 {
+ 			status = "disabled";
+ 		};
+ 
++		pmu@90b6300 {
++			compatible = "qcom,qcs615-cpu-bwmon", "qcom,sdm845-bwmon";
++			reg = <0x0 0x90b6300 0x0 0x600>;
++			interrupts = <GIC_SPI 581 IRQ_TYPE_LEVEL_HIGH>;
++			interconnects = <&gem_noc MASTER_APPSS_PROC QCOM_ICC_TAG_ACTIVE_ONLY
++					 &gem_noc SLAVE_LLCC QCOM_ICC_TAG_ACTIVE_ONLY>;
++
++			operating-points-v2 = <&cpu_bwmon_opp_table>;
++
++			cpu_bwmon_opp_table: opp-table {
++				compatible = "operating-points-v2";
++
++				opp-0 {
++					opp-peak-kBps = <2288000>;
++				};
++
++				opp-1 {
++					opp-peak-kBps = <4577000>;
++				};
++
++				opp-2 {
++					opp-peak-kBps = <7110000>;
++				};
++
++				opp-3 {
++					opp-peak-kBps = <9155000>;
++				};
++
++				opp-4 {
++					opp-peak-kBps = <12298000>;
++				};
++
++				opp-5 {
++					opp-peak-kBps = <14236000>;
++				};
++			};
++		};
++
++		pmu@90cd000 {
++			compatible = "qcom,qcs615-llcc-bwmon", "qcom,sc7280-llcc-bwmon";
++			reg = <0x0 0x90cd000 0x0 0x1000>;
++			interrupts = <GIC_SPI 667 IRQ_TYPE_LEVEL_HIGH>;
++			interconnects = <&mc_virt MASTER_LLCC QCOM_ICC_TAG_ACTIVE_ONLY
++					 &mc_virt SLAVE_EBI1 QCOM_ICC_TAG_ACTIVE_ONLY>;
++
++			operating-points-v2 = <&llcc_bwmon_opp_table>;
++
++			llcc_bwmon_opp_table: opp-table {
++				compatible = "operating-points-v2";
++
++				opp-0 {
++					opp-peak-kBps = <762000>;
++				};
++
++				opp-1 {
++					opp-peak-kBps = <1144000>;
++				};
++
++				opp-2 {
++					opp-peak-kBps = <1720000>;
++				};
++
++				opp-3 {
++					opp-peak-kBps = <2086000>;
++				};
++
++				opp-4 {
++					opp-peak-kBps = <2597000>;
++				};
++
++				opp-5 {
++					opp-peak-kBps = <2929000>;
++				};
++
++				opp-6 {
++					opp-peak-kBps = <3879000>;
++				};
++
++				opp-7 {
++					opp-peak-kBps = <5161000>;
++				};
++
++				opp-8 {
++					opp-peak-kBps = <5931000>;
++				};
++
++				opp-9 {
++					opp-peak-kBps = <6881000>;
++				};
++			};
++		};
++
+ 		dc_noc: interconnect@9160000 {
+ 			reg = <0x0 0x9160000 0x0 0x3200>;
+ 			compatible = "qcom,qcs615-dc-noc";
+-- 
+2.34.1
+
