@@ -1,7 +1,7 @@
 From e008253748f2b32d8e7cf2c4581600da23f65422 Mon Sep 17 00:00:00 2001
 From: Kuldeep Singh <quic_kuldsing@quicinc.com>
 Date: Sat, 5 Oct 2024 19:31:50 +0530
-Subject: [PATCH 17/66] firmware: qcom: qcom_tzmem: Implement sanity checks
+Subject: [PATCH 17/67] firmware: qcom: qcom_tzmem: Implement sanity checks
 
 The qcom_tzmem driver currently has multiple exposed APIs that lack
 validations on input parameters. This oversight can lead to unexpected

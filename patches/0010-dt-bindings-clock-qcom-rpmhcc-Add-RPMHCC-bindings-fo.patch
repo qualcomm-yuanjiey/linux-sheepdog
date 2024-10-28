@@ -1,7 +1,7 @@
 From 3fc4b3b32d1ab6b60f83a1c555252484f34ec95b Mon Sep 17 00:00:00 2001
 From: Taniya Das <quic_tdas@quicinc.com>
 Date: Fri, 20 Sep 2024 16:08:15 +0530
-Subject: [PATCH 10/66] dt-bindings: clock: qcom-rpmhcc: Add RPMHCC bindings
+Subject: [PATCH 10/67] dt-bindings: clock: qcom-rpmhcc: Add RPMHCC bindings
  for QCS615
 
 Add bindings and update documentation for clock rpmh driver on QCS615
