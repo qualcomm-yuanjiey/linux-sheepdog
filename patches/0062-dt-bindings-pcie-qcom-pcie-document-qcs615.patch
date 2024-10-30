@@ -1,7 +1,7 @@
-From 19bf311d7be02cfe5d04337f626949bbb8973850 Mon Sep 17 00:00:00 2001
+From 22757b369052a97341c85539c584ca7646d887ec Mon Sep 17 00:00:00 2001
 From: Ziyue Zhang <quic_ziyuzhan@quicinc.com>
 Date: Mon, 14 Oct 2024 15:56:50 +0800
-Subject: [PATCH 61/67] dt-bindings: pcie: qcom,pcie: document qcs615
+Subject: [PATCH 62/68] dt-bindings: pcie: qcom,pcie: document qcs615
 
 Add compatible and phy compatible for qcs615 platform.
 

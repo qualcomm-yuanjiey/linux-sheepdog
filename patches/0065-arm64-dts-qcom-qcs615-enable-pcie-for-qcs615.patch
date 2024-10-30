@@ -1,7 +1,7 @@
-From 70398b939f097d3194529e862115daae4baf972a Mon Sep 17 00:00:00 2001
+From 27b1c8972783d94067f57c6b019de8b42c4f6995 Mon Sep 17 00:00:00 2001
 From: Ziyue Zhang <quic_ziyuzhan@quicinc.com>
 Date: Mon, 14 Oct 2024 16:13:02 +0800
-Subject: [PATCH 64/67] arm64: dts: qcom: qcs615: enable pcie for qcs615
+Subject: [PATCH 65/68] arm64: dts: qcom: qcs615: enable pcie for qcs615
 
 Add configurations in devicetree for PCIe0, including registers, clocks,
 interrupts and phy setting sequence.
@@ -14,11 +14,11 @@ Signed-off-by: Ziyue Zhang <quic_ziyuzhan@quicinc.com>
  2 files changed, 185 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/qcom/qcs615-ride.dts b/arch/arm64/boot/dts/qcom/qcs615-ride.dts
-index b7956f22dc68..4da2b1214df5 100644
+index 371e88999cd4..e0e6a3ca7cb2 100644
 --- a/arch/arm64/boot/dts/qcom/qcs615-ride.dts
 +++ b/arch/arm64/boot/dts/qcom/qcs615-ride.dts
-@@ -345,6 +345,23 @@ &mdss_dsi0_phy {
- 	vdds-supply = <&vreg_l5a>;
+@@ -353,6 +353,23 @@ &gpu_zap_shader {
+ 	firmware-name = "qcom/qcs615/a612_zap.mbn";
  };
  
 +&pcie {
@@ -41,7 +41,7 @@ index b7956f22dc68..4da2b1214df5 100644
  &tlmm {
  	ethernet_defaults: ethernet-defaults-state {
  		mdc-pins {
-@@ -394,6 +411,29 @@ phy-reset-pins {
+@@ -402,6 +419,29 @@ phy-reset-pins {
  			drive-strength = <16>;
  		};
  	};
@@ -72,7 +72,7 @@ index b7956f22dc68..4da2b1214df5 100644
  
  &tlmm {
 diff --git a/arch/arm64/boot/dts/qcom/qcs615.dtsi b/arch/arm64/boot/dts/qcom/qcs615.dtsi
-index c32639e820d8..727cdfc0a131 100644
+index 093c46d262e3..070e5e28b9b4 100644
 --- a/arch/arm64/boot/dts/qcom/qcs615.dtsi
 +++ b/arch/arm64/boot/dts/qcom/qcs615.dtsi
 @@ -998,6 +998,151 @@ mmss_noc: interconnect@1740000 {

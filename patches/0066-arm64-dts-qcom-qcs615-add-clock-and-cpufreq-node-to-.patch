@@ -1,7 +1,7 @@
-From e556cd7a0cc0f910d0196aead2308bbd55c241c3 Mon Sep 17 00:00:00 2001
+From 624e25785188400cf7a6b36e19bae32f21460568 Mon Sep 17 00:00:00 2001
 From: Taniya Das <quic_tdas@quicinc.com>
 Date: Mon, 14 Oct 2024 14:25:51 +0800
-Subject: [PATCH 65/67] arm64: dts: qcom: qcs615: add clock and cpufreq node to
+Subject: [PATCH 66/68] arm64: dts: qcom: qcs615: add clock and cpufreq node to
  CPUs
 
 Add the OSM cpufreq-hw node and the clock in the CPUs to support
@@ -13,7 +13,7 @@ Signed-off-by: Taniya Das <quic_tdas@quicinc.com>
  1 file changed, 28 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/qcom/qcs615.dtsi b/arch/arm64/boot/dts/qcom/qcs615.dtsi
-index 727cdfc0a131..a3100be32c49 100644
+index 070e5e28b9b4..94a0f56bdc02 100644
 --- a/arch/arm64/boot/dts/qcom/qcs615.dtsi
 +++ b/arch/arm64/boot/dts/qcom/qcs615.dtsi
 @@ -51,6 +51,8 @@ cpu0: cpu@0 {
@@ -88,7 +88,7 @@ index 727cdfc0a131..a3100be32c49 100644
  
  			l2_700: l2-cache {
  			      compatible = "cache";
-@@ -2468,6 +2484,18 @@ rpmhpd_opp_turbo_l1: opp-9 {
+@@ -2470,6 +2486,18 @@ rpmhpd_opp_turbo_l1: opp-9 {
  			};
  		};
  

@@ -1,7 +1,7 @@
 From 2b17b778bcf7d615be72d63bcf37c7e9b7311597 Mon Sep 17 00:00:00 2001
 From: Taniya Das <quic_tdas@quicinc.com>
 Date: Sat, 19 Oct 2024 00:45:45 +0530
-Subject: [PATCH 32/67] dt-bindings: clock: Add Qualcomm QCS615 Video clock
+Subject: [PATCH 32/68] dt-bindings: clock: Add Qualcomm QCS615 Video clock
  controller
 
 Add DT bindings for the Video clock on QCS615 platforms. Add the

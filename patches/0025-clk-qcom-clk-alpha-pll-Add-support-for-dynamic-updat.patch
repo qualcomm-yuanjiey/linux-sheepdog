@@ -1,7 +1,7 @@
 From 0071aa88182c94fc7635ad12cac4864d8ef3e5cd Mon Sep 17 00:00:00 2001
 From: Taniya Das <quic_tdas@quicinc.com>
 Date: Sat, 19 Oct 2024 00:45:38 +0530
-Subject: [PATCH 25/67] clk: qcom: clk-alpha-pll: Add support for dynamic
+Subject: [PATCH 25/68] clk: qcom: clk-alpha-pll: Add support for dynamic
  update for slewing PLLs
 
 The alpha PLLs which slew to a new frequency at runtime would require

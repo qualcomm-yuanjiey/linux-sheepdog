@@ -1,7 +1,7 @@
 From edcb4ae97bf2ac22f9d8c01a6989dabbc24c058c Mon Sep 17 00:00:00 2001
 From: Qingqing Zhou <quic_qqzhou@quicinc.com>
 Date: Tue, 24 Sep 2024 17:15:16 +0800
-Subject: [PATCH 08/67] dt-bindings: firmware: qcom,scm: document SCM on QCS615
+Subject: [PATCH 08/68] dt-bindings: firmware: qcom,scm: document SCM on QCS615
  SoCs
 
 Document scm compatible for QCS615 SoCs. It is an interface to

@@ -1,7 +1,7 @@
 From 34b715fe88c4d1cd3a4b02a7c6e74e4bee109528 Mon Sep 17 00:00:00 2001
 From: Qingqing Zhou <quic_qqzhou@quicinc.com>
 Date: Thu, 19 Sep 2024 21:56:23 +0800
-Subject: [PATCH 14/67] dt-bindings: arm-smmu: document the smmu on Qualcomm
+Subject: [PATCH 14/68] dt-bindings: arm-smmu: document the smmu on Qualcomm
  QCS615
 
 Document the qcom,smmu-500 SMMU on QCS615 platforms.

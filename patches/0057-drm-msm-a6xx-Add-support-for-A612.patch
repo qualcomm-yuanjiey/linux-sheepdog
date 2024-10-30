@@ -1,36 +1,34 @@
-From 409f9cf6947eacd10cbe57843f580e8dc514293c Mon Sep 17 00:00:00 2001
+From 97bab36ec4d8eea04120a4d1087484d1538c4a0d Mon Sep 17 00:00:00 2001
 From: jie zhang <quic_jiezh@quicinc.com>
 Date: Thu, 26 Sep 2024 18:15:06 +0800
-Subject: [PATCH 56/67] drm/msm/a6xx: Add support for A612
+Subject: [PATCH 3/3] drm/msm/a6xx: Add support for A612
 
 Add support for Adreno 612 found on qcs615 platform.
 
 Signed-off-by: jie zhang <quic_jiezh@quicinc.com>
 ---
- drivers/gpu/drm/msm/adreno/a6xx_catalog.c | 17 ++++++++++++++++
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c     | 24 +++++++++++++++++++----
- drivers/gpu/drm/msm/adreno/adreno_gpu.h   |  7 ++++++-
- 3 files changed, 43 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/msm/adreno/a6xx_catalog.c | 15 ++++++++++++++
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c     | 25 ++++++++++++++++++-----
+ drivers/gpu/drm/msm/adreno/adreno_gpu.h   | 11 +++++++---
+ 3 files changed, 43 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
-index c4c1d8120bd6..682988cfa64e 100644
+index c4c1d8120bd6..8506f91b00b8 100644
 --- a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
 +++ b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
-@@ -704,6 +704,23 @@ static const struct adreno_info a6xx_gpus[] = {
+@@ -704,6 +704,21 @@ static const struct adreno_info a6xx_gpus[] = {
  			{ 157, 3 },
  			{ 127, 4 },
  		),
 +	}, {
 +		.chip_ids = ADRENO_CHIP_IDS(0x06010200),
 +		.family = ADRENO_6XX_GEN1,
-+		.revn = 612,
 +		.fw = {
 +			[ADRENO_FW_SQE] = "a630_sqe.fw",
 +		},
 +		.gmem = (SZ_128K + SZ_4K),
 +		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
 +		.init = a6xx_gpu_init,
-+		.zapfw = "a612_zap.mdt",
 +		.a6xx = &(const struct a6xx_info) {
 +			.hwcg = a612_hwcg,
 +			.protect = &a630_protect,
@@ -41,7 +39,7 @@ index c4c1d8120bd6..682988cfa64e 100644
  		.chip_ids = ADRENO_CHIP_IDS(0x06010500),
  		.family = ADRENO_6XX_GEN1,
 diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-index 1dee4c465ff0..b2c15af110bb 100644
+index 1dee4c465ff0..ec471c10ea05 100644
 --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
 +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
 @@ -504,15 +504,26 @@ static void a6xx_set_hwcg(struct msm_gpu *gpu, bool state)
@@ -74,19 +72,18 @@ index 1dee4c465ff0..b2c15af110bb 100644
  
  	gmu_write(&a6xx_gpu->gmu, REG_A6XX_GPU_GMU_AO_GMU_CGC_MODE_CNTL,
  			state ? adreno_gpu->info->a6xx->gmu_cgc_mode : 0);
-@@ -600,6 +611,11 @@ static void a6xx_calc_ubwc_config(struct adreno_gpu *gpu)
+@@ -600,6 +611,10 @@ static void a6xx_calc_ubwc_config(struct adreno_gpu *gpu)
  		gpu->ubwc_config.ubwc_swizzle = 0x7;
  	}
  
 +	if (adreno_is_a612(gpu)) {
 +		gpu->ubwc_config.highest_bank_bit = 13;
-+		gpu->ubwc_config.amsbc = 0;
 +	}
 +
  	if (adreno_is_a618(gpu))
  		gpu->ubwc_config.highest_bank_bit = 14;
  
-@@ -1156,7 +1172,7 @@ static int hw_init(struct msm_gpu *gpu)
+@@ -1156,7 +1171,7 @@ static int hw_init(struct msm_gpu *gpu)
  		gpu_write(gpu, REG_A6XX_CP_LPAC_PROG_FIFO_SIZE, 0x00000020);
  
  	/* Setting the mem pool size */
@@ -95,8 +92,17 @@ index 1dee4c465ff0..b2c15af110bb 100644
  		gpu_write(gpu, REG_A6XX_CP_MEM_POOL_SIZE, 48);
  		gpu_write(gpu, REG_A6XX_CP_MEM_POOL_DBG_ADDR, 47);
  	} else if (adreno_is_a702(adreno_gpu)) {
+@@ -1194,7 +1209,7 @@ static int hw_init(struct msm_gpu *gpu)
+ 		gpu_write(gpu, REG_A6XX_RBBM_INTERFACE_HANG_INT_CNTL, (1 << 30) | 0xcfffff);
+ 	else if (adreno_is_a690(adreno_gpu))
+ 		gpu_write(gpu, REG_A6XX_RBBM_INTERFACE_HANG_INT_CNTL, (1 << 30) | 0x4fffff);
+-	else if (adreno_is_a619(adreno_gpu))
++	else if (adreno_is_a619(adreno_gpu) || adreno_is_a612(adreno_gpu))
+ 		gpu_write(gpu, REG_A6XX_RBBM_INTERFACE_HANG_INT_CNTL, (1 << 30) | 0x3fffff);
+ 	else if (adreno_is_a610(adreno_gpu) || adreno_is_a702(adreno_gpu))
+ 		gpu_write(gpu, REG_A6XX_RBBM_INTERFACE_HANG_INT_CNTL, (1 << 30) | 0x3ffff);
 diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-index 610ad59ce180..e289ceead2c7 100644
+index 610ad59ce180..7a06cb2345db 100644
 --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
 +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
 @@ -420,6 +420,11 @@ static inline int adreno_is_a610(const struct adreno_gpu *gpu)
@@ -105,18 +111,22 @@ index 610ad59ce180..e289ceead2c7 100644
  
 +static inline int adreno_is_a612(const struct adreno_gpu *gpu)
 +{
-+	return adreno_is_revn(gpu, 612);
++	return gpu->info->chip_ids[0] == 0x06010200;
 +}
 +
  static inline int adreno_is_a618(const struct adreno_gpu *gpu)
  {
  	return adreno_is_revn(gpu, 618);
-@@ -486,7 +491,7 @@ static inline int adreno_is_a610_family(const struct adreno_gpu *gpu)
+@@ -484,9 +489,9 @@ static inline int adreno_is_a610_family(const struct adreno_gpu *gpu)
+ {
+ 	if (WARN_ON_ONCE(!gpu->info))
  		return false;
- 
- 	/* TODO: A612 */
+-
+-	/* TODO: A612 */
 -	return adreno_is_a610(gpu) || adreno_is_a702(gpu);
-+	return adreno_is_a610(gpu) || adreno_is_a702(gpu) || adreno_is_a612(gpu);
++	return adreno_is_a610(gpu) ||
++	       adreno_is_a702(gpu) ||
++	       adreno_is_a612(gpu);
  }
  
  /* TODO: 615/616 */

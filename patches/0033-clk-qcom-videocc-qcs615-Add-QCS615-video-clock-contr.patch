@@ -1,7 +1,7 @@
 From 21186b0058448051825d2ddfa65fa0f878c5896b Mon Sep 17 00:00:00 2001
 From: Taniya Das <quic_tdas@quicinc.com>
 Date: Sat, 19 Oct 2024 00:45:46 +0530
-Subject: [PATCH 33/67] clk: qcom: videocc-qcs615: Add QCS615 video clock
+Subject: [PATCH 33/68] clk: qcom: videocc-qcs615: Add QCS615 video clock
  controller driver
 
 Add support for the video clock controller for video clients to

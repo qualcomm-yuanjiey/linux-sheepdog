@@ -1,0 +1,35 @@
+From 87666472d230a826350cb61e1f6d27ec0b4c1014 Mon Sep 17 00:00:00 2001
+From: jie zhang <quic_jiezh@quicinc.com>
+Date: Tue, 29 Oct 2024 18:29:38 +0800
+Subject: [PATCH 56/68] arm64: dts: qcom: qcs615-ride: Enable Adreno 612 GPU
+
+Enable GPU for qcs615-ride platform and provide path for zap
+shader.
+
+Signed-off-by: jie zhang <quic_jiezh@quicinc.com>
+---
+ arch/arm64/boot/dts/qcom/qcs615-ride.dts | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/qcom/qcs615-ride.dts b/arch/arm64/boot/dts/qcom/qcs615-ride.dts
+index 7b1386327f2a..5d56fa7d5b39 100644
+--- a/arch/arm64/boot/dts/qcom/qcs615-ride.dts
++++ b/arch/arm64/boot/dts/qcom/qcs615-ride.dts
+@@ -346,6 +346,14 @@ &mdss_dsi0_phy {
+ 	vdds-supply = <&vreg_l5a>;
+ };
+ 
++&gpu {
++	status = "okay";
++};
++
++&gpu_zap_shader {
++	firmware-name = "qcom/qcs615/a612_zap.mbn";
++};
++
+ &tlmm {
+ 	ethernet_defaults: ethernet-defaults-state {
+ 		mdc-pins {
+-- 
+2.34.1
+

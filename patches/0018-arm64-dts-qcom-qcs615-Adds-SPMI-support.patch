@@ -1,7 +1,7 @@
 From 827cdb69365f7d4abdcf341e6a8447ef4da5fa74 Mon Sep 17 00:00:00 2001
 From: Tingguo Cheng <quic_tingguoc@quicinc.com>
 Date: Mon, 28 Oct 2024 10:33:48 +0800
-Subject: [PATCH 18/67] arm64: dts: qcom: qcs615: Adds SPMI support
+Subject: [PATCH 18/68] arm64: dts: qcom: qcs615: Adds SPMI support
 
 Add the SPMI bus Arbiter node for the PMIC on QCS615 platforms.
 

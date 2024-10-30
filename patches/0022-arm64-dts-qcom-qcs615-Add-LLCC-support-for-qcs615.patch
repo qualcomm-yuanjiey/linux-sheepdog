@@ -1,7 +1,7 @@
 From de112bbf662d02f925a1edcf0ad2f8f07d798e89 Mon Sep 17 00:00:00 2001
 From: Song Xue <quic_songxue@quicinc.com>
 Date: Thu, 26 Sep 2024 15:56:51 +0800
-Subject: [PATCH 22/67] arm64: dts: qcom: qcs615: Add LLCC support for qcs615
+Subject: [PATCH 22/68] arm64: dts: qcom: qcs615: Add LLCC support for qcs615
 
 Add LLCC system cache controller entry to support LLCC on qcs615.
 

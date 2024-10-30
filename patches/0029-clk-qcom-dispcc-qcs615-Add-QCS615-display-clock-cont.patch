@@ -1,7 +1,7 @@
 From a402613c7b9492d88298236e38e2249b6f206a1a Mon Sep 17 00:00:00 2001
 From: Taniya Das <quic_tdas@quicinc.com>
 Date: Sat, 19 Oct 2024 00:45:42 +0530
-Subject: [PATCH 29/67] clk: qcom: dispcc-qcs615: Add QCS615 display clock
+Subject: [PATCH 29/68] clk: qcom: dispcc-qcs615: Add QCS615 display clock
  controller driver
 
 Add support for the display clock controller for display clients to

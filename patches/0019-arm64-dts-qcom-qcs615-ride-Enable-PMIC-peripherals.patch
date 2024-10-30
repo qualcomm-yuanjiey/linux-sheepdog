@@ -1,7 +1,7 @@
 From 6b069b420055c8d8ad1682ab50472378459b7c5b Mon Sep 17 00:00:00 2001
 From: Tingguo Cheng <quic_tingguoc@quicinc.com>
 Date: Mon, 28 Oct 2024 14:05:37 +0800
-Subject: [PATCH 19/67] arm64: dts: qcom: qcs615-ride: Enable PMIC peripherals
+Subject: [PATCH 19/68] arm64: dts: qcom: qcs615-ride: Enable PMIC peripherals
 
 Enable PMIC and PMIC peripherals for qcs615-ride board.
 

@@ -1,7 +1,7 @@
 From 69b4039d5526e653ae10d11e35367698e51d7faa Mon Sep 17 00:00:00 2001
 From: Taniya Das <quic_tdas@quicinc.com>
 Date: Sat, 19 Oct 2024 00:45:43 +0530
-Subject: [PATCH 30/67] dt-bindings: clock: Add Qualcomm QCS615 Graphics clock
+Subject: [PATCH 30/68] dt-bindings: clock: Add Qualcomm QCS615 Graphics clock
  controller
 
 Add DT bindings for the Graphics clock on QCS615 platforms. Add the

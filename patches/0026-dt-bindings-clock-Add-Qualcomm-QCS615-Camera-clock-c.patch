@@ -1,7 +1,7 @@
 From d52796642e73c2fb5590517e01153172e7f62667 Mon Sep 17 00:00:00 2001
 From: Taniya Das <quic_tdas@quicinc.com>
 Date: Sat, 19 Oct 2024 00:45:39 +0530
-Subject: [PATCH 26/67] dt-bindings: clock: Add Qualcomm QCS615 Camera clock
+Subject: [PATCH 26/68] dt-bindings: clock: Add Qualcomm QCS615 Camera clock
  controller
 
 Add DT bindings for the Camera clock on QCS615 platforms. Add the

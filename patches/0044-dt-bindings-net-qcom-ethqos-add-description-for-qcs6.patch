@@ -1,7 +1,7 @@
 From 00adaeafce2a6d43a9ca6d3613b39f944f9d1622 Mon Sep 17 00:00:00 2001
 From: Yijie Yang <quic_yijiyang@quicinc.com>
 Date: Fri, 20 Sep 2024 16:46:07 +0800
-Subject: [PATCH 44/67] dt-bindings: net: qcom,ethqos: add description for
+Subject: [PATCH 44/68] dt-bindings: net: qcom,ethqos: add description for
  qcs615
 
 Add compatible for the MAC controller on qcs615 platform.

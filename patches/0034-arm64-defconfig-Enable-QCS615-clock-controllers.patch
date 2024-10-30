@@ -1,7 +1,7 @@
 From 3f989b9eda47541bfd19103aaa6a8acb3258c7d1 Mon Sep 17 00:00:00 2001
 From: Taniya Das <quic_tdas@quicinc.com>
 Date: Sat, 19 Oct 2024 00:45:47 +0530
-Subject: [PATCH 34/67] arm64: defconfig: Enable QCS615 clock controllers
+Subject: [PATCH 34/68] arm64: defconfig: Enable QCS615 clock controllers
 
 Enable the QCS615 display, video, camera and graphics clock
 controller for their respective functionalities on Qualcomm QCS615.

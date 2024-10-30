@@ -1,7 +1,7 @@
 From b24ceaa7cec31b3f071bc65a6f373b183ff2812a Mon Sep 17 00:00:00 2001
 From: Taniya Das <quic_tdas@quicinc.com>
 Date: Sat, 19 Oct 2024 00:45:40 +0530
-Subject: [PATCH 27/67] clk: qcom: camcc-qcs615: Add QCS615 camera clock
+Subject: [PATCH 27/68] clk: qcom: camcc-qcs615: Add QCS615 camera clock
  controller driver
 
 Add support for the camera clock controller for camera clients to

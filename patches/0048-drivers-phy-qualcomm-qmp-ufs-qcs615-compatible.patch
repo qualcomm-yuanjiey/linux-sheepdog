@@ -1,7 +1,7 @@
 From e379e8ec390517e74d934340274c246d8ff517cc Mon Sep 17 00:00:00 2001
 From: Xin Liu <quic_liuxin@quicinc.com>
 Date: Mon, 23 Sep 2024 16:12:30 +0800
-Subject: [PATCH 48/67] drivers: phy: qualcomm: qmp-ufs qcs615 compatible
+Subject: [PATCH 48/68] drivers: phy: qualcomm: qmp-ufs qcs615 compatible
 
 Add qcs615 compatible and data.
 

@@ -1,17 +1,17 @@
-From 5be3d925c6577f63f3fa04458967626102e021ff Mon Sep 17 00:00:00 2001
+From 14ffb83d68416e144d54b284d147c4a9524a8478 Mon Sep 17 00:00:00 2001
 From: jie zhang <quic_jiezh@quicinc.com>
 Date: Thu, 26 Sep 2024 18:14:04 +0800
-Subject: [PATCH 55/67] arm64: dts: qcom: qcs615: add gpu and gmu nodes
+Subject: [PATCH 55/68] arm64: dts: qcom: qcs615: add gpu and gmu nodes
 
 Add gpu and gmu nodes for qcs615 based platforms.
 
 Signed-off-by: jie zhang <quic_jiezh@quicinc.com>
 ---
- arch/arm64/boot/dts/qcom/qcs615.dtsi | 84 ++++++++++++++++++++++++++++
- 1 file changed, 84 insertions(+)
+ arch/arm64/boot/dts/qcom/qcs615.dtsi | 86 ++++++++++++++++++++++++++++
+ 1 file changed, 86 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/qcom/qcs615.dtsi b/arch/arm64/boot/dts/qcom/qcs615.dtsi
-index 0e0dd254d68d..25ae527c3d0b 100644
+index 0e0dd254d68d..a65363dae279 100644
 --- a/arch/arm64/boot/dts/qcom/qcs615.dtsi
 +++ b/arch/arm64/boot/dts/qcom/qcs615.dtsi
 @@ -422,6 +422,11 @@ rproc_adsp_mem: rproc-adsp@95900000 {
@@ -26,7 +26,7 @@ index 0e0dd254d68d..25ae527c3d0b 100644
  	};
  
  	soc: soc@0 {
-@@ -1200,6 +1205,85 @@ qup_uart7_rx: qup-uart7-rx-state {
+@@ -1200,6 +1205,87 @@ qup_uart7_rx: qup-uart7-rx-state {
  			};
  		};
  
@@ -60,6 +60,8 @@ index 0e0dd254d68d..25ae527c3d0b 100644
 +			qcom,gmu = <&gmu_wrapper>;
 +
 +			#cooling-cells = <2>;
++
++			status = "disabled";
 +
 +			gpu_zap_shader: zap-shader {
 +				memory-region = <&pil_gpu_mem>;

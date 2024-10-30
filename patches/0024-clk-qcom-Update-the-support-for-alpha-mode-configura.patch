@@ -1,7 +1,7 @@
 From a9967ab86c754c90c5c7b44d70fc2947a3f09fe6 Mon Sep 17 00:00:00 2001
 From: Taniya Das <quic_tdas@quicinc.com>
 Date: Sat, 19 Oct 2024 00:45:37 +0530
-Subject: [PATCH 24/67] clk: qcom: Update the support for alpha mode
+Subject: [PATCH 24/68] clk: qcom: Update the support for alpha mode
  configuration
 
 The alpha_en_mask and alpha_mode_mask must be applied within the

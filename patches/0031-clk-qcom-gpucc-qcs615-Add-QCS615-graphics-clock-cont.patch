@@ -1,7 +1,7 @@
 From 6039fd633568d51d9607f0817ce67774d7d2ca36 Mon Sep 17 00:00:00 2001
 From: Taniya Das <quic_tdas@quicinc.com>
 Date: Sat, 19 Oct 2024 00:45:44 +0530
-Subject: [PATCH 31/67] clk: qcom: gpucc-qcs615: Add QCS615 graphics clock
+Subject: [PATCH 31/68] clk: qcom: gpucc-qcs615: Add QCS615 graphics clock
  controller driver
 
 Add support for the graphics clock controller for graphics clients to

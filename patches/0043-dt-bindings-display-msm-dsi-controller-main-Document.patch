@@ -1,7 +1,7 @@
 From b075400fe694462e19d0ccf4327d754a885af97e Mon Sep 17 00:00:00 2001
 From: lliu6 <quic_lliu6@quicinc.com>
 Date: Thu, 10 Oct 2024 16:12:58 +0800
-Subject: [PATCH 43/67] dt-bindings: display/msm: dsi-controller-main: Document
+Subject: [PATCH 43/68] dt-bindings: display/msm: dsi-controller-main: Document
  QCS615
 
 Document general compatibility of the DSI controller on QCS615.

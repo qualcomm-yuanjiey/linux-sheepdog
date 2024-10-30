@@ -1,7 +1,7 @@
-From 30560adbe2c66d66aeada76068bd1ea38a232f74 Mon Sep 17 00:00:00 2001
+From 9a71d3a5a7d06a910726d510dd12afce9cb3f47a Mon Sep 17 00:00:00 2001
 From: Lijuan Gao <quic_lijuang@quicinc.com>
 Date: Mon, 14 Oct 2024 14:27:01 +0800
-Subject: [PATCH 66/67] dt-bindings: interconnect: qcom-bwmon: document qcs615
+Subject: [PATCH 67/68] dt-bindings: interconnect: qcom-bwmon: document qcs615
  compatibles
 
 Document the compatibles used to describe the Bandwidth Monitors
