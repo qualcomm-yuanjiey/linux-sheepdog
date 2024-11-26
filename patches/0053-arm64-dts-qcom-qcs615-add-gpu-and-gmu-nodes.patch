@@ -1,0 +1,119 @@
+From 8f7d04b87f0b3fedca352c0dece4409ca10411c0 Mon Sep 17 00:00:00 2001
+From: jie zhang <quic_jiezh@quicinc.com>
+Date: Thu, 26 Sep 2024 18:14:04 +0800
+Subject: [PATCH 53/68] arm64: dts: qcom: qcs615: add gpu and gmu nodes
+
+Add gpu and gmu nodes for qcs615 based platforms.
+
+Signed-off-by: jie zhang <quic_jiezh@quicinc.com>
+---
+ arch/arm64/boot/dts/qcom/qcs615.dtsi | 86 ++++++++++++++++++++++++++++
+ 1 file changed, 86 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/qcom/qcs615.dtsi b/arch/arm64/boot/dts/qcom/qcs615.dtsi
+index 6da2b8076e8a..71fc094908b8 100644
+--- a/arch/arm64/boot/dts/qcom/qcs615.dtsi
++++ b/arch/arm64/boot/dts/qcom/qcs615.dtsi
+@@ -422,6 +422,11 @@ rproc_adsp_mem: rproc-adsp@95900000 {
+ 			reg = <0x0 0x95900000 0x0 0x1e00000>;
+ 			no-map;
+ 		};
++
++		pil_gpu_mem: pil-gpu@97715000 {
++			reg = <0x0 0x97715000 0x0 0x2000>;
++			no-map;
++		};
+ 	};
+ 
+ 	soc: soc@0 {
+@@ -1205,6 +1210,87 @@ qup_uart7_rx: qup-uart7-rx-state {
+ 			};
+ 		};
+ 
++		gpu: gpu@5000000 {
++			compatible = "qcom,adreno-612.0", "qcom,adreno";
++			reg = <0x0 0x05000000 0x0 0x90000>;
++			reg-names = "kgsl_3d0_reg_memory";
++
++			/* Now do not support rgmu. using gmu_wrapper, so we have to handle quite a bunch of clocks! */
++			clocks = <&gpucc GPU_CC_GX_GFX3D_CLK>,
++			         <&gcc GCC_DDRSS_GPU_AXI_CLK>,
++			         <&gcc GCC_GPU_MEMNOC_GFX_CLK>,
++			         <&gpucc GPU_CC_CX_GMU_CLK>,
++			         <&gpucc GPU_CC_CXO_CLK>,
++			         <&gpucc GPU_CC_HLOS1_VOTE_GPU_SMMU_CLK>;
++			clock-names = "core",
++			              "mem_iface",
++			              "alt_mem_iface",
++			              "gmu",
++			              "xo",
++			              "smmu_vote";
++
++			interrupts = <GIC_SPI 300 IRQ_TYPE_LEVEL_HIGH>;
++
++			interconnects = <&gem_noc MASTER_GFX3D 0 &mc_virt SLAVE_EBI1 0>;
++			interconnect-names = "gfx-mem";
++
++			iommus = <&adreno_smmu 0 0x401>;
++			operating-points-v2 = <&gpu_opp_table>;
++			power-domains = <&rpmhpd RPMHPD_CX>;
++			qcom,gmu = <&gmu_wrapper>;
++
++			#cooling-cells = <2>;
++
++			status = "disabled";
++
++			gpu_zap_shader: zap-shader {
++				memory-region = <&pil_gpu_mem>;
++			};
++
++			gpu_opp_table: opp-table {
++				compatible = "operating-points-v2";
++
++				opp-435000000 {
++					opp-hz = /bits/ 64 <435000000>;
++					required-opps = <&rpmhpd_opp_svs>;
++					opp-peak-kBps = <3000000>;
++				};
++
++				opp-500000000 {
++					opp-hz = /bits/ 64 <500000000>;
++					required-opps = <&rpmhpd_opp_svs_l1>;
++					opp-peak-kBps = <3975000>;
++				};
++
++				opp-650000000 {
++					opp-hz = /bits/ 64 <650000000>;
++					required-opps = <&rpmhpd_opp_nom>;
++					opp-peak-kBps = <5287500>;
++				};
++
++				opp-745000000 {
++					opp-hz = /bits/ 64 <745000000>;
++					required-opps = <&rpmhpd_opp_nom_l1>;
++					opp-peak-kBps = <6075000>;
++				};
++
++				opp-845000000 {
++					opp-hz = /bits/ 64 <845000000>;
++					required-opps = <&rpmhpd_opp_turbo>;
++					opp-peak-kBps = <7050000>;
++				};
++			};
++		};
++
++		gmu_wrapper: gmu@506a000 {
++			compatible = "qcom,adreno-gmu-wrapper";
++			reg = <0x0 0x0506a000 0x0 0x34000>;
++			reg-names = "gmu";
++			power-domains = <&gpucc CX_GDSC>,
++					<&gpucc GX_GDSC>;
++			power-domain-names = "cx", "gx";
++		};
++
+ 		gpucc: clock-controller@5090000 {
+ 			compatible = "qcom,qcs615-gpucc";
+ 			reg = <0 0x5090000 0 0x9000>;
+-- 
+2.34.1
+

@@ -1,0 +1,28 @@
+From 605290d3416353505174a86ac202431e5bef75e9 Mon Sep 17 00:00:00 2001
+From: Qingqing Zhou <quic_qqzhou@quicinc.com>
+Date: Thu, 19 Sep 2024 21:56:23 +0800
+Subject: [PATCH 12/68] dt-bindings: arm-smmu: document the smmu on Qualcomm
+ QCS615
+
+Document the qcom,smmu-500 SMMU on QCS615 platforms.
+
+Signed-off-by: Qingqing Zhou <quic_qqzhou@quicinc.com>
+---
+ Documentation/devicetree/bindings/iommu/arm,smmu.yaml | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/Documentation/devicetree/bindings/iommu/arm,smmu.yaml b/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
+index c1e11bc6b7a0..c47ec8daab0c 100644
+--- a/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
++++ b/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
+@@ -88,6 +88,7 @@ properties:
+         items:
+           - enum:
+               - qcom,qcm2290-smmu-500
++	      - qcom,qcs615-smmu-500
+               - qcom,sa8255p-smmu-500
+               - qcom,sa8775p-smmu-500
+               - qcom,sar2130p-smmu-500
+-- 
+2.34.1
+
