@@ -234,7 +234,7 @@ def make_ramdisk(kernel_components):
     ramdisk_url = config["DEVICE"]["ramdisk_url"]
     ramdisk_adds = config["DEVICE"]["ramdisk_add"].split()
     # ramdisk_adds = [f"{compile_path}/modules_dir", ramdisk_adds]
-    clean_ramdisk = f"{workspace}/clean_ramdisk.gz"
+    clean_ramdisk = f"{workspace}/upstream_adb_ramdisk.gz"
     dest_dir = workspace
     dest_ramdisk = f"{dest_dir}/ramdisk.gz"
     tmp_ramdisk_dir = f"{workspace}/ramdisk"
@@ -248,20 +248,20 @@ def make_ramdisk(kernel_components):
     try:
         unpack_ramdisk(clean_ramdisk, tmp_ramdisk_dir)
 
-        cmd = f"rsync -avHA {compile_path}/modules_dir/ {tmp_ramdisk_dir}/"
+        cmd = f"rsync -avHA {compile_path}/modules_dir/usr/ {tmp_ramdisk_dir}"
         exec_shell_cmd(cmd)
 
         shutil.rmtree(f"{compile_path}/modules_dir")
 
-        for ramdisk_add in ramdisk_adds:
-            ramdisk_add = file_is_exist(ramdisk_add)
-            if not ramdisk_add:
-                logging.error(f"{ramdisk_add} not exists")
-                raise FileNotFoundError(f"path: {ramdisk_add} provided not exist")
-
-            # Fixme: Because dash can't catch error in pipeline, so this cmd error can't catch correctly.
-            cmd = f"rsync -avHA {ramdisk_add}/ {tmp_ramdisk_dir}/"
-            exec_shell_cmd(cmd)
+        #for ramdisk_add in ramdisk_adds:
+        #    ramdisk_add = file_is_exist(ramdisk_add)
+        #    if not ramdisk_add:
+        #        logging.error(f"{ramdisk_add} not exists")
+        #        raise FileNotFoundError(f"path: {ramdisk_add} provided not exist")
+#
+        #    # Fixme: Because dash can't catch error in pipeline, so this cmd error can't catch correctly.
+        #    cmd = f"rsync -avHA {ramdisk_add}/ {tmp_ramdisk_dir}/"
+        #    exec_shell_cmd(cmd)
 
         pack_ramdisk(tmp_ramdisk_dir, dest_dir)
 
@@ -589,7 +589,7 @@ def main():
     initialize()
     precheck()
     sync_code()
-    am_patch()
+    #am_patch()
     compile()
 
 
