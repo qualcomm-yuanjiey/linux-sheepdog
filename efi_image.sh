@@ -1,37 +1,52 @@
-#source ~/.bashrc
-#kmake-image-run generate_boot_bins.sh efi --ramdisk /local/mnt/workspace/yyj/develop_linux/git-repository/Talos_repository/upstream_linux-next/linux-sheepdog/ramdisk.gz  --systemd-boot /local/mnt/workspace/yyj/develop_linux/git-repository/Talos_repository/github/artifacts/systemd/usr/lib/systemd/boot/efi/systemd-bootaa64.efi  --stub /local/mnt/workspace/yyj/develop_linux/git-repository/Talos_repository/github/artifacts/systemd/usr/lib/systemd/boot/efi/linuxaa64.efi.stub --linux /local/mnt/workspace/yyj/develop_linux/git-repository/Talos_repository/upstream_linux-next/linux-sheepdog/linux-next/arch/arm64/boot/Image --cmdline "console=ttyMSM0,115200n8 nokaslr maxcpus=8 loglevels=8   earlycon=qcom_geni,0x880000 androidboot.hardware=qcom androidboot.console=ttyMSM0 androidboot.memcg=1 lpm_levels.sleep_disabled=1 video=vfb:640x400,bpp=32,memsize=3072000 msm_rtb.filter=0x237 service_locator.enable=1 androidboot.usbcontroller=a60000   qcom_scm.download_mode=1" --output /local/mnt/workspace/yyj/develop_linux/git-repository/Talos_repository/upstream_linux-next/linux-sheepdog/images	
-		
-#kmake-image-run generate_boot_bins.sh dtb --input /local/mnt/workspace/yyj/develop_linux/git-repository/Talos_repository/upstream_linux-next/linux-sheepdog/linux-next/arch/arm64/boot/dts/qcom/qcs615-ride.dtb --output /local/mnt/workspace/yyj/develop_linux/git-repository/Talos_repository/upstream_linux-next/linux-sheepdog/images
+#!/usr/bin/env bash
+# efi_image.sh - generate efi.bin and dtb.bin from a compiled kernel tree.
+#
+# Usage (called by sheepdog-slave.py --board-config):
+#   bash efi_image.sh --kernel <path/to/Image> --dtb <path/to/board.dtb>
+#
+# Reads fixed paths for ramdisk, systemd-boot stub, and output dir from the
+# directory this script lives in (the sheepdog workspace).
 
-#github
-#cp /local/mnt/workspace/yyj/develop_linux/git-repository/Talos_repository/github/qli-mainline/kernel/arch/arm64/boot/Image ./linux_image/
-#cp /local/mnt/workspace/yyj/develop_linux/git-repository/Talos_repository/github/qli-mainline/kernel/arch/arm64/boot/dts/qcom/qcs615-ride.dtb ./linux_image/ 
-#echo "copy github done"
+set -euo pipefail
 
-#linux-next
-#qcs615
-#cp /local/mnt/workspace/yyj/develop_linux/git-repository/Talos_repository/upstream_linux-next/linux-sheepdog/linux-next/arch/arm64/boot/Image ./linux_image/
-#cp /local/mnt/workspace/yyj/develop_linux/git-repository/Talos_repository/upstream_linux-next/linux-sheepdog/linux-next/arch/arm64/boot/dts/qcom/qcs615-ride.dtb ./linux_image/ 
-#echo "copy linux-next done"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-#qcs615-evk
-cp /local/mnt/workspace/yyj/develop_linux/git-repository/Talos_repository/upstream_linux-next/linux-sheepdog/linux-next/arch/arm64/boot/Image ./linux_image/
-cp /local/mnt/workspace/yyj/develop_linux/git-repository/Talos_repository/upstream_linux-next/linux-sheepdog/linux-next/arch/arm64/boot/dts/qcom/talos-evk.dtb ./linux_image/qcs615-ride.dtb 
-echo "copy linux-next talos-evk done"
+KERNEL=""
+DTB=""
 
-#linux LKP adv
-#cp /local/mnt/workspace/yyj/develop_linux/git-repository/Talos_repository/LKP_advanced/kernel_platform/kernel/arch/arm64/boot/Image ./linux_image/
-#cp /local/mnt/workspace/yyj/develop_linux/git-repository/Talos_repository/LKP_advanced/kernel_platform/kernel/arch/arm64/boot/dts/qcom/qcs615-ride.dtb ./linux_image/ 
-#echo "copy linux LKP adv done"
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --kernel) KERNEL="$2"; shift 2 ;;
+        --dtb)    DTB="$2";    shift 2 ;;
+        *) echo "Unknown argument: $1" >&2; exit 1 ;;
+    esac
+done
 
-#cp /local/mnt/workspace/yyj/develop_linux/git-repository/Talos_repository/upstream_linux-next/linux-sheepdog/kobj/arch/arm64/boot/Image ./linux_image/
-#cp /local/mnt/workspace/yyj/develop_linux/git-repository/Talos_repository/upstream_linux-next/linux-sheepdog/kobj/arch/arm64/boot/dts/qcom/qcs615-ride.dtb ./linux_image/ 
+if [[ -z "$KERNEL" || -z "$DTB" ]]; then
+    echo "Usage: $0 --kernel <Image> --dtb <board.dtb>" >&2
+    exit 1
+fi
 
-#alias kmake-image-run='docker run -it --rm --workdir="$PWD" -v "$(dirname $PWD)":"$(dirname $PWD)" kmake-image'
-#alias kmake='kmake-image-run make'
+RAMDISK="${SCRIPT_DIR}/ramdisk.gz"
+SYSTEMD_BOOT="${SCRIPT_DIR}/efi_dir/systemd-bootaa64.efi"
+STUB="${SCRIPT_DIR}/efi_dir/linuxaa64.efi.stub"
+OUTPUT="${SCRIPT_DIR}/images"
+CMDLINE="console=ttyMSM0,115200n8 earlycon qcom_geni_serial.con_enabled=1 qcom_scm.download_mode=1 mitigations=auto reboot=panic_warm nokaslr"
 
-generate_boot_bins.sh efi --ramdisk /local/mnt/workspace/yyj/develop_linux/git-repository/Talos_repository/upstream_linux-next/linux-sheepdog/ramdisk.gz  --systemd-boot /local/mnt/workspace/yyj/develop_linux/git-repository/Talos_repository/upstream_linux-next/linux-sheepdog/efi_dir/systemd-bootaa64.efi  --stub /local/mnt/workspace/yyj/develop_linux/git-repository/Talos_repository/upstream_linux-next/linux-sheepdog/efi_dir/linuxaa64.efi.stub --linux /local/mnt/workspace/yyj/develop_linux/git-repository/Talos_repository/upstream_linux-next/linux-sheepdog/linux_image/Image --cmdline "console=ttyMSM0,115200n8 nokaslr maxcpus=8 loglevels=8   earlycon=qcom_geni,0x880000 androidboot.hardware=qcom androidboot.console=ttyMSM0 androidboot.memcg=1 lpm_levels.sleep_disabled=1 video=vfb:640x400,bpp=32,memsize=3072000 msm_rtb.filter=0x237 service_locator.enable=1 androidboot.usbcontroller=a60000  qcom_scm.download_mode=1  reboot=panic_warm" --output /local/mnt/workspace/yyj/develop_linux/git-repository/Talos_repository/upstream_linux-next/linux-sheepdog/images
-generate_boot_bins.sh dtb --input /local/mnt/workspace/yyj/develop_linux/git-repository/Talos_repository/upstream_linux-next/linux-sheepdog/linux_image/talos-evk.dtb --output /local/mnt/workspace/yyj/develop_linux/git-repository/Talos_repository/upstream_linux-next/linux-sheepdog/images
+mkdir -p "${OUTPUT}"
 
-		
-		
+echo "==> Generating efi.bin"
+generate_boot_bins.sh efi \
+    --ramdisk      "${RAMDISK}" \
+    --systemd-boot "${SYSTEMD_BOOT}" \
+    --stub         "${STUB}" \
+    --linux        "${KERNEL}" \
+    --cmdline      "${CMDLINE}" \
+    --output       "${OUTPUT}"
+
+echo "==> Generating dtb.bin"
+generate_boot_bins.sh dtb \
+    --input  "${DTB}" \
+    --output "${OUTPUT}"
+
+echo "==> Done. Artifacts in ${OUTPUT}"

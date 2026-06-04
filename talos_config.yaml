@@ -1,0 +1,7 @@
+# Board config for sheepdog-slave --board-config
+#
+# dtb      : dtb filename under arch/<arch>/boot/dts/<vendor>/
+# need_efi : if true, call efi_image.sh after compile to produce efi.bin and dtb.bin
+
+dtb: qcs615-ride.dtb
+need_efi: true

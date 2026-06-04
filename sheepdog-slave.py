@@ -2,6 +2,7 @@
 
 import sys, os, datetime, logging, configparser, argparse
 import subprocess, multiprocessing
+import yaml
 import glob, git, shutil, re, gzip
 
 workspace = ""
@@ -235,6 +236,8 @@ def make_ramdisk(kernel_components):
     ramdisk_adds = config["DEVICE"]["ramdisk_add"].split()
     # ramdisk_adds = [f"{compile_path}/modules_dir", ramdisk_adds]
     clean_ramdisk = f"{workspace}/upstream_adb_ramdisk.gz"
+    #clean_ramdisk = f"{workspace}/xin_watchdog_ramdisk.gz"
+
     dest_dir = workspace
     dest_ramdisk = f"{dest_dir}/ramdisk.gz"
     tmp_ramdisk_dir = f"{workspace}/ramdisk"
@@ -253,15 +256,15 @@ def make_ramdisk(kernel_components):
 
         shutil.rmtree(f"{compile_path}/modules_dir")
 
-        #for ramdisk_add in ramdisk_adds:
-        #    ramdisk_add = file_is_exist(ramdisk_add)
-        #    if not ramdisk_add:
-        #        logging.error(f"{ramdisk_add} not exists")
-        #        raise FileNotFoundError(f"path: {ramdisk_add} provided not exist")
+        for ramdisk_add in ramdisk_adds:
+            ramdisk_add = file_is_exist(ramdisk_add)
+            if not ramdisk_add:
+                logging.error(f"{ramdisk_add} not exists")
+                raise FileNotFoundError(f"path: {ramdisk_add} provided not exist")
 #
-        #    # Fixme: Because dash can't catch error in pipeline, so this cmd error can't catch correctly.
-        #    cmd = f"rsync -avHA {ramdisk_add}/ {tmp_ramdisk_dir}/"
-        #    exec_shell_cmd(cmd)
+            # Fixme: Because dash can't catch error in pipeline, so this cmd error can't catch correctly.
+            cmd = f"rsync -avHA {ramdisk_add}/ {tmp_ramdisk_dir}/"
+            exec_shell_cmd(cmd)
 
         pack_ramdisk(tmp_ramdisk_dir, dest_dir)
 
@@ -480,7 +483,6 @@ def compile():
     options_close = kernel_options["close"].split()
 
     defconfig = f"{compile_path}/arch/{arch}/configs/defconfig"
-    logging.debug(f"defconfig is {defconfig}")
 
     kernel_components = {
         "kernel_image": f"{compile_path}/arch/{arch}/boot/Image",
@@ -499,7 +501,19 @@ def compile():
                     f.write(f"\n{option}=m")
                 for option in options_close:
                     f.write(f"\n{option}=n")
-        exec_shell_cmd(f"make {make_options} defconfig")
+        if args.compile_config == "qli-config":
+            exec_shell_cmd(
+                f"env -u KCONFIG_CONFIG {compile_path}/scripts/kconfig/merge_config.sh -m"
+                f" {compile_path}/arch/{arch}/configs/defconfig"
+                f" {compile_path}/arch/{arch}/configs/prune.config"
+                f" {compile_path}/arch/{arch}/configs/qcom.config"
+                f" {compile_path}/kernel/configs/debug.config"
+            )
+            exec_shell_cmd(
+                f"make -j256 ARCH={arch} CROSS_COMPILE={toolchain_prefix} -C {compile_path} olddefconfig"
+            )
+        else:
+            exec_shell_cmd(f"make {make_options} defconfig")
         if args.menuconfig:
             exec_shell_cmd(f"make {make_options} menuconfig", interactive=True)
             exec_shell_cmd(f"make {make_options} savedefconfig")
@@ -518,7 +532,66 @@ def compile():
         install_esdk()
         build_efi_bin(kernel_components)
 
+    if args.board_config:
+        run_efi_image(compile_path)
+
     logging.info("compile down")
+
+def parse_board_config():
+    """
+    Parse the board yaml config file passed via --board-config.
+    Returns a dict with at least:
+      - dtb        : dtb filename (e.g. qcs615-ride.dtb)
+      - need_efi   : bool, whether to generate efi.bin / dtb.bin
+    """
+    board_yaml = sheepdog_normalize(args.board_config)
+    if not file_is_exist(board_yaml):
+        exit_with_msg(f"board config not found: {board_yaml}", 1)
+
+    with open(board_yaml, "r") as f:
+        board = yaml.safe_load(f)
+
+    dtb = board.get("dtb")
+    if not dtb:
+        exit_with_msg("board config missing required field: dtb", 1)
+
+    need_efi = bool(board.get("need_efi", False))
+    logging.info(f"board config: dtb={dtb}, need_efi={need_efi}")
+    return {"dtb": dtb, "need_efi": need_efi}
+
+
+def run_efi_image(kernel_path):
+    """
+    After compile, call efi_image.sh with kernel location and dtb derived
+    from --board-config.  Generates efi.bin and dtb.bin when need_efi=true.
+    """
+    board = parse_board_config()
+    dtb_name = board["dtb"]
+    need_efi = board["need_efi"]
+
+    if not need_efi:
+        logging.info("board config: need_efi=false, skipping efi_image.sh")
+        return
+
+    efi_script = sheepdog_normalize(
+        os.path.join(os.path.dirname(sheepdog_normalize(__file__)), "efi_image.sh")
+    )
+    if not file_is_exist(efi_script):
+        exit_with_msg(f"efi_image.sh not found at: {efi_script}", 1)
+
+    dev_info = config["DEVICE"]
+    arch = dev_info["arch"]
+    vendor = dev_info["vendor"]
+
+    kernel_image = os.path.join(kernel_path, f"arch/{arch}/boot/Image")
+    dtb_path = os.path.join(kernel_path, f"arch/{arch}/boot/dts/{vendor}/{dtb_name}")
+
+    logging.info(f"run_efi_image: kernel={kernel_image}, dtb={dtb_path}")
+    exec_shell_cmd(
+        f"bash {efi_script} --kernel {kernel_image} --dtb {dtb_path}",
+        interactive=True,
+    )
+
 
 def precheck():
     toolchain_prefix = config["TOOLS"]["toolchain_prefix"]
@@ -532,7 +605,7 @@ def precheck():
 def parse_config():
     global config
 
-    config_file = args.config
+    config_file = args.repo_config
     if config_file is None:
         config_file = os.path.dirname(__file__) + "/template-slave.ini"
 
@@ -562,11 +635,27 @@ def parse_options():
     global args
 
     parser = argparse.ArgumentParser()
-    parser.add_argument("--config", type=str, help="the full path of config file")
+    parser.add_argument("--repo-config", type=str, dest="repo_config", help="the full path of config file")
     parser.add_argument("--local", type=str, help="the path to already synced code")
     parser.add_argument("--build_only", action="store_true", help="just build kernel and make image")
     parser.add_argument(
         "--menuconfig", action="store_true", help="config and save kernel option"
+    )
+    parser.add_argument(
+        "--compile-config",
+        type=str,
+        dest="compile_config",
+        choices=["qli-config", "defconfig"],
+        default="defconfig",
+        help="kernel config method: defconfig (default) or qli-config (merge_config.sh + olddefconfig)",
+    )
+    parser.add_argument(
+        "--board-config",
+        type=str,
+        dest="board_config",
+        default=None,
+        metavar="BOARD_YAML",
+        help="path to a board yaml config file (e.g. talos_config.yaml) describing dtb and efi options",
     )
     args = parser.parse_args()
 
