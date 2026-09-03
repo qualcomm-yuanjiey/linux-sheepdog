@@ -503,7 +503,7 @@ def compile():
                     f.write(f"\n{option}=n")
         if args.compile_config == "qli-config":
             exec_shell_cmd(
-                f"env -u KCONFIG_CONFIG {compile_path}/scripts/kconfig/merge_config.sh -m"
+                f"env -u KCONFIG_CONFIG {compile_path}/scripts/kconfig/merge_config.sh -m -O {compile_path}"
                 f" {compile_path}/arch/{arch}/configs/defconfig"
                 f" {compile_path}/arch/{arch}/configs/prune.config"
                 f" {compile_path}/arch/{arch}/configs/qcom.config"
