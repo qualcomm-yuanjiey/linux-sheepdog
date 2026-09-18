@@ -3,6 +3,6 @@
 # dtb      : dtb filename under arch/<arch>/boot/dts/<vendor>/
 # need_efi : if true, call efi_image.sh after compile to produce efi.bin and dtb.bin
 
-dtb: qcs615-ride.dtb
+dtb: hamoa-iot-evk.dtb
 need_efi: true
-rootfs_lable: rootfs
+rootfs_lable: Rootfs

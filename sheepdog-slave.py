@@ -235,8 +235,9 @@ def make_ramdisk(kernel_components):
     ramdisk_url = config["DEVICE"]["ramdisk_url"]
     ramdisk_adds = config["DEVICE"]["ramdisk_add"].split()
     # ramdisk_adds = [f"{compile_path}/modules_dir", ramdisk_adds]
-    clean_ramdisk = f"{workspace}/upstream_adb_ramdisk.gz"
-    #clean_ramdisk = f"{workspace}/xin_watchdog_ramdisk.gz"
+    clean_ramdisk = f"{workspace}/test_initrd.cpio.gz"  # adb/watchdog/mount rootfs
+    #clean_ramdisk = f"{workspace}/xin_watchdog_ramdisk.gz" 
+    #clean_ramdisk = f"{workspace}/upstream_adb_ramdisk.gz" # adb/watchdog
 
     dest_dir = workspace
     dest_ramdisk = f"{dest_dir}/ramdisk.gz"
@@ -556,8 +557,9 @@ def parse_board_config():
         exit_with_msg("board config missing required field: dtb", 1)
 
     need_efi = bool(board.get("need_efi", False))
-    logging.info(f"board config: dtb={dtb}, need_efi={need_efi}")
-    return {"dtb": dtb, "need_efi": need_efi}
+    rootfs_lable = board.get("rootfs_lable", "")
+    logging.info(f"board config: dtb={dtb}, need_efi={need_efi}, rootfs_lable={rootfs_lable!r}")
+    return {"dtb": dtb, "need_efi": need_efi, "rootfs_lable": rootfs_lable}
 
 
 def run_efi_image(kernel_path):
@@ -568,6 +570,7 @@ def run_efi_image(kernel_path):
     board = parse_board_config()
     dtb_name = board["dtb"]
     need_efi = board["need_efi"]
+    rootfs_lable = board["rootfs_lable"]
 
     if not need_efi:
         logging.info("board config: need_efi=false, skipping efi_image.sh")
@@ -586,9 +589,10 @@ def run_efi_image(kernel_path):
     kernel_image = os.path.join(kernel_path, f"arch/{arch}/boot/Image")
     dtb_path = os.path.join(kernel_path, f"arch/{arch}/boot/dts/{vendor}/{dtb_name}")
 
-    logging.info(f"run_efi_image: kernel={kernel_image}, dtb={dtb_path}")
+    logging.info(f"run_efi_image: kernel={kernel_image}, dtb={dtb_path}, rootfs_lable={rootfs_lable!r}")
+    rootfs_arg = f" --rootfs-lable {rootfs_lable}" if rootfs_lable else ""
     exec_shell_cmd(
-        f"bash {efi_script} --kernel {kernel_image} --dtb {dtb_path}",
+        f"bash {efi_script} --kernel {kernel_image} --dtb {dtb_path}{rootfs_arg}",
         interactive=True,
     )
 
